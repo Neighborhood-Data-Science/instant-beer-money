@@ -40,7 +40,7 @@ jobs:
           command: pytest
   selenium-test:
     docker:
-      - image: 'cimg/node:13.12-browsers'
+      - image: 'cimg/node:17.4-browsers'
     steps:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
