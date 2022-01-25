@@ -3,4 +3,4 @@ numpy==1.22.0
 pytest==6.2.5
 selenium==4.1.0
 beautifulsoup4==4.10.0
-chromedriver-autoinstaller==0.3.1
+webdriver-manager==3.5.2
