@@ -8,7 +8,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import chromedriver_autoinstaller
 
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
 chrome_options = Options()
