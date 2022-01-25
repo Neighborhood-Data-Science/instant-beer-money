@@ -27,7 +27,7 @@ def setup_driver():
     """
     Test Doc Info
     """
-    _driver = webdriver.Chrome()
+    _driver = webdriver.Chrome(service=Service(chromedriver_autoinstaller.install()),options=chrome_options)
     yield _driver
     _driver.close()
 
