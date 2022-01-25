@@ -1,38 +1,31 @@
-import time
-import unittest
+import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from bs4 import BeautifulSoup
+import timeit
 
+# instantiate a chrome options object so you can set the size and headless preference
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=1920x1080")
 
-class SeleniumTestCase(unittest.TestCase):
-    client = None
+@pytest.fixture(scope="class")
+def webdriver_values():
+    ayet = "https://www.ayetstudios.com/offers/web_offerwall/2693?external_identifier=fsid-2308045-607783a635"
+    yield ayet
 
-    @classmethod
-    def setUpClass(cls):
-        # start Chrome
-        try:
-            cls.client = webdriver.Chrome(service_args=["--verbose", "--log-path=test-reports/chrome.log"])
-        except:
-            pass
+@pytest.fixture(scope="class")
+def setup_driver():
+    try:
+        _driver = webdriver.Chrome(chrome_options=chrome_options,service_args=["--verbose", "--log-path=test-reports/chrome.log"])
+    except:
+        pass
+    yield _driver
+    _driver.close()
 
-        # skip these tests if the browser could not be started
-        if cls.client:
-
-            # suppress logging to keep unittest output clean
-            import logging
-            logger = logging.getLogger('werkzeug')
-            logger.setLevel("ERROR")
-
-
-    @classmethod
-    def tearDownClass(cls):
-        print('In Teardown Class Method')
-
-    def setUp(self):
-        print('In Setup')
-
-    def tearDown(self):
-        print('Tearing Down')
-
-    def test_admin_home_page(self):
-        print('This is the admin Home Page Test.')
-        assert(5>1)
+def test_webdriver_circle(setup_driver,webdriver_values):
+    _driver.get(webdriver_values)
+    html=_driver.page_source
+    soup=BeautifulSoup(html,'html.parser')
+    assert (len(soup.getText())>1)
