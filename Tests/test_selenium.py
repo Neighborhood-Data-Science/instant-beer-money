@@ -10,7 +10,7 @@ def webdriver_values():
 
 @pytest.fixture(scope="class")
 def setup_driver():
-    _driver = webdriver.Chrome(service_args=["--verbose", "--log-path=test-reports/chrome.log"])
+    _driver = webdriver.Chrome()
     yield _driver
     _driver.close()
 
