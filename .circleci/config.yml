@@ -23,21 +23,12 @@ jobs:
     # Change the version below to your required version of python
     docker:
       - image: cimg/python:3.10.1
-      - image: cimg/node:13.12-browsers
     # Checkout the code as the first step. This is a dedicated CircleCI step.
     # The python orb's install-packages step will install the dependencies from a Pipfile via Pipenv by default.
     # Here we're making sure we use just use the system-wide pip. By default it uses the project root's requirements.txt.
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     steps:
-      - browser-tools/install-chromedriver
-      - run:
-          name: Check install
-          #Check install version
-          command: |
-            google-chrome --version
-            chromedriver --version
-          
       - checkout
       - python/install-packages:
           pkg-manager: pip
@@ -47,6 +38,18 @@ jobs:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
           command: pytest
+  selenium-test:
+    docker:
+      - image: 'cimg/node:13.12-browsers'
+    steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - run:
+          name: Check install
+          #Check install version
+          command: |
+            google-chrome --version
+            chromedriver --version
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -55,3 +58,4 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
+      - selenium-test
