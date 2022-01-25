@@ -17,12 +17,9 @@ def webdriver_values():
 
 @pytest.fixture(scope="class")
 def setup_driver():
-    try:
-        _driver = webdriver.Chrome(options=chrome_options,service_args=["--verbose", "--log-path=test-reports/chrome.log"])
-        yield _driver
-        _driver.close()
-    except:
-        pass 
+    _driver = webdriver.Chrome(options=chrome_options,service_args=["--verbose", "--log-path=test-reports/chrome.log"])
+    yield _driver
+    _driver.close()
 
 def test_webdriver_circle(setup_driver,webdriver_values):
     _driver.get(webdriver_values)
