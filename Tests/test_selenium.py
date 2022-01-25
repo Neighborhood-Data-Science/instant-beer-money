@@ -6,6 +6,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+import chromedriver_autoinstaller
 
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
@@ -27,7 +28,7 @@ def setup_driver():
     """
     Test Doc Info
     """
-    _driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=chrome_options)
+    _driver = webdriver.Chrome()
     yield _driver
     _driver.close()
 
