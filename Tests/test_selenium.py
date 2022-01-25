@@ -22,8 +22,6 @@ class SeleniumTestCase(unittest.TestCase):
             logger = logging.getLogger('werkzeug')
             logger.setLevel("ERROR")
 
-            # give the server a second to ensure it is up
-            time.sleep(1) 
 
     @classmethod
     def tearDownClass(cls):
