@@ -42,8 +42,6 @@ jobs:
           # This assumes pytest is installed via the install-package step above
           command: pytest
   chrome-test:
-    docker:
-      - image: cimg/node:17.4-browsers
     steps:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
