@@ -56,11 +56,11 @@ jobs:
           name: Download Selenium
           command: |
             curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
-      - run:
-          name: Start Selenium
-          command: |
-            java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
-          background: tru
+    - run:
+        name: Start Selenium
+        command: |
+          java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
+        background: true
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
