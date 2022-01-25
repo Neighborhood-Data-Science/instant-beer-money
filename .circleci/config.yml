@@ -55,6 +55,7 @@ jobs:
       - image: cimg/python:3.10.1
     steps:
       - checkout
+      - run: mkdir test-reports
       - run:
             name: Download Selenium
             command: |
