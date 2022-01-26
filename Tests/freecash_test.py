@@ -1,5 +1,5 @@
 """
-This module will contain the test for connecting to 
+This module will contain the test for connecting to
 and scraping from freecash.com
 """
 

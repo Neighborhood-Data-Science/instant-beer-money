@@ -1,6 +1,10 @@
 """
 Main Web Testing Framework
 """
+import sys
+sys.path.append('./Functions')
+
+import freecash_info
 
 import pytest
 from selenium import webdriver
@@ -13,6 +17,7 @@ from bs4 import BeautifulSoup
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
+
 
 @pytest.fixture(scope="class")
 def webdriver_values():
@@ -31,9 +36,16 @@ def setup_driver():
     yield _driver
     _driver.close()
 
-def test_webdriver_circle(setup_driver,webdriver_values):
+def test_driver_setting():
     """
-    Test Doc Info
+    Test whether driver set up was successful
+    """
+    test_driver = freecash_info.set_driver()
+    assert isinstance(test_driver,webdriver.chrome.webdriver.WebDriver)
+
+def test_access_ayet_offerwall(setup_driver,webdriver_values):
+    """
+    Tests if able to successfully open Ayet Offerwall
     """
     setup_driver.get(webdriver_values)
     html= setup_driver.page_source
