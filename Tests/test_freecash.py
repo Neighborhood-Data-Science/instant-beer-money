@@ -34,7 +34,7 @@ class TestAYET:
         Tests if able to successfully open Ayet Offerwall
         """
         full_ayet_page = self.ayet_page
-        assert full_ayet_page.current_url == os.environ.get('AYET')
+        assert full_ayet_page.current_url == os.environ['AYET']
 
     def test_get_offerwall_content(self):
         """

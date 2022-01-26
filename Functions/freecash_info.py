@@ -19,7 +19,7 @@ chrome_options.add_argument("--window-size=1920x1080")
 
 #Load environment variables
 #load_dotenv()
-#The 'load_dotevn()' function shoudl remain commented out unless
+#The 'load_dotenv()' function shoudl remain commented out unless
 #conducting LOCAL TESTING
 #The environment variables should be present in your CI/CD pipeline
 #and/or server side.
@@ -37,7 +37,7 @@ def set_driver_and_scrape_ayet():
         print('Setting Driver Error: ' + err)
 
     #Set Ayet URL
-    ayet = os.environ.get('AYET')
+    ayet = os.environ['AYET']
     #Open webpage
     driver.get(ayet)
     return driver
