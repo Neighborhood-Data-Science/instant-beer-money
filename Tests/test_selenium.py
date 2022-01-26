@@ -18,36 +18,44 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 
+ayet = "https://www.ayetstudios.com/offers/web_offerwall/2693?external_identifier=fsid-2308045-607783a635"
 
-@pytest.fixture(scope="class")
-def webdriver_values():
+@pytest.fixture(scope="class",autouse=True)
+def setup_ayet_page(request):
     """
-    Test Doc Info
+    Set Ayet page as fixture
     """
-    ayet = "https://www.ayetstudios.com/offers/web_offerwall/2693?external_identifier=fsid-2308045-607783a635"
-    yield ayet
+    ayet_page = freecash_info.set_driver_and_scrape_ayet()
+    request.cls.ayet_page = ayet_page
+    yield ayet_page
+    ayet_page.close()
 
-@pytest.fixture(scope="class")
-def setup_driver():
-    """
-    Test Doc Info
-    """
-    _driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=chrome_options)
-    yield _driver
-    _driver.close()
+@pytest.mark.usefixtures("setup_ayet_page")
 
-def test_driver_setting():
+class TestAYET:
     """
-    Test whether driver set up was successful
+    Full Ayet test suite
     """
-    test_driver = freecash_info.set_driver()
-    assert isinstance(test_driver,webdriver.chrome.webdriver.WebDriver)
+    def test_access_ayet_offerwall(self):
+        """
+        Tests if able to successfully open Ayet Offerwall
+        """
+        full_ayet_page = self.ayet_page
+        assert self.ayet_page.current_url == ayet
 
-def test_access_ayet_offerwall(setup_driver,webdriver_values):
-    """
-    Tests if able to successfully open Ayet Offerwall
-    """
-    setup_driver.get(webdriver_values)
-    html= setup_driver.page_source
-    soup=BeautifulSoup(html,'html.parser')
-    assert len(soup.getText())>1
+    def test_get_offerwall_content(self):
+        """
+        Tests if able to successfully get content from the Ayet Offerwall
+        """
+        full_ayet_page = self.ayet_page
+        get_offers = freecash_info.get_current_ayet_offers(full_ayet_page)
+        assert len(get_offers)>1
+
+# def test_parse_offer_titles(setup_driver):
+#     """
+#     Tests if able to successfully parse titles from the offerwall text
+#     """
+#     full_ayet_page = freecash_info.open_ayet_offerwall(setup_driver)
+#     get_offers = freecash_info.get_current_ayet_offers(full_ayet_page)
+#     offer_titles = freecash_info.parse_offer_titles(get_offers)
+#     assert len(offer_titles) > 0
