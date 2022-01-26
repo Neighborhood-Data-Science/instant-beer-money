@@ -38,6 +38,8 @@ def set_driver_and_scrape_ayet():
 
     #Set Ayet URL
     ayet = os.environ['AYET']
+    print(driver)
+    print(ayet)
     #Open webpage
     driver.get(ayet)
     return driver
