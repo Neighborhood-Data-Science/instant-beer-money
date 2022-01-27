@@ -38,13 +38,12 @@ jobs:
           app-dir: ~/project/Tests/  # If you're requirements.txt isn't in the root directory.
           # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
       - run:
-          name: Run tests
+          name: Run unit tests and store results
           # This assumes pytest is installed via the install-package step above
-          command: pytest
-      - run:
-          name: Make directory
-          command:
-            mkdir -p test-results
+          command: 
+            mkdir test-results
+            pytest --junitxml=test-results/unit_tests.xml
+            
       - store_test_results:
           path: tests-results
   chrome-test:
