@@ -73,4 +73,4 @@ workflows:
       - build-and-test:
           context: 
             - INSTANTBEERMONEY
-      #- chrome-test
+      - chrome-test

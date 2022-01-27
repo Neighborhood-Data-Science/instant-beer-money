@@ -51,4 +51,4 @@ class TestAYET:
         full_ayet_page = self.ayet_page
         get_offers = freecash_info.get_current_ayet_offers(full_ayet_page)
         offer_titles = freecash_info.parse_offer_titles(get_offers)
-        assert len(offer_titles) > 0
+        assert len(offer_titles) < 0
