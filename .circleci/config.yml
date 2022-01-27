@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Make directory
           command:
-            mkdir -p /test-results
+            mkdir -p test-results
       - store_test_results:
           path: tests-results
   chrome-test:
