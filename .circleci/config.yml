@@ -41,12 +41,16 @@ jobs:
           name: Run unit tests and store results
           # This assumes pytest is installed via the install-package step above
           command: 
-            mkdir test-results
+            mkdir -p test-results
             
             pytest --junitxml=test-results/unit_tests.xml
             
       - store_test_results:
           path: tests-results
+          
+      - store_artifacts:
+          path: test-results
+
   chrome-test:
     docker:
       - image: cimg/node:17.4-browsers
@@ -69,4 +73,4 @@ workflows:
       - build-and-test:
           context: 
             - INSTANTBEERMONEY
-      - chrome-test
+      #- chrome-test
