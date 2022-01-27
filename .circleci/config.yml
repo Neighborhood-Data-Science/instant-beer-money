@@ -42,11 +42,11 @@ jobs:
           # This assumes pytest is installed via the install-package step above
           command: pytest
       - run:
-        name: Make directory
-        command:
-          mkdir -p /test-results
+          name: Make directory
+          command:
+            mkdir -p /test-results
       - store_test_results:
-        path: tests-results
+          path: tests-results
   chrome-test:
     docker:
       - image: cimg/node:17.4-browsers
