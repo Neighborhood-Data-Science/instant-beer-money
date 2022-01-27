@@ -46,7 +46,7 @@ jobs:
             pytest --junitxml=test-results/unit_tests.xml
             
       - store_test_results:
-          path: tests-results
+          path: test-results
           
       - store_artifacts:
           path: test-results
