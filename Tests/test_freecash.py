@@ -139,3 +139,41 @@ class TestMainUserAYET:
         completed_offer_dict = freecash_info.parse_completed_offer_info(full_ayet_page)
         completed_offer_dataframe = pd.DataFrame(completed_offer_dict)
         assert isinstance(completed_offer_dataframe, pd.DataFrame)
+
+    def test_parsed_pending_offer_info_is_dict(self):
+        """
+        Tests if output of function is an expected dictionary.
+        """
+        full_ayet_page = self.ayet_main_page
+        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
+        assert isinstance(pending_offer_dict, dict)
+
+    def test_parsed_pending_offer_info_dict_size(self,size=3):
+        """
+        Tests if resulting pending offer dictionary is the correct size.
+        Should have length of (3) [keys].
+        """
+        full_ayet_page = self.ayet_main_page
+        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
+        assert len(pending_offer_dict) == size
+
+    def test_parsed_pending_offer_info_is_equal(self):
+        """
+        Tests if length of key:value pairs in comnpleted offer dict are
+        the same size across all key:value lists.
+        """
+        full_ayet_page = self.ayet_main_page
+        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
+        key_list = list(pending_offer_dict.keys())
+        assert len(pending_offer_dict.get(key_list[0])) == \
+                len(pending_offer_dict.get(key_list[1])) == \
+                len(pending_offer_dict.get(key_list[2]))
+
+    def test_pending_dataframe_is_dataframe(self):
+        """
+        Tests if resultant dataframe is type dataframe.
+        """
+        full_ayet_page = self.ayet_main_page
+        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
+        pending_offer_dataframe = pd.DataFrame(pending_offer_dict)
+        assert isinstance(pending_offer_dataframe, pd.DataFrame)

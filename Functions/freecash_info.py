@@ -166,3 +166,76 @@ def create_completed_offer_dataframe(completed_offer_dict):
     """
     completed_offer_dataframe = pd.DataFrame.from_dict(completed_offer_dict)
     return completed_offer_dataframe
+
+def parse_pending_offer_info(driver):
+    """
+    This function parses through the Ayet offerwall text and extracts:
+    1. Pending Offer Titles
+    2. Pending Offer Description
+    3. Pending Start Date/Time
+    """
+    #Create dictionary to hold offer information
+    pending_offer_dict = {'pending_offer_title':[],'offer_description':[],'date_completed':[]}
+
+    #Navigate to pending status page
+    try:
+        #Wait for hamburger button to appear
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "hamburger-button")))
+        #Explicit Wait
+        time.sleep(1)
+        #Click button
+        driver.find_element(by=By.ID,value='hamburger-button').click()
+
+        #Wait for reward status button to appear
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "sidebar-status")))
+        #Explicit wait
+        time.sleep(1)
+        #Click button
+        driver.find_element(by=By.ID,value='sidebar-status').click()
+
+        #Wait for Pending button to appear
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "tabs-menu")))
+        #Explicit wait
+        time.sleep(1)
+        #Click button
+        driver.find_elements(By.XPATH, "//li[@href='#pending']")[0].click()
+    except Exception as err:
+        print('Error: %s' % (err))
+
+    #Attempt to scrape pending offers
+    try:
+        #Wait for pending page to render
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "user-status")))
+        #Explicit wait
+        time.sleep(1)
+        #Extract pending offer info
+        pending_offer_info = driver.find_elements(By.XPATH, "//div[@id='user-status']")[0]
+
+        ############# LOGIC BLOCK ##############
+        #Get actual text from webpage
+        pending_offer_text = pending_offer_info.text
+        #Split the text
+        split_pending_offer_info = pending_offer_text.split('\n')
+        #Chunk the text for insert into dictionary
+        chunked_pending_list = utils.chunked_iterable(split_pending_offer_info, 4)
+        #Insert values to dictionary
+        for chunks in chunked_pending_list:
+            pending_offer_dict['pending_offer_title'].append(chunks[1])
+            pending_offer_dict['offer_description'].append(chunks[2])
+            pending_offer_dict['date_completed'].append(chunks[3])
+        ############# LOGIC BLOCK ##############
+
+        return pending_offer_dict
+    except Exception as err:
+        print('Unhandled Error: %s' % (err))
+
+def create_pending_offer_dataframe(pending_offer_dict):
+    """
+    This function returns the pending offer dict as a pandas DataFrame.
+    """
+    pending_offer_dataframe = pd.DataFrame.from_dict(pending_offer_dict)
+    return pending_offer_dataframe
