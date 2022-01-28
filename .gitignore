@@ -1,2 +1,4 @@
 **/beermoney
 **/.env
+**/work.ipynb
+.pylintrc
