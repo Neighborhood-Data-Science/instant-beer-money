@@ -8,9 +8,10 @@ from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+import pandas as pd
 
 from webdriver_manager.chrome import ChromeDriverManager
-from bs4 import BeautifulSoup
 
 #Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
@@ -18,13 +19,11 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 
 #Load environment variables
-#load_dotenv()
-#The 'load_dotenv()' function shoudl remain commented out unless
-#conducting LOCAL TESTING
+load_dotenv()
 #The environment variables should be present in your CI/CD pipeline
-#and/or server side.
+#and/or server side as well.
 
-def set_driver_and_scrape_ayet():
+def start_driver_and_open_ayet():
     """
     Downloads the latest version of Google chromedriver and
     Opens the Ayet offerwall within a webdriver
@@ -38,35 +37,54 @@ def set_driver_and_scrape_ayet():
 
     #Set Ayet URL
     ayet = os.environ['AYET']
-    print(driver)
-    print(ayet)
     #Open webpage
     driver.get(ayet)
     return driver
 
-def get_current_ayet_offers(offerwall_webpage):
+def parse_offer_information(driver):
     """
-    This function scrapes the text from the Ayet offerwall
+    This function parses through the Ayet offerwall text and extracts:
+    1. Offer Titles
+    2. Offer Description
+    3. Offer Amount
+    Also determines if Multiple Reward or not.
     """
-    raw_text = offerwall_webpage.page_source
-    offerwall_text = BeautifulSoup(raw_text,'html.parser')
-    return offerwall_text
+    #Create dictionary to hold offer information
+    offer_dict = {'total_coins_earnable':[],'offer_title':[],'offer_description':[],'multiple_rewards':[]}
+    #Focus on offerwall information
+    offer_info = driver.find_elements(By.XPATH, "//div[@class='row offer-row-basic offer-row-basic-cl ']")
+    ############# LOGIC BLOCK ##############
+    #Cycle through each offer
+    for offers in offer_info:
+        offer_text = offers.get_attribute('innerText')
+        #Split the text
+        split_offer_info = offer_text.split('\n')
+        #Insert values to dictionary
+        if len(split_offer_info) == 7:
+            offer_dict['total_coins_earnable'].append(split_offer_info[2])
+            offer_dict['offer_title'].append(split_offer_info[3])
+            offer_dict['offer_description'].append(split_offer_info[5])
+            offer_dict['multiple_rewards'].append(1)
+        elif len(split_offer_info) == 6:
+            offer_dict['total_coins_earnable'].append(split_offer_info[2])
+            offer_dict['offer_title'].append(split_offer_info[3])
+            offer_dict['offer_description'].append(split_offer_info[4])
+            offer_dict['multiple_rewards'].append(0)
+        elif len(split_offer_info) == 5:
+            offer_dict['total_coins_earnable'].append(split_offer_info[1])
+            offer_dict['offer_title'].append(split_offer_info[2])
+            offer_dict['offer_description'].append(split_offer_info[3])
+            offer_dict['multiple_rewards'].append(0)
+        elif len(split_offer_info) == 1:
+            continue
+        else:
+            raise Exception ('Unexpected offer split size')
+    ############# LOGIC BLOCK ##############
+    return offer_dict
 
-def parse_offer_titles(offerwall_text):
+def create_offer_dataframe(offer_dict):
     """
-    This function parses through the Ayet offerwall and extracts offer titles.
+    This function returns the offer dict as a pandas DataFrame.
     """
-    #Set empty list
-    offer_titles = []
-    #Parse offer section of document
-    parsed_offer_titles = offerwall_text.find_all("div",{"class":"offer-desc-wrap flex-desc one-line-wrap one-line-cpe-height"})
-    #Parse titles from each offer section
-    for titles in parsed_offer_titles:
-        offer_titles.append(titles.find(class_='odw-span-title').text)
-    return offer_titles
-
-def parse_offer_description(offerwall_text):
-    """
-    This function parses through the Ayet offerwall and extracts offer descriptions.
-    """
-    return 1
+    offer_dataframe = pd.DataFrame.from_dict(offer_dict)
+    return offer_dataframe
