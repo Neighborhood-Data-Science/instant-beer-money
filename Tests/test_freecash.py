@@ -5,6 +5,7 @@ import sys
 sys.path.append('./Functions')
 
 import freecash_info
+import pandas as pd
 import pytest
 import os
 from dotenv import load_dotenv
@@ -63,8 +64,22 @@ class TestAYET:
         offer_dict = freecash_info.parse_offer_information(full_ayet_page)
         assert len(offer_dict) == size
 
+    def test_dataframe_is_dataframe(self):
+        """
+        Tests if resultant dataframe is type dataframe.
+        """
+        full_ayet_page = self.ayet_page
+        offer_dict = freecash_info.parse_offer_information(full_ayet_page)
+        offer_dataframe = pd.DataFrame(offer_dict)
+        assert isinstance(offer_dataframe, pd.DataFrame)
+
     def test_values_in_multiple_rewards(self):
         """
         Tests if all values in multiple_rewards column are either 1 or 0
         """
-
+        full_ayet_page = self.ayet_page
+        offer_dict = freecash_info.parse_offer_information(full_ayet_page)
+        offer_dataframe = pd.DataFrame(offer_dict)
+        indicator_values = offer_dataframe['multiple_rewards'].unique()
+        assert len(indicator_values) == 2
+        assert [0 and 1] in indicator_values
