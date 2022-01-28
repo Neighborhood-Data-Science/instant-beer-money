@@ -2,3 +2,4 @@
 **/.env
 **/work.ipynb
 .pylintrc
+settings.json

@@ -159,3 +159,10 @@ def parse_completed_offer_info(driver):
         return completed_offer_dict
     except Exception as err:
         print('Unhandled Error: %s' % (err))
+
+def create_completed_offer_dataframe(completed_offer_dict):
+    """
+    This function returns the completed offer dict as a pandas DataFrame.
+    """
+    completed_offer_dataframe = pd.DataFrame.from_dict(completed_offer_dict)
+    return completed_offer_dataframe

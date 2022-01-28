@@ -130,3 +130,12 @@ class TestMainUserAYET:
         assert len(completed_offer_dict.get(key_list[0])) == \
                 len(completed_offer_dict.get(key_list[1])) == \
                 len(completed_offer_dict.get(key_list[2]))
+
+    def test_completed_dataframe_is_dataframe(self):
+        """
+        Tests if resultant dataframe is type dataframe.
+        """
+        full_ayet_page = self.ayet_main_page
+        completed_offer_dict = freecash_info.parse_completed_offer_info(full_ayet_page)
+        completed_offer_dataframe = pd.DataFrame(completed_offer_dict)
+        assert isinstance(completed_offer_dataframe, pd.DataFrame)
