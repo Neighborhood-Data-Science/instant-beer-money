@@ -19,7 +19,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 #Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
-#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 
 #Load environment variables
@@ -46,7 +46,7 @@ def start_driver_and_open_ayet(offerwall_version):
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
 
-    #Set Ayet URL``
+    #Set Ayet URL
     ayet = os.environ[offerwall_version]
     #Open webpage
     driver.get(ayet)
