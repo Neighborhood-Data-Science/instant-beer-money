@@ -286,9 +286,3 @@ def create_pending_offer_dataframe(pending_offer_dict):
     """
     pending_offer_dataframe = pd.DataFrame.from_dict(pending_offer_dict)
     return pending_offer_dataframe
-
-# def combine_desktop_and_other_offers(desktop_offer_dataframe,offer_dataframe):
-#     """
-#     This function will combine the two offer frames to ensure we have
-#     the full offerwall list.
-#     """
