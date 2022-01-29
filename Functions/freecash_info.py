@@ -19,7 +19,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 #Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+#chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 
 #Load environment variables
@@ -44,62 +44,91 @@ def start_driver_and_open_ayet(offerwall_version):
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),\
                 options=chrome_options)
     except Exception as err:
-        print('Setting Driver Error: ' + err)
+        print(f"'Setting Driver Error: {err}'")
 
-    #Set Ayet URL
+    #Set Ayet URL``
     ayet = os.environ[offerwall_version]
     #Open webpage
     driver.get(ayet)
     return driver
 
-def parse_offer_information(driver):
+def parse_available_offer_information(driver):
     """
-    This function parses through the Ayet offerwall text and extracts:
+    This function parses through the Ayet available offerwall text and extracts:
     1. Offer Titles
     2. Offer Description
     3. Offer Amount
-    Also determines if Multiple Reward or not.
+
+    Sets device type and
+    determines if offer has multiple rewards (multi-tiered)
     """
     #Create dictionary to hold offer information
-    offer_dict = {'total_coins_earnable':[],'offer_title':[],\
-                  'offer_description':[],'multiple_rewards':[]}
-    #Focus on offerwall information
-    offer_info = driver.find_elements(By.XPATH, "//div[@class='row offer-row-basic offer-row-basic-cl ']")
-    ############# LOGIC BLOCK ##############
-    #Cycle through each offer
-    for offers in offer_info:
-        offer_text = offers.get_attribute('innerText')
-        #Split the text
-        split_offer_info = offer_text.split('\n')
-        #Insert values to dictionary
-        if len(split_offer_info) == 7:
-            offer_dict['total_coins_earnable'].append(split_offer_info[2])
-            offer_dict['offer_title'].append(split_offer_info[3])
-            offer_dict['offer_description'].append(split_offer_info[5])
-            offer_dict['multiple_rewards'].append(1)
-        elif len(split_offer_info) == 6:
-            offer_dict['total_coins_earnable'].append(split_offer_info[2])
-            offer_dict['offer_title'].append(split_offer_info[3])
-            offer_dict['offer_description'].append(split_offer_info[4])
-            offer_dict['multiple_rewards'].append(0)
-        elif len(split_offer_info) == 5:
-            offer_dict['total_coins_earnable'].append(split_offer_info[1])
-            offer_dict['offer_title'].append(split_offer_info[2])
-            offer_dict['offer_description'].append(split_offer_info[3])
-            offer_dict['multiple_rewards'].append(0)
-        elif len(split_offer_info) == 1:
-            continue
-        else:
-            raise Exception ('Unexpected offer split size')
-    ############# LOGIC BLOCK ##############
-    return offer_dict
+    available_offer_dict = {'total_coins_earnable':[],'offer_title':[],\
+                  'offer_description':[],'multiple_rewards':[],
+                  'offer_device':[]}
+    #Create list of devices to search through (offerwalls)
+    offerwall_devices = ['desktop','android','ios']
+    #Navigate to available offers page
+    for offerwalls in offerwall_devices:
+        try:
+            #Wait for Pending button to appear
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "tabs-menu")))
+            #Explicit wait
+            time.sleep(1)
+            #Click button
+            driver.find_elements(By.XPATH, f"//li[@href='#tab_{offerwalls}']")[0].click()
+            time.sleep(1)
+        except Exception as err:
+            print(f"'Error: {err}'")
 
-def create_offer_dataframe(offer_dict):
+        #Focus on offerwall information
+        #Wait for menu to be visible button to appear
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, f"//li[@href='#tab_{offerwalls}']")))
+        time.sleep(1)
+        available_offer_info = driver.find_elements(By.XPATH,"//div[@class = 'tab-pane active']/div")
+        ############# LOGIC BLOCK ##############
+        for offers in available_offer_info:
+            #Set variables equal to text values of the offers
+            available_offer_text = offers.get_attribute('innerText')
+            #Split the offer text
+            split_available_offer_info = available_offer_text.split('\n')
+            #Insert available offer text into dictionary based on size
+            #Sizes were pre-determined from trial and error.
+            if len(split_available_offer_info) == 7:
+                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
+                available_offer_dict['offer_title'].append(split_available_offer_info[3])
+                available_offer_dict['offer_description'].append(split_available_offer_info[5])
+                available_offer_dict['multiple_rewards'].append(1)
+
+            elif len(split_available_offer_info) == 6:
+                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
+                available_offer_dict['offer_title'].append(split_available_offer_info[3])
+                available_offer_dict['offer_description'].append(split_available_offer_info[4])
+                available_offer_dict['multiple_rewards'].append(0)
+
+            elif len(split_available_offer_info) == 5:
+                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
+                available_offer_dict['offer_title'].append(split_available_offer_info[3])
+                available_offer_dict['offer_description'].append(split_available_offer_info[4])
+                available_offer_dict['multiple_rewards'].append(0)
+
+            elif len(split_available_offer_info) == 226:
+                continue
+            else:
+                raise Exception ('Unexpected offer split size')
+            #Add offer_device value to dictionary
+            available_offer_dict['offer_device'].append(offerwalls)
+        ############# LOGIC BLOCK ##############
+    return available_offer_dict
+
+def create_available_offer_dataframe(available_offer_dict):
     """
-    This function returns the offer dict as a pandas DataFrame.
+    This function returns the available offer dictionary as a pandas DataFrame.
     """
-    offer_dataframe = pd.DataFrame.from_dict(offer_dict)
-    return offer_dataframe
+    available_offer_dataframe = pd.DataFrame.from_dict(available_offer_dict)
+    return available_offer_dataframe
 
 def parse_completed_offer_info(driver):
     """
@@ -130,7 +159,7 @@ def parse_completed_offer_info(driver):
         #Click button
         driver.find_element(by=By.ID,value='sidebar-status').click()
     except Exception as err:
-        print('Error: %s' % (err))
+        print(f"'Error: {err}'")
 
     #Attempt to scrape - Fails if offers are not marked as 'Complete' yet
     try:
@@ -158,7 +187,7 @@ def parse_completed_offer_info(driver):
 
         return completed_offer_dict
     except Exception as err:
-        print('Unhandled Error: %s' % (err))
+        print(f"'Unhandled Error: %{err}'")
 
 def create_completed_offer_dataframe(completed_offer_dict):
     """
@@ -203,7 +232,7 @@ def parse_pending_offer_info(driver):
         #Click button
         driver.find_elements(By.XPATH, "//li[@href='#pending']")[0].click()
     except Exception as err:
-        print('Error: %s' % (err))
+        print(f"'Error: {err}'")
 
     #Attempt to scrape pending offers
     try:
@@ -231,7 +260,7 @@ def parse_pending_offer_info(driver):
 
         return pending_offer_dict
     except Exception as err:
-        print('Unhandled Error: %s' % (err))
+        print(f"'Unhandled Error: %{err}'")
 
 def create_pending_offer_dataframe(pending_offer_dict):
     """
@@ -239,3 +268,9 @@ def create_pending_offer_dataframe(pending_offer_dict):
     """
     pending_offer_dataframe = pd.DataFrame.from_dict(pending_offer_dict)
     return pending_offer_dataframe
+
+# def combine_desktop_and_other_offers(desktop_offer_dataframe,offer_dataframe):
+#     """
+#     This function will combine the two offer frames to ensure we have
+#     the full offerwall list.
+#     """
