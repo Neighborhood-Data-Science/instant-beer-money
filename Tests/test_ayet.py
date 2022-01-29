@@ -124,6 +124,14 @@ class TestMainUserAYET:
     """
     Main User Ayet Offerwall test suite
     """
+    def test_access_offerwall_main_user(self):
+        """
+        Tests if able to successfully open ayet Offerwall
+        """
+        full_ayet_page = self.ayet_main_page
+        assert full_ayet_page.current_url == os.environ['AYET']
+
+
     def test_parsed_completed_offer_info_is_dict(self):
         """
         Tests if output of function is an expected dictionary.
