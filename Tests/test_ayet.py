@@ -4,7 +4,7 @@ Main Web Testing Framework
 import sys
 sys.path.append('./Functions')
 
-import freecash_info
+import ayet_info
 import pandas as pd
 import pytest
 import os
@@ -21,7 +21,7 @@ def setup_raw_ayet_page(request):
     Set Ayet page as fixture using baseline ayet offerwall
     """
     offerwall_version = 'MASTER_AYET'
-    ayet_base_page = freecash_info.start_driver_and_open_ayet(offerwall_version)
+    ayet_base_page = ayet_info.start_driver_and_open_ayet(offerwall_version)
     request.cls.ayet_base_page = ayet_base_page
     yield ayet_base_page
     ayet_base_page.close()
@@ -32,7 +32,7 @@ def setup_main_user_ayet_page(request):
     Set Ayet page as fixture using main user ayet offerwall
     """
     offerwall_version = 'AYET'
-    ayet_main_page = freecash_info.start_driver_and_open_ayet(offerwall_version)
+    ayet_main_page = ayet_info.start_driver_and_open_ayet(offerwall_version)
     request.cls.ayet_main_page = ayet_main_page
     yield ayet_main_page
     ayet_main_page.close()
@@ -55,7 +55,7 @@ class TestBaselineAYET:
         Tests if output of function is an expected dictionary.
         """
         full_ayet_page = self.ayet_base_page
-        offer_dict = freecash_info.parse_available_offer_information(full_ayet_page)
+        offer_dict = ayet_info.parse_available_offer_information(full_ayet_page)
         assert isinstance(offer_dict, dict)
 
 
@@ -65,7 +65,7 @@ class TestBaselineAYET:
         the same size across all key:value lists.
         """
         full_ayet_page = self.ayet_base_page
-        offer_dict = freecash_info.parse_available_offer_information(full_ayet_page)
+        offer_dict = ayet_info.parse_available_offer_information(full_ayet_page)
         key_list = list(offer_dict.keys())
         assert len(offer_dict.get(key_list[0])) ==  \
             len(offer_dict.get(key_list[1])) ==     \
@@ -80,7 +80,7 @@ class TestBaselineAYET:
         Should have length of (5) [keys].
         """
         full_ayet_page = self.ayet_base_page
-        offer_dict = freecash_info.parse_available_offer_information(full_ayet_page)
+        offer_dict = ayet_info.parse_available_offer_information(full_ayet_page)
         assert len(offer_dict) == size
 
 
@@ -89,8 +89,8 @@ class TestBaselineAYET:
         Tests if resultant dataframe is type dataframe.
         """
         full_ayet_page = self.ayet_base_page
-        offer_dict = freecash_info.parse_available_offer_information(full_ayet_page)
-        offer_dataframe = freecash_info.create_available_offer_dataframe(offer_dict)
+        offer_dict = ayet_info.parse_available_offer_information(full_ayet_page)
+        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
 
 
@@ -99,8 +99,8 @@ class TestBaselineAYET:
         Tests if all values in multiple_rewards column are either 1 or 0
         """
         full_ayet_page = self.ayet_base_page
-        offer_dict = freecash_info.parse_available_offer_information(full_ayet_page)
-        offer_dataframe = freecash_info.create_available_offer_dataframe(offer_dict)
+        offer_dict = ayet_info.parse_available_offer_information(full_ayet_page)
+        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
         indicator_values = offer_dataframe['multiple_rewards'].unique()
         assert [0 and 1] in indicator_values
 
@@ -113,8 +113,8 @@ class TestBaselineAYET:
         desktop
         """
         full_ayet_page = self.ayet_base_page
-        offer_dict = freecash_info.parse_available_offer_information(full_ayet_page)
-        offer_dataframe = freecash_info.create_available_offer_dataframe(offer_dict)
+        offer_dict = ayet_info.parse_available_offer_information(full_ayet_page)
+        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
         offer_device_vals = offer_dataframe['offer_device'].unique()
         assert ['apple' and 'android' and 'desktop'] in offer_device_vals
 
@@ -129,7 +129,7 @@ class TestMainUserAYET:
         Tests if output of function is an expected dictionary.
         """
         full_ayet_page = self.ayet_main_page
-        completed_offer_dict = freecash_info.parse_completed_offer_info(full_ayet_page)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(full_ayet_page)
         assert isinstance(completed_offer_dict, dict)
 
 
@@ -139,7 +139,7 @@ class TestMainUserAYET:
         Should have length of (3) [keys].
         """
         full_ayet_page = self.ayet_main_page
-        completed_offer_dict = freecash_info.parse_completed_offer_info(full_ayet_page)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(full_ayet_page)
         assert len(completed_offer_dict) == size
 
 
@@ -149,7 +149,7 @@ class TestMainUserAYET:
         the same size across all key:value lists.
         """
         full_ayet_page = self.ayet_main_page
-        completed_offer_dict = freecash_info.parse_completed_offer_info(full_ayet_page)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(full_ayet_page)
         key_list = list(completed_offer_dict.keys())
         assert len(completed_offer_dict.get(key_list[0])) == \
                 len(completed_offer_dict.get(key_list[1])) == \
@@ -161,8 +161,8 @@ class TestMainUserAYET:
         Tests if resultant dataframe is type dataframe.
         """
         full_ayet_page = self.ayet_main_page
-        completed_offer_dict = freecash_info.parse_completed_offer_info(full_ayet_page)
-        completed_offer_dataframe = freecash_info.create_completed_offer_dataframe(completed_offer_dict)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(full_ayet_page)
+        completed_offer_dataframe = ayet_info.create_completed_offer_dataframe(completed_offer_dict)
         assert isinstance(completed_offer_dataframe, pd.DataFrame)
 
 
@@ -171,7 +171,7 @@ class TestMainUserAYET:
         Tests if output of function is an expected dictionary.
         """
         full_ayet_page = self.ayet_main_page
-        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(full_ayet_page)
         assert isinstance(pending_offer_dict, dict)
 
 
@@ -181,7 +181,7 @@ class TestMainUserAYET:
         Should have length of (3) [keys].
         """
         full_ayet_page = self.ayet_main_page
-        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(full_ayet_page)
         assert len(pending_offer_dict) == size
 
 
@@ -191,7 +191,7 @@ class TestMainUserAYET:
         the same size across all key:value lists.
         """
         full_ayet_page = self.ayet_main_page
-        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(full_ayet_page)
         key_list = list(pending_offer_dict.keys())
         assert len(pending_offer_dict.get(key_list[0])) == \
                 len(pending_offer_dict.get(key_list[1])) == \
@@ -203,6 +203,6 @@ class TestMainUserAYET:
         Tests if resultant dataframe is type dataframe.
         """
         full_ayet_page = self.ayet_main_page
-        pending_offer_dict = freecash_info.parse_pending_offer_info(full_ayet_page)
-        pending_offer_dataframe = freecash_info.create_pending_offer_dataframe(pending_offer_dict)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(full_ayet_page)
+        pending_offer_dataframe = ayet_info.create_pending_offer_dataframe(pending_offer_dict)
         assert isinstance(pending_offer_dataframe, pd.DataFrame)
