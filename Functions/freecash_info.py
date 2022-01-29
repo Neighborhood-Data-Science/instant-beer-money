@@ -71,10 +71,28 @@ def parse_available_offer_information(driver):
     #Navigate to available offers page
     for offerwalls in offerwall_devices:
         try:
-            #Wait for Pending button to appear
+            #Wait for hamburger button to appear
             WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "tabs-menu")))
+                EC.presence_of_element_located((By.ID, "hamburger-button")))
+            #Explicit Wait
+            time.sleep(1)
+            #Click button
+            driver.find_element(by=By.ID,value='hamburger-button').click()
+
+            #Wait for reward status button to appear
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "sidebar-offerwall")))
             #Explicit wait
+            time.sleep(1)
+            #Click button
+            driver.find_element(by=By.ID,value='sidebar-offerwall').click()
+        except Exception as err:
+            print(f"'Error: {err}'")
+
+            #Wait for hamburger button to appear
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "hamburger-button")))
+            #Explicit Wait
             time.sleep(1)
             #Click button
             driver.find_elements(By.XPATH, f"//li[@href='#tab_{offerwalls}']")[0].click()
