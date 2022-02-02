@@ -131,6 +131,13 @@ def parse_available_offer_information(driver):
                 available_offer_dict['offer_title'].append(split_available_offer_info[3])
                 available_offer_dict['offer_description'].append(split_available_offer_info[4])
                 available_offer_dict['multiple_rewards'].append(0)
+            
+            elif len(split_available_offer_info) ==3:
+                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[0])
+                available_offer_dict['offer_title'].append(split_available_offer_info[1])
+                available_offer_dict['offer_description'].append(split_available_offer_info[2])
+                available_offer_dict['multiple_rewards'].append(0)
+
 
             elif len(split_available_offer_info) == 226:
                 continue
