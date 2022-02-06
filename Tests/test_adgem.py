@@ -15,39 +15,16 @@ load_dotenv()
 #The environment variables should be present in your CI/CD pipeline
 #and/or server side as well.
 
-@pytest.fixture(scope="class",autouse=False)
-def setup_raw_adgem_page(request):
-    """
-    Set Adgem page as fixture using baseline adgem offerwall
-    """
-    offerwall_version = 'MASTER_ADGEM'
-    adgem_base_page = adgem_info.start_driver_and_open_adgem(offerwall_version)
-    request.cls.adgem_base_page = adgem_base_page
-    yield adgem_base_page
-    adgem_base_page.close()
-
-@pytest.fixture(scope="class",autouse=False)
-def setup_main_user_adgem_page(request):
-    """
-    Set Adgem page as fixture using main user adgem offerwall
-    """
-    offerwall_version = 'ADGEM'
-    adgem_main_page = adgem_info.start_driver_and_open_adgem(offerwall_version)
-    request.cls.adgem_main_page = adgem_main_page
-    yield adgem_main_page
-    adgem_main_page.close()
-
 @pytest.mark.usefixtures("setup_raw_adgem_page")
 class TestBaselineAdgem:
     """
     Baseline Adgem Offerwall test suite
     """
-    def test_access_adgem_offerwall(self):
+    def test_access_adgem_offerwall(self,setup_raw_adgem_page):
         """
         Tests if able to successfully open Adgem Offerwall
         """
-        full_adgem_page = self.adgem_base_page
-        assert full_adgem_page.current_url == os.environ['MASTER_ADGEM']
+        assert setup_raw_adgem_page.current_url == os.environ['MASTER_ADGEM']
 
 
     # def test_parsed_offer_info_is_dict(self):
@@ -124,12 +101,11 @@ class TestMainUserAdgem:
     """
     Main User Adgem Offerwall test suite
     """
-    def test_access_adgem_offerwall_main(self):
+    def test_access_adgem_offerwall_main(self,setup_main_user_adgem_page):
         """
         Tests if able to successfully open Adgem Offerwall
         """
-        full_adgem_page = self.adgem_main_page
-        assert full_adgem_page.current_url == os.environ['ADGEM']
+        assert setup_main_user_adgem_page.current_url == os.environ['ADGEM']
 
 
     # def test_parsed_completed_offer_info_is_dict(self):
