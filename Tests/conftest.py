@@ -26,7 +26,7 @@ def setup_main_user_ayet_page(request):
     """
     Set Ayet page as fixture using main user adgem offerwall
     """
-    offerwall_version = 'ADGEM'
+    offerwall_version = 'AYET'
     ayet_main_page = ayet_info.start_driver_and_open_ayet(offerwall_version)
     ayet_main_page.maximize_window()
     yield ayet_main_page
