@@ -1,27 +1,30 @@
 # Game Guides for Active Offers
 
-# Opera GX
-Simply download and install
-
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
-
-# Mafia City - War of Underworld (Level 21)
-There's a guide to use to buy certain items.
-
-Essentially - Buy these three packs (0.99 + 4.99 + 9.99 = ~20), use all resources to build TownHall to highest level possible.
-Buy new packs as needed (4.99 - 9.99)
-
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+#Purchase to Win Offers
+These offers are completed very quickly by simply making a purchase within the game.
+These offers typically credit shortly after purchasing and/or using the item that was purchased.
 
 # Walking Dead: Road to Survival
-Install and open game.
-
-Make purchase for $2.
+1. Install and open game.
+2. Complete tutorial
+3. Make purchase for $2.
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
 
-This repo will focus on providing guidance to earning money online by completing offers on sites such as swagbucks and mypoints.
+# Epic Seven
+1. Install and open game.
+2. Complete tutorial
+3. Open shop and make purchase for $1.99
 
-The goal is to provide an easy to digest dashboard that tracks your offers, money earned, money pending, and other various aspects of earning money through either swagbucks or mypoints.
+[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
 
-This is a work in progress and will be developed over the course of 2022.
+# Epoch Times: Live & Breaking
+1. Install the app
+2. Signup for a monthly subscription for $0.99
+
+[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+
+# Norton 360 for Gamers Annual Subscription
+1. Click on offer to be brought to Norton Product page
+2. Sign up for Norton 360 Gamers (Annual Subscription)
+3. Enter coupon code 'xxx' to bring price down to ~$20
