@@ -1,6 +1,6 @@
-# Game Guides for Active Offers
+## Thanks for visiting the Neighborhood! 
 
-Use the below referral links to signup:
+Sign up using the links below and start completing the offers on this page:
 
 [Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone)
 
@@ -8,7 +8,7 @@ Use the below referral links to signup:
 
 [Chequity Referral Link](https://chequity.io/ref/1279501A)
 
-
+# Game Guides for Active Offers
 
 
 ## Pay to Win Offers
@@ -32,13 +32,13 @@ These p2w offers credit shortly after purchasing and using the item you purchase
 ### Epoch Times: Live & Breaking
 1. Install the app
 2. Signup for a monthly subscription for $0.99
-3. Cancel subscription when appropriate
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
 
 ### Norton 360 for Gamers Annual Subscription
 1. Click on the offer to be brought to the Norton product page
 2. Sign up for Norton 360 Gamers (Annual Subscription)
-3. Enter coupon code 'xxx' to bring the price down to ~$20
+3. Enter coupon code `PS30FRBRREMMU` to bring the price down to ~$20
+4. Purchase subscription
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
