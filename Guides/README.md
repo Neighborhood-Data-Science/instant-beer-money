@@ -6,6 +6,8 @@ Use the below referral links to signup:
 
 [FreeCash Referral Link](https://freecash.com/r/therealinkyb)
 
+[Chequity Referral Link](https://chequity.io/ref/1279501A)
+
 
 
 
