@@ -8,6 +8,11 @@ Sign up using the links below and start completing the offers on this page:
 
 [Chequity Referral Link](https://chequity.io/ref/1279501A)
 
+***DISCLAIMER: These guides are a combination of my own experience as well as the experience of others.***
+***Where possible, I have linked to any public resource of the original creator of the guide(s). Although we do
+our best to keep this guide up-to-date with the latest information, please use at your own risk.***
+
+
 # Game Guides for Active Offers
 
 
