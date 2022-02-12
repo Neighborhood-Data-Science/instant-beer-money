@@ -1,30 +1,42 @@
 # Game Guides for Active Offers
 
-#Purchase to Win Offers
-These offers are completed very quickly by simply making a purchase within the game.
-These offers typically credit shortly after purchasing and/or using the item that was purchased.
+Use the below referral links to signup:
 
-# Walking Dead: Road to Survival
-1. Install and open game.
+[Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone)
+
+[FreeCash Referral Link](https://freecash.com/r/therealinkyb)
+
+
+
+
+## Pay to Win Offers
+These offers are completed quickly by simply purchasing content within a downloaded app.
+These p2w offers credit shortly after purchasing and using the item you purchased.
+
+### Walking Dead: Road to Survival
+1. Install and open the game.
 2. Complete tutorial
-3. Make purchase for $2.
+3. Make a purchase for $1.99 (Look for 'xxx')
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
 
-# Epic Seven
-1. Install and open game.
+### Epic Seven
+1. Install and open the game.
 2. Complete tutorial
-3. Open shop and make purchase for $1.99
+3. Open shop and purchase an item for $1.99
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
 
-# Epoch Times: Live & Breaking
+### Epoch Times: Live & Breaking
 1. Install the app
 2. Signup for a monthly subscription for $0.99
+3. Cancel subscription when appropriate
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
 
-# Norton 360 for Gamers Annual Subscription
-1. Click on offer to be brought to Norton Product page
+### Norton 360 for Gamers Annual Subscription
+1. Click on the offer to be brought to the Norton product page
 2. Sign up for Norton 360 Gamers (Annual Subscription)
-3. Enter coupon code 'xxx' to bring price down to ~$20
+3. Enter coupon code 'xxx' to bring the price down to ~$20
+
+[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
