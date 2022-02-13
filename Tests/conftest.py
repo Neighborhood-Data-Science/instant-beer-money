@@ -10,7 +10,7 @@ sys.path.append('./Functions')
 import ayet_info
 import adgem_info
 
-@pytest.fixture(scope="class",autouse=True)
+@pytest.fixture(scope="class",autouse=False)
 def setup_raw_ayet_page(request):
     """
     Set Ayet page as fixture using baseline ayet offerwall
@@ -21,7 +21,7 @@ def setup_raw_ayet_page(request):
     yield ayet_base_page
     ayet_base_page.close()
 
-@pytest.fixture(scope="class",autouse=True)
+@pytest.fixture(scope="class",autouse=False)
 def setup_main_user_ayet_page(request):
     """
     Set Ayet page as fixture using main user adgem offerwall
@@ -43,7 +43,7 @@ def setup_raw_adgem_page(request):
     yield adgem_base_page
     adgem_base_page.close()
 
-@pytest.fixture(scope="class",autouse=True)
+@pytest.fixture(scope="class",autouse=False)
 def setup_main_user_adgem_page(request):
     """
     Set Adgem page as fixture using main user adgem offerwall
