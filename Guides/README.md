@@ -51,7 +51,7 @@ These p2w offers credit shortly after purchasing and using the item you purchase
 ## Norton 360 for Gamers Annual Subscription
 1. Click on the offer to be brought to the Norton product page
 2. Sign up for Norton 360 Gamers (Annual Subscription)
-3. Enter coupon code `PS30FRBRREMMU` to bring the price down to ~$20
+3. Enter coupon code `PS30FRBRREMMU` to bring the price down to ~$25-$30
 4. Purchase a subscription
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
