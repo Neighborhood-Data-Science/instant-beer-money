@@ -15,6 +15,13 @@ our best to keep this guide up-to-date with the latest information, please use i
 
 # Game Guides for Active Offers
 
+## Quick Hit Offers
+These offers are completed by completing a simple task.
+
+## Opera GX
+1. Download and install the browser
+2. Use for a minute or two. You should receive credit within a few minutes.
+
 ## Pay to Win Offers
 These offers are completed quickly by simply purchasing content within a downloaded app.
 These p2w offers credit shortly after purchasing and using the item you purchased.
@@ -30,12 +37,6 @@ These p2w offers credit shortly after purchasing and using the item you purchase
 1. Install and open the game.
 2. Complete tutorial
 3. Open Shop and purchase an item for $1.99
-
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
-
-## Epoch Times: Live & Breaking
-1. Install the app
-2. Signup for a monthly subscription for $0.99
 
 [Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
 
