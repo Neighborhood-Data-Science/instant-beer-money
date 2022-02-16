@@ -12,19 +12,27 @@ Sign up using the links below and start completing the offers on this page:
 ***Where possible, I have linked to any public resource of the original creator of the guide(s). Although we do
 our best to keep this guide up-to-date with the latest information, please use it at your own risk.***
 
-
-# Game Guides for Active Offers
-
-## Quick Hit Offers
+# Quick Hit Offers
 These offers are completed by completing a simple task.
 
 ## Opera GX
 1. Download and install the browser
 2. Use for a minute or two. You should receive credit within a few minutes.
 
-## Pay to Win Offers
+# Pay to Win Offers
 These offers are completed quickly by simply purchasing content within a downloaded app.
 These p2w offers credit shortly after purchasing and using the item you purchased.
+
+### Payment Methods
+A recommended payment method is virtual cards. Virtual cards (VCs) are tied to an actual account (credit, debit, bank, or cryptocurrency), but the card's information, such as expiration date and CVC code, are artificially created. VCs also allow more control by setting spending limits, vendor restrictions, and usage period. 
+
+Some offers require purchasing a subscription for a certain amount of time. Setting the usage period to 'one-time' is a great technique to ensure rougue subscriptions do not charge directly to your bank account. 
+
+I recommend the below VC vendors:
+
+[Moon: Cryptocurrency Virtual Cards](https://paywithmoon.com)
+
+[Privacy: Bank Account Virtual Cards](https://privacy.com)
 
 ## Walking Dead: Road to Survival
 1. Install and open the game.
