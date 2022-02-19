@@ -2,31 +2,27 @@
 
 Sign up using the links below and start completing the offers on this page:
 
-[Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone)
+[Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone) - Referral code: `brandonsavone`
 
-[FreeCash Referral Link](https://freecash.com/r/therealinkyb)
+[FreeCash Referral Link](https://freecash.com/r/therealinkyb) - Referral code: `therealinkyb`
 
-[Chequity Referral Link](https://chequity.io/ref/1279501A)
+[JustEarn Referral Link](https://justearn.gg/3FD649) - Referral code: `3FD649`
 
-***DISCLAIMER: These guides are a combination of my own experience as well as the experience of others.***
-***Where possible, I have linked to any public resource of the original creator of the guide(s). Although we do
-our best to keep this guide up-to-date with the latest information, please use it at your own risk.***
+[GG2U Referral Link](https://premium.gg2u.org?referrer=dmcinkyb) - Referral code: `dmcinkyb`
 
-# Quick Hit Offers
-These offers are completed by completing a simple task.
+[Casheo Referral Link](https://casheo.co/C3546F) - Referral code: `C3546F`
 
-## Opera GX
-1. Download and install the browser
-2. Use for a minute or two. You should receive credit within a few minutes.
+[Chequity Referral Link](https://chequity.io/ref/1279501A) - Referral code: `1279501A`
 
-# Pay to Win Offers
-These offers are completed quickly by simply purchasing content within a downloaded app.
-These p2w offers credit shortly after purchasing and using the item you purchased.
+[InboxDollars Referral Link](https://www.inboxdollars.com?rb=117815899&ref_src=link)
+
+[MyPoints Referral Link](https://www.mypoints.com?rb=100814663)
+
 
 ### Payment Methods
-A recommended payment method is virtual cards. Virtual cards (VCs) are tied to an actual account (credit, debit, bank, or cryptocurrency), but the card's information, such as expiration date and CVC code, are artificially created. VCs also allow more control by setting spending limits, vendor restrictions, and usage period. 
+A recommended payment method is virtual cards. Virtual cards (VCs) are tied to an existing account (credit, debit, bank, or cryptocurrency), but the card's information, such as expiration date and CVC code, is artificially created. VCs also allow more control by setting spending limits, vendor restrictions, and usage periods. 
 
-Some offers require purchasing a subscription for a certain amount of time. Setting the usage period to 'one-time' is a great technique to ensure rougue subscriptions do not charge directly to your bank account. 
+Some offers require purchasing a subscription for a certain amount of time. Setting the usage period to 'one-time' is a great technique to ensure rogue subscriptions do not charge directly to your bank account. 
 
 I recommend the below VC vendors:
 
@@ -34,19 +30,44 @@ I recommend the below VC vendors:
 
 [Privacy: Bank Account Virtual Cards](https://privacy.com)
 
+---------------
+
+***DISCLAIMER: These guides are a combination of my own experience as well as the experience of others.***
+***Where possible, I have linked to any public resource of the original creator of the guide(s). Although we do
+our best to keep this guide up-to-date with the latest information, please use it at your own risk.***
+
+---------------
+
+
+# Donation Offers
+Donation offers are completed by donating some amount to an organization. Typically, the advertiser will pay out double what you paid. For example, most donations are $15-$20, and the payout is $35-$40, which is a great ROI. 
+
+It is **STRONGLY** encouraged to use a Privacy Card to complete donation offers. However, the donations are recurring payments, so you want to be sure you only spend what you intend to pay. In addition, your payment information is nullified within a few days, so no unexpected charges!
+
+# Quick Hit Offers
+These offers are completed by completing a simple task.
+
+## Opera GX
+1. Download and install the browser
+2. Use for a minute or two. You should receive the credit within a few minutes.
+
+# Pay to Win Offers
+These offers are completed quickly by simply purchasing content within a downloaded app.
+These p2w offers credit shortly after purchasing and using the item you purchased.
+
 ## Walking Dead: Road to Survival
 1. Install and open the game.
 2. Complete tutorial and open the store/shop
-3. Make a purchase for $1.99
+3. Make a purchase for $1.99. You will receive the credit within a day.
 
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+[Wall - Total Coins - Potential Profit]
 
 ## Epic Seven
 1. Install and open the game.
 2. Complete tutorial
-3. Open Shop and purchase an item for $1.99
+3. Open Shop and purchase an item for $1.99. You will receive the credit within an hour.
 
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+[Wall - Total Coins - Potential Profit]
 
 ## Looney Tunes: Mayhem
 1. Install the app
@@ -55,15 +76,15 @@ I recommend the below VC vendors:
 4. Once you reach approximately level 10, you should get an offer in the Shop for a golden ticket for $0.99
 5. Purchase, then use the ticket. The offerwall should credit you within an hour.
 
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+[Wall - Total Coins - Potential Profit]
 
 ## Norton 360 for Gamers Annual Subscription
 1. Click on the offer to be brought to the Norton product page
 2. Sign up for Norton 360 Gamers (Annual Subscription)
 3. Enter coupon code `PS30FRBRREMMU` to bring the price down to ~$25-$30
-4. Purchase a subscription
+4. Purchase the subscription. You will receive the credit within 5 minutes.
 
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+[Wall - Total Coins - Potential Profit]
 
 
 ## 1-3 Day Offers
@@ -72,12 +93,14 @@ You can complete these offers over at least 1 to 3 days. Most of these offers ca
 
 Consider the below offers "passive earners."
 
+Recommended AutoClicker - [Smart AutoCliker](https://f-droid.org/en/packages/com.buzbuz.smartautoclicker/) or [Macrorify](https://www.kok-emm.com
+
 ## Board Kings: Reach Level 12
 1. Straight-forward game - Roll the dice and upgrade buildings as you move around the board until you reach level 12.
 2. Visit [this link](https://www.fcswap.com/game/board-kings/) to register your friend code for others to add you. Each of the first 30 friends added will get you an in-game reward, such as additional rolls and gems. Ensure to unfriend people after you add them, so they don't steal your coins!
 3. There are often good deals for purchase, such as 300+ rolls for $2-$3. These are good to buy if you're close to reaching a milestone, such as leveling up to a new board.
 
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+[Wall - Total Coins - Potential Profit]
 
 ## Raid Shadow Legends - Open 2 Sacred Shards
 1. Click on the offer to download Plarium, then download Raid.
@@ -86,7 +109,7 @@ Consider the below offers "passive earners."
 4. Purchase two packs, netting you **two sacred shards**.
 5. Use (Summon) both sacred shards, and you should receive credit shortly afterward.
 
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+[Wall - Total Coins - Potential Profit]
 
 ## Slotomania - 2000 Dash Points
 1. Straight-forward game - You receive Daily Dashes and other Dash objectives, which replenish once the active Dash objective is complete. The goal is to complete enough Dash Objectives and Daily Dashes to accumulate 2000 Dash points.
@@ -95,4 +118,4 @@ Consider the below offers "passive earners."
 4. "Win x Amount of Coins" - Bet approximately 10% of the goal amount. If it can be reached in a few larger bets, and you have the bankroll capacity, roll with higher bets to complete faster.
 5. You can begin skipping time-intensive tasks, like "Get 5 of a kind x times", once you make it to level 100 (cost Diamonds to skip Dash Objectives).
 
-[Wall - Total Coins - Potential Profit - Time to complete - Time to Credit]
+[Wall - Total Coins - Potential Profit]
