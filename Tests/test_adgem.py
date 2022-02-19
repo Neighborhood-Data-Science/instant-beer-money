@@ -9,6 +9,7 @@ import pandas as pd
 import pytest
 import os
 from dotenv import load_dotenv
+from selenium.webdriver.common.by import By
 
 #Load environment variables
 load_dotenv()
@@ -26,14 +27,12 @@ class TestBaselineAdgem:
         """
         assert setup_raw_adgem_page.current_url == os.environ['MASTER_ADGEM']
 
-
-    # def test_parsed_offer_info_is_dict(self):
-    #     """
-    #     Tests if output of function is an expected dictionary.
-    #     """
-    #     full_adgem_page = self.adgem_base_page
-    #     offer_dict = adgem_info.parse_available_offer_information(full_adgem_page)
-    #     assert isinstance(offer_dict, dict)
+    def test_parsed_offer_info_is_dict(self,setup_raw_adgem_page):
+        """
+        Tests if output of function is an expected dictionary.
+        """
+        offer_dict = adgem_info.parse_available_offer_information(setup_raw_adgem_page)
+        assert isinstance(offer_dict, dict)
 
 
     # def test_parsed_offer_info_is_equal(self):
@@ -107,6 +106,13 @@ class TestMainUserAdgem:
         """
         assert setup_main_user_adgem_page.current_url == os.environ['ADGEM']
 
+    def test_adgem_device_list(self,setup_main_user_adgem_page):
+        """
+        Tests if device list has expected values on Adgem Main Page
+        """
+        device_list = setup_main_user_adgem_page.find_elements(By.XPATH,"//div[@class = 'col-sm-4 text-center ']/div")
+        text_check = [device_names.text for device_names in device_list]
+        assert ('Android' and 'iPhone' and 'iPad') in text_check
 
     # def test_parsed_completed_offer_info_is_dict(self):
     #     """
