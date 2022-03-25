@@ -30,8 +30,8 @@ jobs:
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     steps:
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
+      #- browser-tools/install-chrome
+      #- browser-tools/install-chromedriver
       - python/install-packages:
           pkg-manager: pip
           app-dir: ~/project/Tests/  # If you're requirements.txt isn't in the root directory.
