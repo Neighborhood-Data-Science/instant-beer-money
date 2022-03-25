@@ -45,7 +45,8 @@ def start_driver_and_open_adgem(offerwall_version):
     #Initialize variable
     driver = None
     try:
-        driver = webdriver.Chrome(options=chrome_options)
+        driver = webdriver.Chrome('/usr/local/bin/chromedriver',\
+                options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
         sys.exit(0)
