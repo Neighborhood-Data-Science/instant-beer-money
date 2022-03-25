@@ -32,6 +32,7 @@ jobs:
     steps:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
+      - checkout
       - python/install-packages:
           pkg-manager: pip
           app-dir: ~/project/Tests/  # If you're requirements.txt isn't in the root directory.
@@ -41,7 +42,7 @@ jobs:
           # This assumes pytest is installed via the install-package step above
           command: 
             mkdir -p test-results
-            
+
             pytest --junitxml=test-results/unit_tests.xml
             
       - store_test_results:
