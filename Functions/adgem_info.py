@@ -6,6 +6,7 @@ import os
 import time
 import pandas as pd
 import utils
+import sys
 
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -40,11 +41,15 @@ def start_driver_and_open_adgem(offerwall_version):
     """
     #This installs the latest version of the official Google chromedriver
     #Accesses cached version if present.
+
+    #Initialize variable
+    driver = None
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),\
                 options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
+        sys.exit(0)
 
     #Set Adgem URL
     adgem = os.environ[offerwall_version]
@@ -85,7 +90,8 @@ def parse_available_offer_information(driver):
                     else:
                         pass
             except Exception as err:
-                print(f"'Setting Driver Error: {err}'")
+                print(f"'Unable to find object error: {err}'")
+
 
         try:
             #Wait for save devices button to appear
