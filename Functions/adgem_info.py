@@ -20,7 +20,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 #Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
-#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920x1080")
 
 #Load environment variables
@@ -45,7 +46,7 @@ def start_driver_and_open_adgem(offerwall_version):
     #Initialize variable
     driver = None
     try:
-        driver = webdriver.Chrome('/usr/local/bin/chromedriver',\
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),\
                 options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")

@@ -21,6 +21,7 @@ from selenium.webdriver.support import expected_conditions as EC
 #Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
 chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920x1080")
 
 #Load environment variables
