@@ -6,6 +6,7 @@ import os
 import time
 import pandas as pd
 import utils
+import sys
 
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -20,6 +21,7 @@ from selenium.webdriver.support import expected_conditions as EC
 #Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
 chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920x1080")
 
 #Load environment variables
@@ -27,34 +29,38 @@ load_dotenv()
 #The environment variables should be present in your CI/CD pipeline
 #and/or server side as well.
 
-def start_driver_and_open_ayet(offerwall_version):
+def start_driver_and_open_adgem(offerwall_version):
     """
     Downloads the latest version of Google chromedriver and
-    Opens the Ayet offerwall within a webdriver
+    Opens the Adgem offerwall within a webdriver
 
     str: offerwall
 
     offerwall examples:
-    - 'BASELINE_AYET'
-    - 'USER_AYET'
+    - 'BASELINE_ADGEM'
+    - 'USER_ADGEM'
     """
     #This installs the latest version of the official Google chromedriver
     #Accesses cached version if present.
+
+    #Initialize variable
+    driver = None
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),\
                 options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
+        sys.exit(0)
 
-    #Set Ayet URL
-    ayet = os.environ[offerwall_version]
+    #Set Adgem URL
+    adgem = os.environ[offerwall_version]
     #Open webpage
-    driver.get(ayet)
+    driver.get(adgem)
     return driver
 
 def parse_available_offer_information(driver):
     """
-    This function parses through the Ayet available offerwall text and extracts:
+    This function parses through the Adgem available offerwall text and extracts:
     1. Offer Titles
     2. Offer Description
     3. Offer Amount
@@ -67,45 +73,48 @@ def parse_available_offer_information(driver):
                   'offer_description':[],'multiple_rewards':[],
                   'offer_device':[]}
     #Create list of devices to search through (offerwalls)
-    offerwall_devices = ['desktop','android','ios']
+    offerwall_devices = driver.find_elements(By.XPATH,"//div[@class = 'col-sm-4 text-center ']/div")
+    #Create loop identifier to indicate different action from initial page
+    looper = 0
     #Navigate to available offers page
-    for offerwalls in offerwall_devices:
+    for devices in offerwall_devices:
+        #device_name = devices.get_attribute('innerText')
+        if looper != 0:
+            try:
+                #Grab list of 'li' object
+                element_list = driver.find_elements(By.TAG_NAME,'li')
+                for li_elements in element_list:
+                    if 'Device' in li_elements.text:
+                        #Click the 'Device' tab to open device list
+                        li_elements.click()
+                        break
+                    else:
+                        pass
+            except Exception as err:
+                print(f"'Unable to find object error: {err}'")
+
+
         try:
-            #Wait for hamburger button to appear
+            #Wait for save devices button to appear
             WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "hamburger-button")))
+                EC.presence_of_element_located((By.ID, "select-device-save-button")))
             #Explicit Wait
             time.sleep(1)
-            #Click button
-            driver.find_element(by=By.ID,value='hamburger-button').click()
-
-            #Wait for reward status button to appear
+            #Click device button and save selection
+            devices.click()
+            #Explicit Wait
+            time.sleep(1)
+            driver.find_element(by=By.ID,value='select-device-save-button').click()
+        # Wait for offerwall content to appear
             WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "sidebar-offerwall")))
+                EC.presence_of_element_located((By.CLASS_NAME, "text-primary")))
             #Explicit wait
             time.sleep(1)
-            #Click button
-            driver.find_element(by=By.ID,value='sidebar-offerwall').click()
         except Exception as err:
             print(f"'Error: {err}'")
 
-            #Wait for hamburger button to appear
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "hamburger-button")))
-            #Explicit Wait
-            time.sleep(1)
-            #Click button
-            driver.find_elements(By.XPATH, f"//li[@href='#tab_{offerwalls}']")[0].click()
-            time.sleep(1)
-        except Exception as err:
-            print(f"'Error: {err}'")
-
-        #Focus on offerwall information
-        #Wait for menu to be visible button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, f"//li[@href='#tab_{offerwalls}']")))
-        time.sleep(1)
-        available_offer_info = driver.find_elements(By.XPATH,"//div[@class = 'tab-pane active']/div")
+        #Create a list of offer information
+        available_offer_info = driver.find_elements(By.XPATH,"//div[@class = 'campaigns col-lg-12']/div")
         ############# LOGIC BLOCK ##############
         for offers in available_offer_info:
             #Set variables equal to text values of the offers
@@ -114,38 +123,27 @@ def parse_available_offer_information(driver):
             split_available_offer_info = available_offer_text.split('\n')
             #Insert available offer text into dictionary based on size
             #Sizes were pre-determined from trial and error.
-            if len(split_available_offer_info) == 7:
+            if len(split_available_offer_info) == 5:
                 available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
                 available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[5])
-                available_offer_dict['multiple_rewards'].append(1)
+                available_offer_dict['offer_description'].append(split_available_offer_info[4])
+                available_offer_dict['multiple_rewards'].append(0)
 
             elif len(split_available_offer_info) == 6:
                 available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
+                available_offer_dict['offer_title'].append(split_available_offer_info[0])
                 available_offer_dict['offer_description'].append(split_available_offer_info[4])
                 available_offer_dict['multiple_rewards'].append(0)
 
-            elif len(split_available_offer_info) == 5:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[4])
-                available_offer_dict['multiple_rewards'].append(0)
-            
-            elif len(split_available_offer_info) ==3:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[0])
-                available_offer_dict['offer_title'].append(split_available_offer_info[1])
-                available_offer_dict['offer_description'].append(split_available_offer_info[2])
-                available_offer_dict['multiple_rewards'].append(0)
-
-
-            elif len(split_available_offer_info) == 226:
-                continue
             else:
                 raise Exception ('Unexpected offer split size')
             #Add offer_device value to dictionary
-            available_offer_dict['offer_device'].append(offerwalls)
-        ############# LOGIC BLOCK ##############
+            #available_offer_dict['offer_device'].append(device_name)
+            ############# LOGIC BLOCK ##############
+
+        # ~~~~~~ LOOP BLOCK ~~~~~~ #
+        looper = looper + 1
+        # ~~~~~~ LOOP BLOCK ~~~~~~ #
     return available_offer_dict
 
 def create_available_offer_dataframe(available_offer_dict):
@@ -157,7 +155,7 @@ def create_available_offer_dataframe(available_offer_dict):
 
 def parse_completed_offer_info(driver):
     """
-    This function parses through the Ayet offerwall text and extracts:
+    This function parses through the Adgem offerwall text and extracts:
     1. Completed Offer Titles
     2. Completed Offer Date
     3. Completed Offer Amount
@@ -170,11 +168,11 @@ def parse_completed_offer_info(driver):
     try:
         #Wait for hamburger button to appear
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "hamburger-button")))
+            EC.presence_of_element_located((By.ID, "select-device-save-button")))
         #Explicit Wait
         time.sleep(1)
         #Click button
-        driver.find_element(by=By.ID,value='hamburger-button').click()
+        driver.find_element(by=By.ID,value='select-device-save-button').click()
 
         #Wait for reward status button to appear
         WebDriverWait(driver, 10).until(
@@ -223,7 +221,7 @@ def create_completed_offer_dataframe(completed_offer_dict):
 
 def parse_pending_offer_info(driver):
     """
-    This function parses through the Ayet offerwall text and extracts:
+    This function parses through the Adgem offerwall text and extracts:
     1. Pending Offer Titles
     2. Pending Offer Description
     3. Pending Start Date/Time
@@ -235,11 +233,11 @@ def parse_pending_offer_info(driver):
     try:
         #Wait for hamburger button to appear
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "hamburger-button")))
+            EC.presence_of_element_located((By.ID, "select-device-save-button")))
         #Explicit Wait
         time.sleep(1)
         #Click button
-        driver.find_element(by=By.ID,value='hamburger-button').click()
+        driver.find_element(by=By.ID,value='select-device-save-button').click()
 
         #Wait for reward status button to appear
         WebDriverWait(driver, 10).until(

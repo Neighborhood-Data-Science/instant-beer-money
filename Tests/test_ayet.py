@@ -4,7 +4,7 @@ Main Web Testing Framework
 import sys
 sys.path.append('./Functions')
 
-import freecash_info
+import ayet_info
 import pandas as pd
 import pytest
 import os
@@ -31,7 +31,7 @@ class TestBaselineAYET:
         """
         Tests if output of function is an expected dictionary.
         """
-        offer_dict = freecash_info.parse_available_offer_information(setup_raw_ayet_page)
+        offer_dict = ayet_info.parse_available_offer_information(setup_raw_ayet_page)
         assert isinstance(offer_dict, dict)
 
 
@@ -40,10 +40,9 @@ class TestBaselineAYET:
         Tests if length of key:value pairs in offer dict are
         the same size across all key:value lists.
         """
-        offer_dict = freecash_info.parse_available_offer_information(setup_raw_ayet_page)
+        offer_dict = ayet_info.parse_available_offer_information(setup_raw_ayet_page)
         key_list = list(offer_dict.keys())
         assert len(offer_dict.get(key_list[0])) ==  \
-            len(offer_dict.get(key_list[1])) ==     \
             len(offer_dict.get(key_list[2])) ==     \
             len(offer_dict.get(key_list[3])) ==     \
             len(offer_dict.get(key_list[4]))
@@ -54,7 +53,7 @@ class TestBaselineAYET:
         Tests if resulting offer dictionary is the correct size.
         Should have length of (5) [keys].
         """
-        offer_dict = freecash_info.parse_available_offer_information(setup_raw_ayet_page)
+        offer_dict = ayet_info.parse_available_offer_information(setup_raw_ayet_page)
         assert len(offer_dict) == size
 
 
@@ -62,8 +61,8 @@ class TestBaselineAYET:
         """
         Tests if resultant dataframe is type dataframe.
         """
-        offer_dict = freecash_info.parse_available_offer_information(setup_raw_ayet_page)
-        offer_dataframe = freecash_info.create_available_offer_dataframe(offer_dict)
+        offer_dict = ayet_info.parse_available_offer_information(setup_raw_ayet_page)
+        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
 
 
@@ -71,8 +70,8 @@ class TestBaselineAYET:
         """
         Tests if all values in multiple_rewards column are either 1 or 0
         """
-        offer_dict = freecash_info.parse_available_offer_information(setup_raw_ayet_page)
-        offer_dataframe = freecash_info.create_available_offer_dataframe(offer_dict)
+        offer_dict = ayet_info.parse_available_offer_information(setup_raw_ayet_page)
+        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
         indicator_values = offer_dataframe['multiple_rewards'].unique()
         assert [0 and 1] in indicator_values
 
@@ -84,8 +83,8 @@ class TestBaselineAYET:
         iphone
         desktop
         """
-        offer_dict = freecash_info.parse_available_offer_information(setup_raw_ayet_page)
-        offer_dataframe = freecash_info.create_available_offer_dataframe(offer_dict)
+        offer_dict = ayet_info.parse_available_offer_information(setup_raw_ayet_page)
+        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
         offer_device_vals = offer_dataframe['offer_device'].unique()
         assert ['apple' and 'android' and 'desktop'] in offer_device_vals
 
@@ -95,11 +94,18 @@ class TestMainUserAYET:
     """
     Main User Ayet Offerwall test suite
     """
+    def test_access_offerwall_main_user(self,setup_main_user_ayet_page):
+        """
+        Tests if able to successfully open ayet Offerwall
+        """
+        assert setup_main_user_ayet_page.current_url == os.environ['AYET']
+
+
     def test_parsed_completed_offer_info_is_dict(self,setup_main_user_ayet_page):
         """
         Tests if output of function is an expected dictionary.
         """
-        completed_offer_dict = freecash_info.parse_completed_offer_info(setup_main_user_ayet_page)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(setup_main_user_ayet_page)
         assert isinstance(completed_offer_dict, dict)
 
 
@@ -108,7 +114,7 @@ class TestMainUserAYET:
         Tests if resulting completed offer dictionary is the correct size.
         Should have length of (3) [keys].
         """
-        completed_offer_dict = freecash_info.parse_completed_offer_info(setup_main_user_ayet_page)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(setup_main_user_ayet_page)
         assert len(completed_offer_dict) == size
 
 
@@ -117,7 +123,7 @@ class TestMainUserAYET:
         Tests if length of key:value pairs in comnpleted offer dict are
         the same size across all key:value lists.
         """
-        completed_offer_dict = freecash_info.parse_completed_offer_info(setup_main_user_ayet_page)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(setup_main_user_ayet_page)
         key_list = list(completed_offer_dict.keys())
         assert len(completed_offer_dict.get(key_list[0])) == \
                 len(completed_offer_dict.get(key_list[1])) == \
@@ -128,8 +134,8 @@ class TestMainUserAYET:
         """
         Tests if resultant dataframe is type dataframe.
         """
-        completed_offer_dict = freecash_info.parse_completed_offer_info(setup_main_user_ayet_page)
-        completed_offer_dataframe = freecash_info.create_completed_offer_dataframe(completed_offer_dict)
+        completed_offer_dict = ayet_info.parse_completed_offer_info(setup_main_user_ayet_page)
+        completed_offer_dataframe = ayet_info.create_completed_offer_dataframe(completed_offer_dict)
         assert isinstance(completed_offer_dataframe, pd.DataFrame)
 
 
@@ -137,7 +143,7 @@ class TestMainUserAYET:
         """
         Tests if output of function is an expected dictionary.
         """
-        pending_offer_dict = freecash_info.parse_pending_offer_info(setup_main_user_ayet_page)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(setup_main_user_ayet_page)
         assert isinstance(pending_offer_dict, dict)
 
 
@@ -146,7 +152,7 @@ class TestMainUserAYET:
         Tests if resulting pending offer dictionary is the correct size.
         Should have length of (3) [keys].
         """
-        pending_offer_dict = freecash_info.parse_pending_offer_info(setup_main_user_ayet_page)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(setup_main_user_ayet_page)
         assert len(pending_offer_dict) == size
 
 
@@ -155,7 +161,7 @@ class TestMainUserAYET:
         Tests if length of key:value pairs in pending offer dict are
         the same size across all key:value lists.
         """
-        pending_offer_dict = freecash_info.parse_pending_offer_info(setup_main_user_ayet_page)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(setup_main_user_ayet_page)
         key_list = list(pending_offer_dict.keys())
         assert len(pending_offer_dict.get(key_list[0])) == \
                 len(pending_offer_dict.get(key_list[1])) == \
@@ -166,6 +172,6 @@ class TestMainUserAYET:
         """
         Tests if resultant dataframe is type dataframe.
         """
-        pending_offer_dict = freecash_info.parse_pending_offer_info(setup_main_user_ayet_page)
-        pending_offer_dataframe = freecash_info.create_pending_offer_dataframe(pending_offer_dict)
+        pending_offer_dict = ayet_info.parse_pending_offer_info(setup_main_user_ayet_page)
+        pending_offer_dataframe = ayet_info.create_pending_offer_dataframe(pending_offer_dict)
         assert isinstance(pending_offer_dataframe, pd.DataFrame)
