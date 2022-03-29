@@ -44,6 +44,8 @@ Donation offers are completed by donating some amount to an organization. Typica
 
 It is **STRONGLY** encouraged to use a Privacy Card to complete donation offers. However, the donations are recurring payments, so you want to be sure you only spend what you intend to pay. In addition, your payment information is nullified within a few days, so no unexpected charges!
 
+As of recently , most donation offers are not accepting privacy.com cards as a means of payment.
+
 # Quick Hit Offers
 These offers are completed by completing a simple task.
 
@@ -60,14 +62,7 @@ These p2w offers credit shortly after purchasing and using the item you purchase
 2. Complete tutorial and open the store/shop
 3. Make a purchase for $1.99. You will receive the credit within a day.
 
-[Wall - Total Coins - Potential Profit]
-
-## Epic Seven
-1. Install and open the game.
-2. Complete tutorial
-3. Open Shop and purchase an item for $1.99. You will receive the credit within an hour.
-
-[Wall - Total Coins - Potential Profit]
+[Wall - Total Coins - Potential 
 
 ## Looney Tunes: Mayhem
 1. Install the app
