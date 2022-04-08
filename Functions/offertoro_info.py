@@ -64,94 +64,50 @@ def parse_available_offer_information(driver):
     1. Offer Titles
     2. Offer Description
     3. Offer Amount
+    4. Device type
 
     Sets device type and
     determines if offer has multiple rewards (multi-tiered)
     """
     #Create dictionary to hold offer information
     available_offer_dict = {'total_coins_earnable':[],'offer_title':[],\
-                  'offer_description':[],'multiple_rewards':[],
-                  'offer_device':[]}
-    #Create list of devices to search through (offerwalls)
-    offerwall_devices = ['desktop','android','ios']
-    #Navigate to available offers page
-    for offerwalls in offerwall_devices:
-        try:
-            #Wait for hamburger button to appear
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "hamburger-button")))
-            #Explicit Wait
-            time.sleep(1)
-            #Click button
-            driver.find_element(by=By.ID,value='hamburger-button').click()
+                  'offer_description':[],'offer_device':[]}
 
-            #Wait for reward status button to appear
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "sidebar-offerwall")))
-            #Explicit wait
-            time.sleep(1)
-            #Click button
-            driver.find_element(by=By.ID,value='sidebar-offerwall').click()
-        except Exception as err:
-            print(f"'Error: {err}'")
-
-            #Wait for hamburger button to appear
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "hamburger-button")))
-            #Explicit Wait
-            time.sleep(1)
-            #Click button
-            driver.find_elements(By.XPATH, f"//li[@href='#tab_{offerwalls}']")[0].click()
-            time.sleep(1)
-        except Exception as err:
-            print(f"'Error: {err}'")
-
-        #Focus on offerwall information
-        #Wait for menu to be visible button to appear
+    try:
+        #Wait for hamburger button to appear
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, f"//li[@href='#tab_{offerwalls}']")))
+            EC.presence_of_element_located((By.CLASS_NAME, "fa fa-star")))
+        #Explicit Wait
         time.sleep(1)
-        available_offer_info = driver.find_elements(By.XPATH,"//div[@class = 'tab-pane active']/div")
-        ############# LOGIC BLOCK ##############
-        for offers in available_offer_info:
-            #Set variables equal to text values of the offers
-            available_offer_text = offers.get_attribute('innerText')
-            #Split the offer text
-            split_available_offer_info = available_offer_text.split('\n')
-            #Insert available offer text into dictionary based on size
-            #Sizes were pre-determined from trial and error.
-            if len(split_available_offer_info) == 7:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[5])
-                available_offer_dict['multiple_rewards'].append(1)
+    except Exception as err:
+        print(f"'Error: {err}'")
 
-            elif len(split_available_offer_info) == 6:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[4])
-                available_offer_dict['multiple_rewards'].append(0)
+    #Focus on offerwall information
+    #Wait for menu to be visible button to appear
+    available_offer_info = driver.find_elements(By.TAG_NAME,"TR")
+    ############# LOGIC BLOCK ##############
+    for offers in available_offer_info:
+        #Set variables equal to text values of the offers
+        available_offer_payout = offers.get_attribute('data-offer_payout')
+        offer_device_type = offers.get_attribute('data-offer_device')
+        #Split the offer text to gain information about the offer itself
+        split_available_offer_info = offers.get_attribute('innerText').split('\t')
+        
+        #Insert available offer text into dictionary based on size
+        #Sizes were pre-determined from trial and error.
 
-            elif len(split_available_offer_info) == 5:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[4])
-                available_offer_dict['multiple_rewards'].append(0)
-            
-            elif len(split_available_offer_info) ==3:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[0])
-                available_offer_dict['offer_title'].append(split_available_offer_info[1])
-                available_offer_dict['offer_description'].append(split_available_offer_info[2])
-                available_offer_dict['multiple_rewards'].append(0)
+        if len(split_available_offer_info) == 3:
+            offer_and_desc = split_available_offer_info[1].split('\n')
+            available_offer_dict['total_coins_earnable'].append(available_offer_payout)
+            available_offer_dict['offer_device'].append(offer_device_type)
+            available_offer_dict['offer_title'].append(offer_and_desc[1])
+            available_offer_dict['offer_description'].append(offer_and_desc[2])
 
-
-            elif len(split_available_offer_info) == 226:
-                continue
-            else:
-                raise Exception ('Unexpected offer split size')
-            #Add offer_device value to dictionary
-            available_offer_dict['offer_device'].append(offerwalls)
-        ############# LOGIC BLOCK ##############
+        elif len(split_available_offer_info) == (1):
+            continue
+        else:
+            raise Exception ('Unexpected offer split size')
+    ############# LOGIC BLOCK ##############
     return available_offer_dict
 
 def create_available_offer_dataframe(available_offer_dict):

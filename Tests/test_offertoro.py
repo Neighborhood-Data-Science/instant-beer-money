@@ -27,12 +27,12 @@ class TestBaselineTORO:
         assert setup_raw_toro_page.current_url == os.environ['MASTER_TORO']
 
 
-    # def test_parsed_offer_info_is_dict(self,setup_raw_toro_page):
-    #     """
-    #     Tests if output of function is an expected dictionary.
-    #     """
-    #     offer_dict = toro_info.parse_available_offer_information(setup_raw_toro_page)
-    #     assert isinstance(offer_dict, dict)
+    def test_parsed_offer_info_is_dict(self,setup_raw_toro_page):
+        """
+        Tests if output of function is an expected dictionary.
+        """
+        offer_dict = offertoro_info.parse_available_offer_information(setup_raw_toro_page)
+        assert isinstance(offer_dict, dict)
 
 
     # def test_parsed_offer_info_is_equal(self,setup_raw_toro_page):
