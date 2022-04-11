@@ -92,78 +92,40 @@ class TestMainUserTORO:
         """
         assert setup_main_user_toro_page.current_url == os.environ['TORO']
 
-
-    # def test_parsed_completed_offer_info_is_dict(self,setup_main_user_toro_page):
-    #     """
-    #     Tests if output of function is an expected dictionary.
-    #     """
-    #     completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
-    #     assert isinstance(completed_offer_dict, dict)
-
-
-    # def test_parsed_completed_offer_info_dict_size(self, setup_main_user_toro_page, size=3):
-    #     """
-    #     Tests if resulting completed offer dictionary is the correct size.
-    #     Should have length of (3) [keys].
-    #     """
-    #     completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
-    #     assert len(completed_offer_dict) == size
+    def test_parsed_completed_offer_info_is_dict(self,setup_main_user_toro_page):
+        """
+        Tests if output of function is an expected dictionary.
+        """
+        completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
+        assert isinstance(completed_offer_dict, dict)
 
 
-    # def test_parsed_completed_offer_info_is_equal(self, setup_main_user_toro_page):
-    #     """
-    #     Tests if length of key:value pairs in comnpleted offer dict are
-    #     the same size across all key:value lists.
-    #     """
-    #     completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
-    #     key_list = list(completed_offer_dict.keys())
-    #     assert len(completed_offer_dict.get(key_list[0])) == \
-    #             len(completed_offer_dict.get(key_list[1])) == \
-    #             len(completed_offer_dict.get(key_list[2]))
+    def test_parsed_completed_offer_info_dict_size(self, setup_main_user_toro_page, size=4):
+        """
+        Tests if resulting completed offer dictionary is the correct size.
+        Should have length of (4) [keys].
+        """
+        completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
+        assert len(completed_offer_dict) == size
 
 
-    # def test_completed_dataframe_is_dataframe(self, setup_main_user_toro_page):
-    #     """
-    #     Tests if resultant dataframe is type dataframe.
-    #     """
-    #     completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
-    #     completed_offer_dataframe = offertoro_info.create_completed_offer_dataframe(completed_offer_dict)
-    #     assert isinstance(completed_offer_dataframe, pd.DataFrame)
+    def test_parsed_completed_offer_info_is_equal(self, setup_main_user_toro_page):
+        """
+        Tests if length of key:value pairs in comnpleted offer dict are
+        the same size across all key:value lists.
+        """
+        completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
+        key_list = list(completed_offer_dict.keys())
+        assert len(completed_offer_dict.get(key_list[0])) == \
+                len(completed_offer_dict.get(key_list[1])) == \
+                len(completed_offer_dict.get(key_list[2])) == \
+                len(completed_offer_dict.get(key_list[3]))
 
 
-    # def test_parsed_pending_offer_info_is_dict(self, setup_main_user_toro_page):
-    #     """
-    #     Tests if output of function is an expected dictionary.
-    #     """
-    #     pending_offer_dict = offertoro_info.parse_pending_offer_info(setup_main_user_toro_page)
-    #     assert isinstance(pending_offer_dict, dict)
-
-
-    # def test_parsed_pending_offer_info_dict_size(self, setup_main_user_toro_page, size=3):
-    #     """
-    #     Tests if resulting pending offer dictionary is the correct size.
-    #     Should have length of (3) [keys].
-    #     """
-    #     pending_offer_dict = offertoro_info.parse_pending_offer_info(setup_main_user_toro_page)
-    #     assert len(pending_offer_dict) == size
-
-
-    # def test_parsed_pending_offer_info_is_equal(self, setup_main_user_toro_page):
-    #     """
-    #     Tests if length of key:value pairs in pending offer dict are
-    #     the same size across all key:value lists.
-    #     """
-    #     pending_offer_dict = offertoro_info.parse_pending_offer_info(setup_main_user_toro_page)
-    #     key_list = list(pending_offer_dict.keys())
-    #     assert len(pending_offer_dict.get(key_list[0])) == \
-    #             len(pending_offer_dict.get(key_list[1])) == \
-    #             len(pending_offer_dict.get(key_list[2]))
-
-
-    # def test_pending_dataframe_is_dataframe(self, setup_main_user_toro_page):
-    #     """
-    #     Tests if resultant dataframe is type dataframe.
-    #     """
-    #     pending_offer_dict = offertoro_info.parse_pending_offer_info(setup_main_user_toro_page)
-    #     pending_offer_dataframe = offertoro_info.create_pending_offer_dataframe(pending_offer_dict)
-    #     assert isinstance(pending_offer_dataframe, pd.DataFrame)
+    def test_completed_dataframe_is_dataframe(self, setup_main_user_toro_page):
+        """
+        Tests if resultant dataframe is type dataframe.
+        """
+        completed_offer_dict = offertoro_info.parse_completed_offer_info(setup_main_user_toro_page)
+        completed_offer_dataframe = offertoro_info.create_completed_offer_dataframe(completed_offer_dict)
+        assert isinstance(completed_offer_dataframe, pd.DataFrame)

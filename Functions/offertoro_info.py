@@ -92,7 +92,7 @@ def parse_available_offer_information(driver):
         offer_device_type = offers.get_attribute('data-offer_device')
         #Split the offer text to gain information about the offer itself
         split_available_offer_info = offers.get_attribute('innerText').split('\t')
-        
+
         #Insert available offer text into dictionary based on size
         #Sizes were pre-determined from trial and error.
 
@@ -123,54 +123,50 @@ def parse_completed_offer_info(driver):
     1. Completed Offer Titles
     2. Completed Offer Date
     3. Completed Offer Amount
+    4. Offer Status (Complete, Review, Clicked)
     ### Need Device ###
     """
     #Create dictionary to hold offer information
-    completed_offer_dict = {'offer_title':[],'coins_earned':[],'date_completed':[]}
+    completed_offer_dict = {'offer_title':[],'coins_earned':[],'date_completed':[],'status':[]}
 
     #Navigate to reward status page
     try:
-        #Wait for hamburger button to appear
+        #Wait for Cash Icon button to appear
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "hamburger-button")))
+            EC.presence_of_element_located((By.XPATH, "//i[@class='far fa-money-bill-alt']")))
         #Explicit Wait
         time.sleep(1)
         #Click button
-        driver.find_element(by=By.ID,value='hamburger-button').click()
-
-        #Wait for reward status button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "sidebar-status")))
+        driver.find_element(by=By.XPATH,value="//i[@class='far fa-money-bill-alt']").click()
         #Explicit wait
         time.sleep(1)
-        #Click button
-        driver.find_element(by=By.ID,value='sidebar-status').click()
     except Exception as err:
         print(f"'Error: {err}'")
 
-    #Attempt to scrape - Fails if offers are not marked as 'Complete' yet
+    #Attempt to scrape completed offer information from webpage
     try:
-        #Wait for completed page to render
+        #Wait for Cash Icon button to appear
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "user-status")))
-        #Explicit wait
+            EC.presence_of_element_located((By.XPATH, "//i[@class='far fa-money-bill-alt']")))
+        #Explicit Wait
         time.sleep(1)
-        #Extract completed offer info
-        completed_offer_info = driver.find_elements(By.XPATH, "//div[@id='user-status']")[0]
+        #Extract raw completed offer info
+        completed_offer_info = driver.find_element(by=By.ID,value="earnings_table").get_attribute('innerText')
 
         ############# LOGIC BLOCK ##############
-        #Get actual text from webpage
-        completed_offer_text = completed_offer_info.text
         #Split the text
-        split_completed_offer_info = completed_offer_text.split('\n')
-        #Chunk the text for insert into dictionary
-        chunked_completed_list = utils.chunked_iterable(split_completed_offer_info, 4)
+        split_completed_offer_info = completed_offer_info.split('\n')
+        for lines in split_completed_offer_info:
+            line_split = lines.split('\t')
+            #Chunk the text for insert into dictionary
+            chunked_completed_list = utils.chunked_iterable(line_split, 4)
         #Insert values to dictionary
-        for chunks in chunked_completed_list:
-            completed_offer_dict['offer_title'].append(chunks[1])
-            completed_offer_dict['coins_earned'].append(chunks[2])
-            completed_offer_dict['date_completed'].append(chunks[3])
-        ############# LOGIC BLOCK ##############
+            for chunks in chunked_completed_list:
+                completed_offer_dict['date_completed'].append(chunks[0])
+                completed_offer_dict['offer_title'].append(chunks[1])
+                completed_offer_dict['coins_earned'].append(chunks[2])
+                completed_offer_dict['status'].append(chunks[3])
+            ############# LOGIC BLOCK ##############
 
         return completed_offer_dict
     except Exception as err:
@@ -180,78 +176,17 @@ def create_completed_offer_dataframe(completed_offer_dict):
     """
     This function returns the completed offer dict as a pandas DataFrame.
     """
-    completed_offer_dataframe = pd.DataFrame.from_dict(completed_offer_dict)
+    completed_offer_dataframe = pd.DataFrame.from_dict(completed_offer_dict).drop(index=0)
     return completed_offer_dataframe
 
-def parse_pending_offer_info(driver):
-    """
-    This function parses through the OfferToro offerwall text and extracts:
-    1. Pending Offer Titles
-    2. Pending Offer Description
-    3. Pending Start Date/Time
-    """
-    #Create dictionary to hold offer information
-    pending_offer_dict = {'pending_offer_title':[],'offer_description':[],'date_completed':[]}
+# def parse_pending_offer_info(driver):
+#     """
+#     Offertoro does not have a "pending" section. However, it may be possible to discern
+#     this information given the 'Status' of the offer.
+#     """
 
-    #Navigate to pending status page
-    try:
-        #Wait for hamburger button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "hamburger-button")))
-        #Explicit Wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.ID,value='hamburger-button').click()
-
-        #Wait for reward status button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "sidebar-status")))
-        #Explicit wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.ID,value='sidebar-status').click()
-
-        #Wait for Pending button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "tabs-menu")))
-        #Explicit wait
-        time.sleep(1)
-        #Click button
-        driver.find_elements(By.XPATH, "//li[@href='#pending']")[0].click()
-    except Exception as err:
-        print(f"'Error: {err}'")
-
-    #Attempt to scrape pending offers
-    try:
-        #Wait for pending page to render
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "user-status")))
-        #Explicit wait
-        time.sleep(1)
-        #Extract pending offer info
-        pending_offer_info = driver.find_elements(By.XPATH, "//div[@id='user-status']")[0]
-
-        ############# LOGIC BLOCK ##############
-        #Get actual text from webpage
-        pending_offer_text = pending_offer_info.text
-        #Split the text
-        split_pending_offer_info = pending_offer_text.split('\n')
-        #Chunk the text for insert into dictionary
-        chunked_pending_list = utils.chunked_iterable(split_pending_offer_info, 4)
-        #Insert values to dictionary
-        for chunks in chunked_pending_list:
-            pending_offer_dict['pending_offer_title'].append(chunks[1])
-            pending_offer_dict['offer_description'].append(chunks[2])
-            pending_offer_dict['date_completed'].append(chunks[3])
-        ############# LOGIC BLOCK ##############
-
-        return pending_offer_dict
-    except Exception as err:
-        print(f"'Unhandled Error: %{err}'")
-
-def create_pending_offer_dataframe(pending_offer_dict):
-    """
-    This function returns the pending offer dict as a pandas DataFrame.
-    """
-    pending_offer_dataframe = pd.DataFrame.from_dict(pending_offer_dict)
-    return pending_offer_dataframe
+# def create_pending_offer_dataframe(pending_offer_dict):
+#     """
+#     Offertoro does not have a "pending" section. However, it may be possible to discern
+#     this information given the 'Status' of the offer.
+#     """
