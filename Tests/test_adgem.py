@@ -95,24 +95,24 @@ class TestBaselineAdgem:
     #     assert ['apple' and 'android' and 'desktop'] in offer_device_vals
 
 
-@pytest.mark.usefixtures("setup_main_user_adgem_page")
-class TestMainUserAdgem:
-    """
-    Main User Adgem Offerwall test suite
-    """
-    def test_access_adgem_offerwall_main(self,setup_main_user_adgem_page):
-        """
-        Tests if able to successfully open Adgem Offerwall
-        """
-        assert setup_main_user_adgem_page.current_url == os.environ['ADGEM']
+# @pytest.mark.usefixtures("setup_main_user_adgem_page")
+# class TestMainUserAdgem:
+  # """
+  #  Main User Adgem Offerwall test suite
+  #  """
+  #  def test_access_adgem_offerwall_main(self,setup_main_user_adgem_page):
+  #      """
+  #      Tests if able to successfully open Adgem Offerwall
+  #      """
+  #      assert setup_main_user_adgem_page.current_url == os.environ['ADGEM']
 
-    def test_adgem_device_list(self,setup_main_user_adgem_page):
-        """
-        Tests if device list has expected values on Adgem Main Page
-        """
-        device_list = setup_main_user_adgem_page.find_elements(By.XPATH,"//div[@class = 'col-sm-4 text-center ']/div")
-        text_check = [device_names.text for device_names in device_list]
-        assert ('Android' and 'iPhone' and 'iPad') in text_check
+  #  def test_adgem_device_list(self,setup_main_user_adgem_page):
+  #      """
+  #      Tests if device list has expected values on Adgem Main Page
+  #      """
+  #      device_list = setup_main_user_adgem_page.find_elements(By.XPATH,"//div[@class = 'col-sm-4 text-center ']/div")
+  #      text_check = [device_names.text for device_names in device_list]
+  #      assert ('Android' and 'iPhone' and 'iPad') in text_check
 
     # def test_parsed_completed_offer_info_is_dict(self):
     #     """
