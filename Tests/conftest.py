@@ -10,6 +10,7 @@ sys.path.append('./Functions')
 import ayet_info
 import adgem_info
 import offertoro_info
+import revu_info
 
 @pytest.fixture(scope="class",autouse=False)
 def setup_raw_ayet_page(request):
@@ -76,3 +77,25 @@ def setup_main_user_toro_page(request):
     toro_main_page.maximize_window()
     yield toro_main_page
     toro_main_page.close()
+
+@pytest.fixture(scope="class",autouse=False)
+def setup_raw_revu_page(request):
+    """
+    Set OfferToro page as fixture using baseline Offerrevu offerwall
+    """
+    offerwall_version = 'MASTER_REVU'
+    revu_base_page = revu_info.start_driver_and_open_revu(offerwall_version)
+    revu_base_page.maximize_window()
+    yield revu_base_page
+    revu_base_page.close()
+
+@pytest.fixture(scope="class",autouse=False)
+def setup_main_user_revu_page(request):
+    """
+    Set OfferToro page as fixture using main user OfferToro offerwall
+    """
+    offerwall_version = 'REVU'
+    revu_main_page = revu_info.start_driver_and_open_revu(offerwall_version)
+    revu_main_page.maximize_window()
+    yield revu_main_page
+    revu_main_page.close()
