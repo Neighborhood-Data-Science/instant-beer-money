@@ -35,39 +35,36 @@ class TestBaselineAdgem:
         assert isinstance(offer_dict, dict)
 
 
-    # def test_parsed_offer_info_is_equal(self):
-    #     """
-    #     Tests if length of key:value pairs in offer dict are
-    #     the same size across all key:value lists.
-    #     """
-    #     full_adgem_page = self.adgem_base_page
-    #     offer_dict = adgem_info.parse_available_offer_information(full_adgem_page)
-    #     key_list = list(offer_dict.keys())
-    #     assert len(offer_dict.get(key_list[0])) ==  \
-    #         len(offer_dict.get(key_list[1])) ==     \
-    #         len(offer_dict.get(key_list[2])) ==     \
-    #         len(offer_dict.get(key_list[3])) ==     \
-    #         len(offer_dict.get(key_list[4]))
+    def test_parsed_offer_info_is_equal(self,setup_raw_adgem_page):
+        """
+        Tests if length of key:value pairs in offer dict are
+        the same size across all key:value lists.
+        """
+        offer_dict = adgem_info.parse_available_offer_information(setup_raw_adgem_page)
+        key_list = list(offer_dict.keys())
+        assert len(offer_dict.get(key_list[0])) ==  \
+            len(offer_dict.get(key_list[1])) ==     \
+            len(offer_dict.get(key_list[2])) ==     \
+            len(offer_dict.get(key_list[3])) ==     \
+            len(offer_dict.get(key_list[4]))
 
 
-    # def test_parsed_offer_info_dict_size(self,size=5):
-    #     """
-    #     Tests if resulting offer dictionary is the correct size.
-    #     Should have length of (5) [keys].
-    #     """
-    #     full_adgem_page = self.adgem_base_page
-    #     offer_dict = adgem_info.parse_available_offer_information(full_adgem_page)
-    #     assert len(offer_dict) == size
+    def test_parsed_offer_info_dict_size(self,setup_raw_adgem_page,size=5):
+        """
+        Tests if resulting offer dictionary is the correct size.
+        Should have length of (5) [keys].
+        """
+        offer_dict = adgem_info.parse_available_offer_information(setup_raw_adgem_page)
+        assert len(offer_dict) == size
 
 
-    # def test_parsed_dataframe_is_dataframe(self):
-    #     """
-    #     Tests if resultant dataframe is type dataframe.
-    #     """
-    #     full_adgem_page = self.adgem_base_page
-    #     offer_dict = adgem_info.parse_available_offer_information(full_adgem_page)
-    #     offer_dataframe = adgem_info.create_available_offer_dataframe(offer_dict)
-    #     assert isinstance(offer_dataframe, pd.DataFrame)
+    def test_parsed_dataframe_is_dataframe(self, setup_raw_adgem_page):
+        """
+        Tests if resultant dataframe is type dataframe.
+        """
+        offer_dict = adgem_info.parse_available_offer_information(setup_raw_adgem_page)
+        offer_dataframe = adgem_info.create_available_offer_dataframe(offer_dict)
+        assert isinstance(offer_dataframe, pd.DataFrame)
 
 
     # def test_values_in_multiple_rewards(self):
@@ -95,24 +92,24 @@ class TestBaselineAdgem:
     #     assert ['apple' and 'android' and 'desktop'] in offer_device_vals
 
 
-@pytest.mark.usefixtures("setup_main_user_adgem_page")
-class TestMainUserAdgem:
-    """
-    Main User Adgem Offerwall test suite
-    """
-    def test_access_adgem_offerwall_main(self,setup_main_user_adgem_page):
-        """
-        Tests if able to successfully open Adgem Offerwall
-        """
-        assert setup_main_user_adgem_page.current_url == os.environ['ADGEM']
+# @pytest.mark.usefixtures("setup_main_user_adgem_page")
+# class TestMainUserAdgem:
+  # """
+  #  Main User Adgem Offerwall test suite
+  #  """
+  #  def test_access_adgem_offerwall_main(self,setup_main_user_adgem_page):
+  #      """
+  #      Tests if able to successfully open Adgem Offerwall
+  #      """
+  #      assert setup_main_user_adgem_page.current_url == os.environ['ADGEM']
 
-    def test_adgem_device_list(self,setup_main_user_adgem_page):
-        """
-        Tests if device list has expected values on Adgem Main Page
-        """
-        device_list = setup_main_user_adgem_page.find_elements(By.XPATH,"//div[@class = 'col-sm-4 text-center ']/div")
-        text_check = [device_names.text for device_names in device_list]
-        assert ('Android' and 'iPhone' and 'iPad') in text_check
+  #  def test_adgem_device_list(self,setup_main_user_adgem_page):
+  #      """
+  #      Tests if device list has expected values on Adgem Main Page
+  #      """
+  #      device_list = setup_main_user_adgem_page.find_elements(By.XPATH,"//div[@class = 'col-sm-4 text-center ']/div")
+  #      text_check = [device_names.text for device_names in device_list]
+  #      assert ('Android' and 'iPhone' and 'iPad') in text_check
 
     # def test_parsed_completed_offer_info_is_dict(self):
     #     """
