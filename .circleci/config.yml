@@ -42,7 +42,6 @@ jobs:
           # This assumes pytest is installed via the install-package step above
           command: 
             mkdir -p test-results
-            
             pytest --junitxml=test-results/unit_tests.xml
             
       - store_test_results:
