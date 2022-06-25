@@ -121,7 +121,7 @@ def parse_completed_offer_info(driver):
     """
     This function parses through the OfferToro offerwall text and extracts:
     1. Completed Offer Titles
-    2. Completed Offer Date
+    2. Completed Offer Date 
     3. Completed Offer Amount
     4. Offer Status (Complete, Review, Clicked)
     ### Need Device ###
@@ -152,25 +152,29 @@ def parse_completed_offer_info(driver):
         time.sleep(1)
         #Extract raw completed offer info
         completed_offer_info = driver.find_element(by=By.ID,value="earnings_table").get_attribute('innerText')
-
         ############# LOGIC BLOCK ##############
         #Split the text
         split_completed_offer_info = completed_offer_info.split('\n')
+
         for lines in split_completed_offer_info:
             line_split = lines.split('\t')
             #Chunk the text for insert into dictionary
             chunked_completed_list = utils.chunked_iterable(line_split, 4)
+            print(chunked_completed_list)
         #Insert values to dictionary
             for chunks in chunked_completed_list:
-                completed_offer_dict['date_completed'].append(chunks[0])
-                completed_offer_dict['offer_title'].append(chunks[1])
-                completed_offer_dict['coins_earned'].append(chunks[2])
-                completed_offer_dict['status'].append(chunks[3])
+                if chunks[0] == 'Missing Credits?':
+                    pass
+                else:
+                    completed_offer_dict['date_completed'].append(chunks[0])
+                    completed_offer_dict['offer_title'].append(chunks[1])
+                    completed_offer_dict['coins_earned'].append(chunks[2])
+                    completed_offer_dict['status'].append(chunks[3])
             ############# LOGIC BLOCK ##############
-
         return completed_offer_dict
     except Exception as err:
         print(f"'Unhandled Error: %{err}'")
+
 
 def create_completed_offer_dataframe(completed_offer_dict):
     """
