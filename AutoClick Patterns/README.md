@@ -14,6 +14,6 @@ This section will serve as storage for AutoClick Patterns created using the [Sma
 # Game Guides
 These game guides will explain the scenarios built into the click pattern and the general flow of the click pattern.
 
-### CryptoMagnet
+### [CryptoMagnet](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/f/add_click_patterns/AutoClick%20Patterns/Games/CryptoMagnet)
 
-### The Eat Repeat
+### [The Eat Repeat](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/f/add_click_patterns/AutoClick%20Patterns/Games/The%20Eat%20Repeat)
