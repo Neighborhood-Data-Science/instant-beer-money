@@ -12,14 +12,14 @@ Ensure that you go through the scenarios below by hand at least once before acti
 
 ## Scenario Walkthrough
 
-Scenarios are based on what is currently seen on your devices screen. Therefore, you can make decisions based on certain things that are present (or not) on your screen. 
+Scenarios are based on what is currently seen on your device's screen. Therefore, you can make decisions based on certain things that are present (or not) on your screen.
 
 Scenarios are executed from top to bottom. In this way, they act as logic gates based on what is currently seen on the screen.
 
-Our goal in CryptoMagent is to reach 10,000 (10K) meters.
-However, once you reach a certain depth, it will cost you billions of dollars to pay for one depth upgrade.
+Our goal in CryptoMagent is to reach 10,000 (10K) meters. However, once you reach a certain depth, paying for one depth upgrade will cost you billions of dollars.
 
-**Our advantage is that we can watch ads to gain a free depth upgrade.**
+Our advantage is that we can watch ads for a free depth upgrade.
+
 
 ### Here are our scenarios:
 
