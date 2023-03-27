@@ -4,6 +4,8 @@
 
 Please download the above zip file and upload to Smart AutoClicker.
 
+Once scenarios are verified, start the script for CryptoMagnet.
+
 _DISCLAIMER: This AutoClick pattern was programmed on a Google Pixel 6.
 Therefore, the location of the images may not be in the same location. 
 Ensure that you go through the scenarios below by hand at least once before activating the AutoClicker._
@@ -40,7 +42,7 @@ However, once you reach a certain depth, it will cost you billions of dollars to
         1. Resume the video 
         2. Wait 15 seconds before trying to close the ad again.
 
-FlowChart:
+#### Flowchart:
 ```mermaid
 graph TD;
     A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
@@ -60,3 +62,9 @@ graph TD;
     N-->|Yes|O(Click outside prompt);
     O-->|Wait|T(Click 'Claim' or 'No thanks' to continue.);
     T-->B{Ad for Depth?};
+```
+Please add additional screenshots and scenarios as needed. For example, the 'Close Ads' scenario will need to be updated as new ads are introduced to the game.
+
+We did our best to capture various ad exit symbols but add more as you monitor the AutoClicker.
+
+**Please monitor your AutoClicker.** There may be unexpected results if left unattended for long periods. 
