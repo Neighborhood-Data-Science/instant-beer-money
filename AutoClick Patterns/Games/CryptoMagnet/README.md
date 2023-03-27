@@ -18,7 +18,7 @@ Scenarios are executed from top to bottom. In this way, they act as logic gates 
 
 Our goal in CryptoMagent is to reach 10,000 (10K) meters. However, once you reach a certain depth, paying for one depth upgrade will cost you billions of dollars.
 
-Our advantage is that we can watch ads for a free depth upgrade.
+**Our advantage is that we can watch ads for a free depth upgrade.**
 
 
 ### Here are our scenarios:
@@ -29,18 +29,21 @@ Our advantage is that we can watch ads for a free depth upgrade.
     If an 'AD' button appears on the depth upgrade, click on the button to watch an ad.
 
 #### 2. No Revive
-    If you 'fail' and the 'Revive' prompt appears, click outside the prompt to continue the game
+    If you 'fail' and the 'Revive' prompt appears, click outside the prompt to continue the game  
 
-#### 3. Continue game
+#### 3. Claim or No Thanks
+    If there is a prompt to click 'Claim' or 'No Thanks', click the prompt. 
+    
+#### 4. Continue game
     If there is no Ad for Depth, continue playing the game.
-
-#### 4. Close Ads
-    If we are watching an ad, attempt to close the ad once the timer has expired.
 
 #### 5. Resume Video
     If we attempt to close an ad and are met with a 'Resume or Skip' prompt:
         1. Resume the video 
         2. Wait 15 seconds before trying to close the ad again.
+
+#### 6. Close Ads
+    If we are watching an ad, attempt to close the ad once the timer has expired.
 
 #### Flowchart:
 ```mermaid
@@ -48,9 +51,9 @@ graph TD;
     A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
     B-->|Yes|C(Watch Ad);
     B-->|No|G(Continue Game);
-    C-->|Watching Ad|F(Close Ad);
+    C-->|Wait until complete|F(Close Ad);
     F-->I{Did Ad Close?};
-    I-->|No|K(Resume Video)-->P{Google prompt?};
+    I-->|No|P{Google prompt?};
     I-->|Yes|B{Ad for Depth?};
     P-->|Yes|Q(Click Resume)-->R(Wait 15s);
     P-->|No|S(Wait);
