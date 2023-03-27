@@ -49,15 +49,20 @@ graph TD;
     C-->|Click on 'AD' button|E(Watch Ad);
     E-->|Watching Ad|F(Close Ad);
     F-->I{Did Ad Close?};
-    I-->J(Yes);
     I-->K(No);
-    K-->P{Resume Google Video?};
-    J-->B(Ad for Depth?);
+    I-->|Yes|B(Ad for Depth?);
+    K-->P{Google prompt?};
+    P-->|No|S(Wait);
+    P-->|Yes|Q(Click Resume)-->R(Wait 15s);
+    R-->F(Close Ad);
     D-->G(Continue Game);
     G-->L{Game Over?};
     L-->M(Yes);
-    M-->|Revive prompt|N(Click outside prompt);
-    N-->|Wait|O(Click 'Claim' or 'No thanks' to continue.);
+    M-->N{Revive Prompt?};
+    N-->|Yes|O(Click outside prompt);
+    N-->|No|T(Click 'Claim' or 'No thanks' to continue.);
+    O-->|Wait|T(Click 'Claim' or 'No thanks' to continue.);
     O-->B(Ad for Depth?);
+    T-->B(Ad for Depth?);
     
     ```
