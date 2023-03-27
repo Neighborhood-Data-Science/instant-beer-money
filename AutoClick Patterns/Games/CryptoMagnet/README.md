@@ -20,6 +20,7 @@ Our goal in CryptoMagent is to reach 10,000 (10K) meters. However, once you reac
 
 **Our advantage is that we can watch ads for a free depth upgrade.**
 
+In summary, if we see a prompt to watch an ad for a free depth upgrade, we will watch the ad, otherwise, we will continue to play the game.
 
 ### Here are our scenarios:
 
@@ -56,7 +57,7 @@ graph TD;
     I-->|No|P{Google prompt?};
     I-->|Yes|B{Ad for Depth?};
     P-->|Yes|Q(Click Resume)-->R(Wait 15s);
-    P-->|No|S(Wait);
+    P-->|No|S(Update Scenario);
     R-->F(Close Ad);
     G-->L{Game Over?};
     L-->|Yes|N{Revive Prompt?};
