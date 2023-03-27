@@ -8,14 +8,13 @@ The goal is to provide an easy to digest dashboard that tracks your offers, mone
 
 ### Sign up using the referral links below and start completing the offers found in the [Guide](Guides/README.md)
 
-[Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone) - Referral code: `brandonsavone`
-
 [FreeCash Referral Link](https://freecash.com/r/therealinkyb) - Referral code: `therealinkyb`
 
-[JustEarn Referral Link](https://justearn.gg/3FD649) - Referral code: `3FD649`
+[Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone) - Referral code: `brandonsavone`
 
-[GG2U Referral Link](https://premium.gg2u.org?referrer=dmcinkyb) - Referral code: `dmcinkyb`
+# Recommended Tools
 
-[Casheo Referral Link](https://casheo.co/C3546F) - Referral code: `C3546F`
+## Android Users:
+I recommend using the [Smart Auto-Clicker by Nain](https://github.com/Nain57/Smart-AutoClicker).
 
-[Chequity Referral Link](https://chequity.io/ref/1279501A) - Referral code: `1279501A`
+You can find various base patterns and more information in the [AutoClick Patterns Folder](https://github.com/Neighborhood-Data-Science/instant-beer-money/blob/f/add_click_patterns/AutoClick%20Patterns/README.md).
