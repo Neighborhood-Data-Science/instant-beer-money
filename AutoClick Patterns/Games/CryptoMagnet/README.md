@@ -43,26 +43,20 @@ However, once you reach a certain depth, it will cost you billions of dollars to
 FlowChart:
 ```mermaid
 graph TD;
-    A[Start Clicker]-->|Watching Screen|B(Ad for Depth?);
-    B-->C(Yes);
-    B-->D(No);
-    C-->|Click on 'AD' button|E(Watch Ad);
-    E-->|Watching Ad|F(Close Ad);
+    A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
+    B-->|Yes|C(Watch Ad);
+    B-->|No|G(Continue Game);
+    C-->|Watching Ad|F(Close Ad);
     F-->I{Did Ad Close?};
-    I-->K(No);
-    I-->|Yes|B(Ad for Depth?);
-    K-->P{Google prompt?};
-    P-->|No|S(Wait);
+    I-->|No|K(Resume Video)-->P{Google prompt?};
+    I-->|Yes|B{Ad for Depth?};
     P-->|Yes|Q(Click Resume)-->R(Wait 15s);
+    P-->|No|S(Wait);
     R-->F(Close Ad);
-    D-->G(Continue Game);
     G-->L{Game Over?};
-    L-->M(Yes);
-    M-->N{Revive Prompt?};
-    N-->|Yes|O(Click outside prompt);
+    L-->|Yes|N{Revive Prompt?};
+    L-->|No|G(Continue Game);
     N-->|No|T(Click 'Claim' or 'No thanks' to continue.);
+    N-->|Yes|O(Click outside prompt);
     O-->|Wait|T(Click 'Claim' or 'No thanks' to continue.);
-    O-->B(Ad for Depth?);
-    T-->B(Ad for Depth?);
-    
-    ```
+    T-->B{Ad for Depth?};
