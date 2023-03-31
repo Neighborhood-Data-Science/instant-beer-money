@@ -52,19 +52,19 @@ graph TD;
     A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
     B-->|Yes|C(Watch Ad);
     B-->|No|D(Continue Game);
-    C-->|Wait until complete|E(Close Ad);
+    C-->|Wait until complete|E[[Close Ads]]
     E-->F{Did Ad Close?};
     F-->|No|G{Google prompt?};
-    F-->|Yes|B{Ad for Depth?};
-    G-->|Yes|H(Click Resume)-->I(Wait 15s);
+    F-->|Yes|B;
+    G-->|Yes|H[[Resume Video]];
+    H-->E[[Close Ads]];
     G-->|No|J(Update Scenario);
-    I-->E(Close Ad);
     D-->K{Game Over?};
     K-->|Yes|L{Revive Prompt?};
     K-->|No|D(Continue Game);
-    L-->|No|M(Click 'Claim' or 'No thanks' to continue.);
-    L-->|Yes|N(Click outside prompt);
-    N-->|Wait|M(Click 'Claim' or 'No thanks' to continue.);
+    L-->|No|M;
+    L-->|Yes|N[[No Revive]];
+    N-->M[[Claim or No Thanks]];
     M-->B;
 ```
 Please add additional screenshots and scenarios as needed. For example, the 'Close Ads' scenario will need to be updated as new ads are introduced to the game.
