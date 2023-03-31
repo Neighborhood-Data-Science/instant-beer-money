@@ -50,18 +50,18 @@ In summary, if we see a prompt to watch an ad for a free depth upgrade, we will 
 ```mermaid
 graph TD;
     A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
-    B-->|Yes|C(Watch Ad);
-    B-->|No|D(Continue Game);
+    B-->|Yes|C{{Watch Ad}};
+    B-->|No|D[[Continue Game]];
     C-->|Wait until complete|E[[Close Ads]]
     E-->F{Did Ad Close?};
     F-->|No|G{Google prompt?};
     F-->|Yes|B;
     G-->|Yes|H[[Resume Video]];
     H-->E[[Close Ads]];
-    G-->|No|J(Update Scenario);
+    G-->|No|J{{Update Scenario}};
     D-->K{Game Over?};
     K-->|Yes|L{Revive Prompt?};
-    K-->|No|D(Continue Game);
+    K-->|No|D;
     L-->|No|M;
     L-->|Yes|N[[No Revive]];
     N-->M[[Claim or No Thanks]];

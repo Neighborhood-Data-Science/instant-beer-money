@@ -46,7 +46,7 @@ In summary, if we see a prompt to watch an ad for a free depth upgrade, we will 
 #### 6. Close Ads
     If we are watching an ad, attempt to close the ad once the timer has expired.
 
-#### 6. Exit Store
+#### 7. Exit Store
     If our bot attempts to close ad and it opens the app store instead:
         1. Press back button to return to app store main screen.
         2. Swipe left-to-right on screen to return to the ad before trying to close the ad again.
@@ -55,21 +55,21 @@ In summary, if we see a prompt to watch an ad for a free depth upgrade, we will 
 ```mermaid
 graph TD;
     A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
-    B-->|Yes|C(Watch Ad);
-    B-->|No|D(Continue Game);
+    B-->|Yes|C{{Watch Ad}};
+    B-->|No|D[[Continue Game]];
     C-->|Wait until complete|E[[Close Ads]]
     E-->F{Did Ad Close?};
     F-->|No|G{Google prompt?};
     F-->|Yes|B{Ad for Depth?};
-    G-->|Yes|H[[Resume Video]];
     H-->E[[Close Ads]];
     G-->|No|J{In App Store?};
-    J-->|No|P(Update Scenario);
+    G-->|Yes|H[[Resume Video]];
+    J-->|No|P{{Update Scenario}};
     J-->|Yes|O[[Exit Store]];
     O-->E;
     D-->K{Game Over?};
     K-->|Yes|L{Revive Prompt?};
-    K-->|No|D(Continue Game);
+    K-->|No|D;
     L-->|No|M;
     L-->|Yes|N[[No Revive]];
     N-->M[[Claim or No Thanks]];
