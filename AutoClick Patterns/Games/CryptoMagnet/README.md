@@ -16,7 +16,7 @@ Scenarios are based on what is currently seen on your device's screen. Therefore
 
 Scenarios are executed from top to bottom. In this way, they act as logic gates based on what is currently seen on the screen.
 
-Our goal in CryptoMagent is to reach 10,000 (10K) meters. However, once you reach a certain depth, paying for one depth upgrade will cost you billions of dollars.
+Our goal in CryptoMagnet is to reach 10,000 (10K) meters. However, once you reach a certain depth, paying for one depth upgrade will cost you billions of dollars.
 
 **Our advantage is that we can watch ads for a free depth upgrade.**
 
@@ -51,21 +51,21 @@ In summary, if we see a prompt to watch an ad for a free depth upgrade, we will 
 graph TD;
     A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
     B-->|Yes|C(Watch Ad);
-    B-->|No|G(Continue Game);
-    C-->|Wait until complete|F(Close Ad);
-    F-->I{Did Ad Close?};
-    I-->|No|P{Google prompt?};
-    I-->|Yes|B{Ad for Depth?};
-    P-->|Yes|Q(Click Resume)-->R(Wait 15s);
-    P-->|No|S(Update Scenario);
-    R-->F(Close Ad);
-    G-->L{Game Over?};
-    L-->|Yes|N{Revive Prompt?};
-    L-->|No|G(Continue Game);
-    N-->|No|T(Click 'Claim' or 'No thanks' to continue.);
-    N-->|Yes|O(Click outside prompt);
-    O-->|Wait|T(Click 'Claim' or 'No thanks' to continue.);
-    T-->B{Ad for Depth?};
+    B-->|No|D(Continue Game);
+    C-->|Wait until complete|E(Close Ad);
+    E-->F{Did Ad Close?};
+    F-->|No|G{Google prompt?};
+    F-->|Yes|B{Ad for Depth?};
+    G-->|Yes|H(Click Resume)-->I(Wait 15s);
+    G-->|No|J(Update Scenario);
+    I-->E(Close Ad);
+    D-->K{Game Over?};
+    K-->|Yes|L{Revive Prompt?};
+    K-->|No|D(Continue Game);
+    L-->|No|M(Click 'Claim' or 'No thanks' to continue.);
+    L-->|Yes|N(Click outside prompt);
+    N-->|Wait|M(Click 'Claim' or 'No thanks' to continue.);
+    M-->B;
 ```
 Please add additional screenshots and scenarios as needed. For example, the 'Close Ads' scenario will need to be updated as new ads are introduced to the game.
 
