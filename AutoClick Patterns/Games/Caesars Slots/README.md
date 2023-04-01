@@ -6,8 +6,8 @@ Please download the above zip file and upload to Smart AutoClicker.
 
 Once scenarios are verified, start the script for Caesars Slots.
 
-_DISCLAIMER: This AutoClick pattern was programmed on a Google Pixel 6.
-Therefore, the location of the images may not be in the same location. 
+_DISCLAIMER: This AutoClick pattern was programmed on a **Google Pixel 5**.
+Therefore, the location of the images may not be in the same location on your device. 
 Ensure that you go through the scenarios below by hand at least once before activating the AutoClicker._
 
 ## Scenario Walkthrough
@@ -18,31 +18,36 @@ Scenarios are executed from top to bottom. In this way, they act as logic gates 
 
 Our goal in Caesars Slots is to reach a specific player level. The only way to reach the next level is to gain XP by playing the game for a set bet amount. The higher your bet amount, the more XP you will earn per spin. 
 
-As such, it is recommended that you betbetween 0.5% and 1.5% of your account size at all times. 
+As such, it is recommended that you bet between 0.5% and 1.5% of your account size at all times:<br><br>
 
-$BetSize = 0.5\% \le AccountSize \le 1.5\%$
+## $AccountSize \times0.5\% \le BetSize \le AccountSize \times1.5\%$
 
-You should also take advantage of the x2, x3, or x4 XP offers available to purchase. This will allow you to reach the next levels faster while still conserving the approriate risk levels.
+You should also take advantage of the x2, x3, or x4 XP offers available to purchase. This will allow you to reach the next levels faster while still conserving the approriate risk levels.<br><br>
 
+In general:
 
-So:
-
-### $Level_i = i,$ where $i \in \mathbb{N}_1$ and $i \in \int_1^{\infty} f(x)dx + f(y)dy$<br><br>
-
-## $f(x) = TotalXP_{x-1},$ where $x \in \mathbb{N}_1$<br><br>
+## $Level_i = i,$ where $i \in \mathbb{N}_{>0}$, $i=g(f(x))\Rightarrow i=x$<br><br>
 
 
-## $f(y) = f(x) + \frac{(BetSize_y \times XPBonus)}{NextLevelXP_y}$<br><br>
+## $g(x) = \begin{cases} x, & \text{if } f(x)=x\\g(f(x)), & \text{otherwise}\end{cases}$<br><br>
 
-Note that $TotalXP$ is $\sum_{x=1}^\infty NextLeveXP_x$ and $NextLeveXP$ is calculated within Caesars Slots.
+## $f(x) = \sum_{j=1}^{x} LevelReached_{j-1} + \begin{cases} 1, & \text{if } \frac{(BetSize \times XPBonus)}{NextLevelXP_j} \ge 1 \\0, & \text{otherwise}\end{cases}, \quad x \in \mathbb{N}_{>0}$<br><br>
 
 
 
-To my knowledge, there is no current table that contains the XP required to reach the next level.
+The first statement defines $Level_i$ to be equal to $i$ such that when $i$ is computed as $g(f(x))$, it equals $x$. In other words, the recursive function $g(x)$ is used to determine the correct input value of $x$ such that $Level_i$ is equal to $i$.<br>
 
-**Our advantage is that we can auto spin slots and automatically play bonus games if necessary.**
+The second statement defines the recursive function $g(x)$ that outputs either $x$ if $f(x)$ equals $x$, or recursively calls itself with $f(x)$ as the input until $f(x) = x$.<br>
 
-In summary, our bot will play the slot games 24/7 and adjust the bet size accordingly using OpenCV.
+The final statement is a formula for determining if the player has reached the next level by obtaining the appropriate experience points (XP), denoted by $f(x)$. The formula is defined by a summation of the levels reached up to $x$ (i.e., $\sum_{j=1}^{x} LevelReached_{j-1}$), plus a bonus of $1$ if the ratio of the bet size and the XP bonus to the XP required for the next level is greater than or equal to $1$ (i.e., $\frac{(BetSize \times XPBonus)}{NextLevelXP_j} \ge 1$), and $0$ otherwise.<br><br>
+
+_Note that $NextLevelXP_j$ is calculated within Caesars Slots._<br><br>
+
+To my knowledge, there is no current table that contains the XP required to reach the next level.<br><br>
+
+## **Our advantage is that we can auto spin slots and automatically play bonus games if necessary.**
+
+In summary, our bot will play a selected slot game (Wild Howl or Wild Howl Deluxe), participate in bonus game (Nevada Snaps), and close necessary windows to continue playing the game.
 
 ### Here are our scenarios:
 
