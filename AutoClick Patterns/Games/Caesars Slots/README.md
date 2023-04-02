@@ -44,37 +44,33 @@ To my knowledge, there is no current table that contains the XP required to reac
 
 ### **Our advantage is that we can auto spin slots and automatically play bonus games if necessary.**
 
-In summary, our bot will play a selected slot game (Wild Howl or Wild Howl Deluxe), participate in bonus game (Nevada Snaps), and close necessary windows to continue playing the game.
+In summary, our bot will play a slot game, participate in a bonus game (Nevada Snaps), and close necessary windows to continue playing the slot game.
 
 ### Here are our scenarios:
 
 ---
 
-#### 1. Ad for Depth
-    If an 'AD' button appears on the depth upgrade, click on the button to watch an ad.
+#### 1. Start Nevada Snaps
+    If the bonus game is playable, start the game.
 
-#### 2. No Revive
-    If you 'fail' and the 'Revive' prompt appears, click outside the prompt to continue the game.
+#### 2. Play Nevada Snaps
+    If playing Nevada Snaps:
+        1. Click the 'snap' button.
+        2. Wait then click the 'collect' button.
+        3. Close the menu.
 
-#### 3. Claim or No Thanks
-    If there is a prompt to click 'Claim' or 'No Thanks', click the prompt. 
+#### 3. Spin and Stop
+    If there is no bonus game playable, spin and manually stop the slot machine. 
     
-#### 4. Continue game
-    If there is no Ad for Depth, continue playing the game.
+#### 4. Start Mini
+    Click the 'Start' prompt to start playing the slot mini game.
 
-#### 5. Resume Video
-    If we attempt to close an ad and are met with a 'Resume or Skip' prompt:
-        1. Resume the video.
-        2. Wait 15 seconds before trying to close the ad again.
-
-#### 6. Close Ads
-    If we are watching an ad, attempt to close the ad once the timer has expired.
-
-#### 7. Exit Store
-    If our bot attempts to close ad and it opens the app store instead:
-        1. Press back button to return to app store main screen.
-        2. Swipe left-to-right on screen to return to the ad before trying to close the ad again.
-
+#### 5. Continue Game
+    Continue playing the game by clicking 'Back to Game' , 'Claim Prize', or 'Collect' prompts.
+    
+#### 6. Close Menu
+    Close any extra menus that pop up while playing or collecting rewards.
+    
 #### Flowchart:
 ```mermaid
 graph TD;
