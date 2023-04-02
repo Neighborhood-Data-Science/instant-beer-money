@@ -78,9 +78,21 @@ graph TD;
     B-->|Yes|C[[Start Nevada Snaps]];
     C-->D[[Play Nevada Snaps]];
     B-->|No|E[[Spin and Stop]];
+    E-->F{Mini Game?};
+    F-->|No|I;
+    F-->|Yes|G[[Start Mini]];
+    G-->|Finish Mini|H[[Continue Game]];
+    H-->I{Random Menu?};
+    D-->I;
+    
+    I-->|No|B;
+    I-->|Yes|J[[Close Menu]];
+    J-->B;
+    
+    
 ```
 Please add additional screenshots and scenarios as needed. For example, the 'Close Menu' scenario will need to be updated as new ads are introduced to the game.
 
-We did our best to capture various ad exit symbols but add more as you monitor the AutoClicker.
+We did our best to capture various menu exit symbols but add more as you monitor the AutoClicker.
 
 **Please monitor your AutoClicker.** There may be unexpected results if left unattended for long periods. 
