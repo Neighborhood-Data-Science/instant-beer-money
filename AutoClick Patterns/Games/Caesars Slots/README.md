@@ -74,28 +74,12 @@ In summary, our bot will play a slot game, participate in a bonus game (Nevada S
 #### Flowchart:
 ```mermaid
 graph TD;
-    A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
-    B-->|Yes|C{{Watch Ad}};
-    B-->|No|D[[Continue Game]];
-    C-->|Wait until complete|E[[Close Ads]]
-    E-->F{Did Ad Close?};
-    F-->|No|G{Google prompt?};
-    F-->|Yes|B{Ad for Depth?};
-    H-->E[[Close Ads]];
-    G-->|No|J{In App Store?};
-    G-->|Yes|H[[Resume Video]];
-    J-->|No|P{{Update Scenario}};
-    J-->|Yes|O[[Exit Store]];
-    O-->E;
-    D-->K{Game Over?};
-    K-->|Yes|L{Revive Prompt?};
-    K-->|No|D;
-    L-->|No|M;
-    L-->|Yes|N[[No Revive]];
-    N-->M[[Claim or No Thanks]];
-    M-->B;
+    A{{Start Clicker}}-->|Watching Screen|B{Bonus Game?};
+    B-->|Yes|C[[Start Nevada Snaps]];
+    C-->D[[Play Nevada Snaps]];
+    B-->|No|E[[Spin and Stop]];
 ```
-Please add additional screenshots and scenarios as needed. For example, the 'Close Ads' scenario will need to be updated as new ads are introduced to the game.
+Please add additional screenshots and scenarios as needed. For example, the 'Close Menu' scenario will need to be updated as new ads are introduced to the game.
 
 We did our best to capture various ad exit symbols but add more as you monitor the AutoClicker.
 
