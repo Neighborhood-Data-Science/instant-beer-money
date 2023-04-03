@@ -30,15 +30,15 @@ In general:
 
 ![alt text](https://latex.codecogs.com/png.latex?%5Cdpi%7B150%7D%20%5Cbg_white%20%5Cpagecolor%7Bwhite%7D%20g%28x%29%20%3D%20%5Cbegin%7Bcases%7D%20x%2C%20%26%20%5Ctext%7Bif%20%7D%20f%28x%29%3Dx%5C%5Cg%28f%28x%29%29%2C%20%26%20%5Ctext%7Botherwise%7D%5Cend%7Bcases%7D)<br><br>
 
-![alt text](https://user-images.githubusercontent.com/38044300/229407861-4a9ad995-51bc-46f8-b623-f33509c0eed8.gif)<br><br>
+![alt text](https://latex.codecogs.com/png.latex?%5Cdpi%7B150%7D%20%5Cbg_white%20f%28x%29%20%3D%20%5Csum_%7Bj%3D1%7D%5E%7Bx%7D%20LevelReached_%7Bj-1%7D%20&plus;%20%5Cbegin%7Bcases%7D%201%2C%20%26%20%5Ctext%7Bif%20%7D%20%5Csum_%7Bk%3D1%7D%5En%20%5Cfrac%7B%28BetSize_k%20%5Ctimes%20XPBonus_k%29%7D%7BNextLevelXP_j%7D%20%5Cge%201%20%5C%5C0%2C%20%26%20%5Ctext%7Botherwise%7D%5Cend%7Bcases%7D)<br><br>
 
-### $x,k \in \mathbb{N}_{>0}$
+### $x,k,n \in \mathbb{N}_{>0}$<br><br>
 
 The first statement defines $Level_i$ to be equal to $i$ such that when $i$ is computed as $g(f(x))$, it equals $x$. In other words, the recursive function $g(x)$ is used to determine the correct input value of $x$ such that $Level_i$ is equal to $i$.<br>
 
 The second statement defines the recursive function $g(x)$ that outputs either $x$ if $f(x)$ equals $x$, or recursively calls itself with $f(x)$ as the input until $f(x) = x$.<br>
 
-The final statement is a formula for determining if the player has reached the next level by obtaining the appropriate experience points (XP), denoted by $f(x)$. The formula is defined by a summation of the levels reached up to $x$, plus a bonus of $1$ if the summation of each ratio of  bet size and XP bonus to the XP required for the next level is greater than or equal to $1$ (i.e., $\frac{(BetSize_k \times XPBonus_k)}{NextLevelXP_j} \ge 1$) ,and $0$ otherwise.<br><br>
+The final statement is a formula for determining if the player has reached the next level by obtaining the appropriate experience points (XP), denoted by $f(x)$. It then checks if the XP points required to reach the next level have been earned. If the required XP points have been earned, then $f(x)$ returns $1$, otherwise it returns $0$.<br><br>
 
 _Note that_ $NextLevelXP_j$ _is calculated within Caesars Slots._<br><br>
 
