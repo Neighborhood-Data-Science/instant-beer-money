@@ -38,7 +38,7 @@ The first statement defines $Level_i$ to be equal to $i$ such that when $i$ is c
 
 The second statement defines the recursive function $g(x)$ that outputs either $x$ if $f(x)$ equals $x$, or recursively calls itself with $f(x)$ as the input until $f(x) = x$.<br>
 
-The final statement is a formula for determining if the player has reached the next level by obtaining the appropriate experience points (XP), denoted by $f(x)$. It then checks if the XP points required to reach the next level, which is represented by the sum $\sum_{k=1}^n \frac{(BetSize_k \times XPBonus_k)}{NextLevelXP_j}$, have been earned. If the required XP points have been earned, then $f(x)$ returns $1$, otherwise it returns $0$.<br><br>
+The final statement is a formula for determining if the player has reached the next level by obtaining the appropriate experience points (XP), denoted by $f(x)$. It then checks if the XP points required to reach the next level have been earned. If the required XP points have been earned, then $f(x)$ returns $1$, otherwise it returns $0$.<br><br>
 
 _Note that_ $NextLevelXP_j$ _is calculated within Caesars Slots._<br><br>
 
