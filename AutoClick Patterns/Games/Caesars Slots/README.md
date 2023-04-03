@@ -26,7 +26,7 @@ You should also take advantage of the x2, x3, or x4 XP offers available to purch
 
 In general:
 
-### $Level_i = i \text{, where } i \in \mathbb{N}_{>0}$, $i=g(f(x))\Rightarrow i=x$<br><br>
+### $Level_i = i \text{, where } i \in \mathbb{N}_{>0} \text{, and } i=g(f(x))\Rightarrow i=x$
 
 ![alt text](https://latex.codecogs.com/png.latex?%5Cdpi%7B150%7D%20%5Cbg_white%20%5Cpagecolor%7Bwhite%7D%20g%28x%29%20%3D%20%5Cbegin%7Bcases%7D%20x%2C%20%26%20%5Ctext%7Bif%20%7D%20f%28x%29%3Dx%5C%5Cg%28f%28x%29%29%2C%20%26%20%5Ctext%7Botherwise%7D%5Cend%7Bcases%7D)<br><br>
 
