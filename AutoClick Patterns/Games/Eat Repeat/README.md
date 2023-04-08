@@ -6,7 +6,7 @@ Please download the above zip file and upload to Smart AutoClicker.
 
 Once scenarios are verified, start the script for The Eat Repeat.
 
-_DISCLAIMER: This AutoClick pattern was programmed on a Google Pixel 6.
+_DISCLAIMER: This AutoClick pattern was programmed on a **Google Pixel 6**.
 Therefore, the location of the images may not be in the same location. 
 Ensure that you go through the scenarios below by hand at least once before activating the AutoClicker._
 
