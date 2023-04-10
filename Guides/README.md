@@ -2,17 +2,9 @@
 
 Sign up using the links below and start completing the offers on this page:
 
-[Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone) - Referral code: `brandonsavone`
-
 [FreeCash Referral Link](https://freecash.com/r/therealinkyb) - Referral code: `therealinkyb`
 
-[JustEarn Referral Link](https://justearn.gg/3FD649) - Referral code: `3FD649`
-
-[GG2U Referral Link](https://premium.gg2u.org?referrer=dmcinkyb) - Referral code: `dmcinkyb`
-
-[Casheo Referral Link](https://casheo.co/C3546F) - Referral code: `C3546F`
-
-[Chequity Referral Link](https://chequity.io/ref/1279501A) - Referral code: `1279501A`
+[Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone) - Referral code: `brandonsavone`
 
 
 ### Payment Methods
