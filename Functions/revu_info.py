@@ -32,19 +32,22 @@ load_dotenv()
 
 def start_driver_and_open_revu(offerwall_version):
     """
-    Downloads the latest version of Google chromedriver and
-    Opens the OfferToro offerwall within a webdriver
+    Downloads and installs the latest version of Google chromedriver and
+    opens the Revenue Universe offerwall within a WebDriver
 
-    str: offerwall
+    Parameters
+    ----------
+        offerwall_version: `str`
+            The version of the offerwall to open. Set up in the .env file.
 
-    offerwall examples:
-    - 'BASELINE_REVU'
-    - 'USER_REVU'
+    Returns
+    -------
+        driver: `WebDriver`
+            WebDriver object that can be used to interact with the given `offerwall_version`.
     """
     #This installs the latest version of the official Google chromedriver
     #Accesses cached version if present.
 
-    #Initialize variable
     driver = None
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),\
@@ -53,26 +56,30 @@ def start_driver_and_open_revu(offerwall_version):
         print(f"'Setting Driver Error: {err}'")
         sys.exit(0)
 
-    #Set OfferToro URL
+    #Set Revenue Universe URL
     revu = os.environ[offerwall_version]
     #Open webpage
     driver.get(revu)
     return driver
 
-def parse_available_offer_information(driver):
+def parse_offer_information(driver):
     """
     This function parses through the Revenue Universe available offerwall (DESKTOP ONLY) text and extracts:
     1. Offer Titles
-    2. Offer Description
-    3. Offer Amount
-    4. Device type
+    2. Offer Amount
 
-    Sets device type and
-    determines if offer has multiple rewards (multi-tiered)
+    Parameters
+    ----------
+        driver: `WebDriver`
+            WebDriver with URL of the offerwall
+
+    Returns
+    -------
+        revu_dict: `dict`
+            A Python dictionary containing the offer information
     """
     #Create dictionary to hold offer information
-    available_offer_dict = {'total_coins_earnable':[],'offer_title':[],\
-                  'offer_description':[],'offer_device':[]}
+    revu_dict = {'offer_title':[],'offer_amount':[]}
 
     try:
         #Wait for 'Most popular' Icon to appear
@@ -85,111 +92,39 @@ def parse_available_offer_information(driver):
         sys.exit(0)
 
     #Focus on offerwall information
-    #Wait for menu to be visible button to appear
-    available_offer_info = driver.find_elements(by=By.CLASS_NAME,value='main__card')
+    offer_name = driver.find_elements(by=By.CLASS_NAME,value='main__card-left')
+    offer_amount = driver.find_elements(by=By.CLASS_NAME,value='main__card-right')
+
     ############# LOGIC BLOCK ##############
-    for offers in available_offer_info:
-        #Split the offer text to gain information about the offer itself
-        split_available_offer_info = offers.get_attribute('innerText').split('\n')
-
-        #Insert available offer text into dictionary based on size
-        #Sizes were pre-determined from trial and error.
-
-        if len(split_available_offer_info) == 4:
-            available_offer_dict['total_coins_earnable'].append(split_available_offer_info[3])
-            available_offer_dict['offer_device'].append('Desktop')
-            available_offer_dict['offer_title'].append(split_available_offer_info[0])
-            available_offer_dict['offer_description'].append(split_available_offer_info[0])
-
-        elif len(split_available_offer_info) == 3:
-            ##Ignore these
+    for (offers,amount) in zip(offer_name,offer_amount):
+        try:
+            #Grab the name/description of the offer
+            name = offers.get_attribute('innerText')
+            #Grab the amount of the offer (typicall highest value is second).
+            amount = amount.get_attribute('innerText').split('\n')[1]
+            #Add information to dictionary
+            revu_dict['offer_title'].append(name)
+            revu_dict['offer_amount'].append(amount)
+        except IndexError:
+            #Skip the offer if there is no amount
+            print(f'Skipped: {name} No amount found.')
             continue
-
-        else:
-            print(len(split_available_offer_info))
-            print(split_available_offer_info)
-            raise Exception ('Unexpected offer split size')
     ############# LOGIC BLOCK ##############
-    return available_offer_dict
+    return revu_dict
 
-
-def create_available_offer_dataframe(available_offer_dict):
+def create_offer_dataframe(revu_dict):
     """
     This function returns the available offer dictionary as a pandas DataFrame.
+
+    Parameters
+    ----------
+        revu_dict: `dict`
+            A Python dictionary containing the offer information.
+
+    Returns
+    -------
+        offer_dataframe: `pandas.DataFrame`
+            A pandas DataFrame containing the offer information.
     """
-    available_offer_dataframe = pd.DataFrame.from_dict(available_offer_dict)
-    return available_offer_dataframe
-
-def parse_completed_offer_info(driver):
-    """
-    This function parses through the OfferToro offerwall text and extracts:
-    1. Completed Offer Titles
-    2. Completed Offer Date
-    3. Completed Offer Amount
-    4. Offer Status (Complete, Review, Clicked)
-    ### Need Device ###
-    """
-    #Create dictionary to hold offer information
-    completed_offer_dict = {'offer_title':[],'coins_earned':[],'date_completed':[],'status':[]}
-
-    #Navigate to reward status page
-    try:
-        #Wait for Cash Icon button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//i[@class='far fa-money-bill-alt']")))
-        #Explicit Wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.XPATH,value="//i[@class='far fa-money-bill-alt']").click()
-        #Explicit wait
-        time.sleep(1)
-    except Exception as err:
-        print(f"'Error: {err}'")
-
-    #Attempt to scrape completed offer information from webpage
-    try:
-        #Wait for Cash Icon button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//i[@class='far fa-money-bill-alt']")))
-        #Explicit Wait
-        time.sleep(1)
-        #Extract raw completed offer info
-        completed_offer_info = driver.find_element(by=By.ID,value="earnings_table").get_attribute('innerText')
-
-        ############# LOGIC BLOCK ##############
-        #Split the text
-        split_completed_offer_info = completed_offer_info.split('\n')
-        for lines in split_completed_offer_info:
-            line_split = lines.split('\t')
-            #Chunk the text for insert into dictionary
-            chunked_completed_list = utils.chunked_iterable(line_split, 4)
-        #Insert values to dictionary
-            for chunks in chunked_completed_list:
-                completed_offer_dict['date_completed'].append(chunks[0])
-                completed_offer_dict['offer_title'].append(chunks[1])
-                completed_offer_dict['coins_earned'].append(chunks[2])
-                completed_offer_dict['status'].append(chunks[3])
-            ############# LOGIC BLOCK ##############
-
-        return completed_offer_dict
-    except Exception as err:
-        print(f"'Unhandled Error: %{err}'")
-
-def create_completed_offer_dataframe(completed_offer_dict):
-    """
-    This function returns the completed offer dict as a pandas DataFrame.
-    """
-    completed_offer_dataframe = pd.DataFrame.from_dict(completed_offer_dict).drop(index=0)
-    return completed_offer_dataframe
-
-# def parse_pending_offer_info(driver):
-#     """
-#     Offertoro does not have a "pending" section. However, it may be possible to discern
-#     this information given the 'Status' of the offer.
-#     """
-
-# def create_pending_offer_dataframe(pending_offer_dict):
-#     """
-#     Offertoro does not have a "pending" section. However, it may be possible to discern
-#     this information given the 'Status' of the offer.
-#     """
+    offer_dataframe = pd.DataFrame.from_dict(revu_dict)
+    return offer_dataframe
