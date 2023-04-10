@@ -7,15 +7,16 @@ any test across the application.
 import pytest
 import sys
 sys.path.append('./Functions')
-import ayet_info
-import adgem_info
-import offertoro_info
-import revu_info
+import ayet_info # type: ignore # Pylance(reportMissingImports)
+import adgem_info # type: ignore # Pylance(reportMissingImports)
+import offertoro_info # type: ignore # Pylance(reportMissingImports)
+import revu_info # type: ignore # Pylance(reportMissingImports)
 
 @pytest.fixture(scope="class",autouse=False)
 def setup_ayet_page(request):
     """
-    Set Ayet page as fixture. """
+    Set Ayet page as fixture. 
+    """
     offerwall_version = 'AYET'
     ayet_main_page = ayet_info.start_driver_and_open_ayet(offerwall_version)
     ayet_main_page.maximize_window()
@@ -25,7 +26,8 @@ def setup_ayet_page(request):
 @pytest.fixture(scope="class",autouse=False)
 def setup_adgem_page(request):
     """
-    Set Adgem page as fixture. """
+    Set Adgem page as fixture. 
+    """
     offerwall_version = 'ADGEM'
     adgem_main_page = adgem_info.start_driver_and_open_adgem(offerwall_version)
     adgem_main_page.maximize_window()

@@ -4,7 +4,7 @@ Main Web Testing Framework
 import sys
 sys.path.append('./Functions')
 
-import revu_info
+import revu_info # type: ignore # Pylance(reportMissingImports)
 import pandas as pd
 import pytest
 import os
@@ -20,7 +20,8 @@ class TestREVU:
     """
     Test suite for the Revenue Universe offerwall.
 
-    This test suite is designed to test the functionality of `revu_info.py` to ensure it operates as expected.
+    This test suite is designed to test the functionality of `revu_info.py` to ensure 
+    it operates as expected.
     """
     def test_access_revu_offerwall(self,setup_revu_page):
         """
@@ -63,4 +64,3 @@ class TestREVU:
         offer_dict = revu_info.parse_offer_information(setup_revu_page)
         offer_dataframe = revu_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
-

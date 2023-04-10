@@ -6,7 +6,6 @@ the GPT site: freecash.com
 import os
 import time
 import pandas as pd
-import utils
 import sys
 
 from dotenv import load_dotenv
@@ -64,7 +63,7 @@ def start_driver_and_open_revu(offerwall_version):
 
 def parse_offer_information(driver):
     """
-    This function parses through the Revenue Universe available offerwall (DESKTOP ONLY) text and extracts:
+    This function parses through the Revenue Universe available offerwall text and extracts:
     1. Offer Titles
     2. Offer Amount
 
@@ -107,7 +106,7 @@ def parse_offer_information(driver):
             revu_dict['offer_amount'].append(amount)
         except IndexError:
             #Skip the offer if there is no amount
-            print(f'Skipped: {name} No amount found.')
+            print(f'Skipped: {name} No amount found.') # type: ignore # Pylance(reportUnboundVariable)
             continue
     ############# LOGIC BLOCK ##############
     return revu_dict
