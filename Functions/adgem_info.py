@@ -24,6 +24,7 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920x1080")
 
+
 #Load environment variables
 load_dotenv()
 #The environment variables should be present in your CI/CD pipeline
@@ -110,8 +111,9 @@ def parse_offer_information(driver):
             "//span[@class = 'tw-text-sm satoshi-700 tw-text-[#2D2D2D] tw-leading-5 tw-break-words tw-w-full']")))
         #Explicit wait
         time.sleep(1)
-    except Exception as e:
-        print(f"'Error: {e}'")
+    except Exception as err:
+        print(f"'Waiting for hamburger button Error: {err}'")
+        sys.exit(0)
 
     try:
         #Focus on offerwall information
@@ -141,10 +143,12 @@ def parse_offer_information(driver):
                 adgem_dict['offer_amount'].append(amount)
                 adgem_dict['offer_device'].append(device)
 
-            except Exception as e:
-                print(e)
-    except Exception as e:
-        print(e)
+            except Exception as err:
+                print(f"'Waiting for hamburger button Error: {err}'")
+                sys.exit(0)
+    except Exception as err:
+        print(f"'Waiting for hamburger button Error: {err}'")
+        sys.exit(0)
     return adgem_dict
 
 def create_offer_dataframe(adgem_dict):
