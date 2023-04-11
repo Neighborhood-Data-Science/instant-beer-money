@@ -31,14 +31,18 @@ load_dotenv()
 
 def start_driver_and_open_offertoro(offerwall_version):
     """
-    Downloads the latest version of Google chromedriver and
-    Opens the OfferToro offerwall within a webdriver
+    Downloads and installs the latest version of Google chromedriver and
+    opens the Offertoro offerwall within a WebDriver
 
-    str: offerwall
+    Parameters
+    ----------
+        offerwall_version: `str`
+            The version of the offerwall to open. Set up in the .env file.
 
-    offerwall examples:
-    - 'BASELINE_TORO'
-    - 'USER_TORO'
+    Returns
+    -------
+        driver: `WebDriver`
+            WebDriver object that can be used to interact with the given `offerwall_version`.
     """
     #This installs the latest version of the official Google chromedriver
     #Accesses cached version if present.
@@ -58,7 +62,7 @@ def start_driver_and_open_offertoro(offerwall_version):
     driver.get(offertoro)
     return driver
 
-def parse_available_offer_information(driver):
+def parse_offer_information(driver):
     """
     This function parses through the OfferToro available offerwall text and extracts:
     1. Offer Titles
