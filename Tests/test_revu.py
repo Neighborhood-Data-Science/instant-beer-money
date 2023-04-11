@@ -64,3 +64,11 @@ class TestREVU:
         offer_dict = revu_info.parse_offer_information(setup_revu_page)
         offer_dataframe = revu_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
+
+    def test_parsed_dataframe_not_empty(self, setup_revu_page):
+        """
+        Tests if resultant dataframe is not empty.
+        """
+        offer_dict = revu_info.parse_offer_information(setup_revu_page)
+        offer_dataframe = revu_info.create_offer_dataframe(offer_dict)
+        assert len(offer_dataframe) > 0
