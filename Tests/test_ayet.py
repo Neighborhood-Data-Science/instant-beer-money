@@ -34,7 +34,7 @@ class TestAYET:
         """
         Tests if output of function is an expected dictionary.
         """
-        offer_dict = ayet_info.parse_available_offer_information(setup_ayet_page)
+        offer_dict = ayet_info.parse_offer_information(setup_ayet_page)
         assert isinstance(offer_dict, dict)
 
 
@@ -43,20 +43,19 @@ class TestAYET:
         Tests if length of key:value pairs in offer dict are
         the same size across all key:value lists.
         """
-        offer_dict = ayet_info.parse_available_offer_information(setup_ayet_page)
+        offer_dict = ayet_info.parse_offer_information(setup_ayet_page)
         key_list = list(offer_dict.keys())
-        assert len(offer_dict.get(key_list[0])) ==  \
-            len(offer_dict.get(key_list[2])) ==     \
-            len(offer_dict.get(key_list[3])) ==     \
-            len(offer_dict.get(key_list[4]))
+        first_size = len(offer_dict[key_list[0]])
+        for remaining_keys in key_list[1:]:
+            assert len(offer_dict[remaining_keys]) == first_size
 
 
-    def test_parsed_offer_info_dict_size(self,setup_ayet_page,size=5):
+    def test_parsed_offer_info_dict_size(self,setup_ayet_page,size=7):
         """
         Tests if resulting offer dictionary is the correct size.
-        Should have length of (5) [keys].
+        Should have length of 7 keys.
         """
-        offer_dict = ayet_info.parse_available_offer_information(setup_ayet_page)
+        offer_dict = ayet_info.parse_offer_information(setup_ayet_page)
         assert len(offer_dict) == size
 
 
@@ -64,29 +63,14 @@ class TestAYET:
         """
         Tests if resultant dataframe is type dataframe.
         """
-        offer_dict = ayet_info.parse_available_offer_information(setup_ayet_page)
-        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
+        offer_dict = ayet_info.parse_offer_information(setup_ayet_page)
+        offer_dataframe = ayet_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
-
-
-    def test_values_in_multiple_rewards(self,setup_ayet_page):
+    
+    def test_parsed_dataframe_not_empty(self, setup_ayet_page):
         """
-        Tests if all values in multiple_rewards column are either 1 or 0
+        Tests if resultant dataframe is not empty.
         """
-        offer_dict = ayet_info.parse_available_offer_information(setup_ayet_page)
-        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
-        indicator_values = offer_dataframe['multiple_rewards'].unique()
-        assert [0 and 1] in indicator_values
-
-
-    def test_values_in_devices(self,setup_ayet_page):
-        """
-        Tests if all values in offer_device column are either:
-        android
-        iphone
-        desktop
-        """
-        offer_dict = ayet_info.parse_available_offer_information(setup_ayet_page)
-        offer_dataframe = ayet_info.create_available_offer_dataframe(offer_dict)
-        offer_device_vals = offer_dataframe['offer_device'].unique()
-        assert ['apple' and 'android' and 'desktop'] in offer_device_vals
+        offer_dict = ayet_info.parse_offer_information(setup_ayet_page)
+        offer_dataframe = ayet_info.create_offer_dataframe(offer_dict)
+        assert len(offer_dataframe) > 0
