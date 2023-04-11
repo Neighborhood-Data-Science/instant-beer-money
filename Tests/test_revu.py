@@ -45,7 +45,9 @@ class TestREVU:
         """
         offer_dict = revu_info.parse_offer_information(setup_revu_page)
         key_list = list(offer_dict.keys())
-        assert len(offer_dict.get(key_list[0])) == len(offer_dict.get(key_list[1]))
+        first_size = len(offer_dict[key_list[0]])
+        for remaining_keys in key_list[1:]:
+            assert len(offer_dict[remaining_keys]) == first_size
 
 
     def test_parsed_offer_info_dict_size(self,setup_revu_page,size=2):
