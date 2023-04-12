@@ -1,6 +1,7 @@
 **/beermoney
 **/.env
 **/work.ipynb
+**/test.ipynb
 .pylintrc
 settings.json
 **mdCOPY.md

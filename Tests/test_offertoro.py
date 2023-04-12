@@ -34,7 +34,7 @@ class TestTORO:
         """
         Tests if output of function is an expected dictionary.
         """
-        offer_dict = offertoro_info.parse_available_offer_information(setup_toro_page)
+        offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         assert isinstance(offer_dict, dict)
 
 
@@ -43,7 +43,7 @@ class TestTORO:
         Tests if length of key:value pairs in offer dict are
         the same size across all key:value lists.
         """
-        offer_dict = offertoro_info.parse_available_offer_information(setup_toro_page)
+        offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         key_list = list(offer_dict.keys())
         assert len(offer_dict.get(key_list[0])) ==  \
             len(offer_dict.get(key_list[1])) ==     \
@@ -56,7 +56,7 @@ class TestTORO:
         Tests if resulting offer dictionary is the correct size.
         Should have length of (4) [keys].
         """
-        offer_dict = offertoro_info.parse_available_offer_information(setup_toro_page)
+        offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         assert len(offer_dict) == size
 
 
@@ -64,7 +64,7 @@ class TestTORO:
         """
         Tests if resultant dataframe is type dataframe.
         """
-        offer_dict = offertoro_info.parse_available_offer_information(setup_toro_page)
+        offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         offer_dataframe = offertoro_info.create_available_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
 
@@ -78,7 +78,7 @@ class TestTORO:
         android tablet
         """
         device_list = ['device','android phone','iphone/ipad','iphone','android tablet']
-        offer_dict = offertoro_info.parse_available_offer_information(setup_toro_page)
+        offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         offer_dataframe = offertoro_info.create_available_offer_dataframe(offer_dict)
         offer_device_vals = offer_dataframe['offer_device'].unique()
         assert all(devices in offer_device_vals for devices in device_list)
