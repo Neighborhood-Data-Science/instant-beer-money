@@ -4,7 +4,7 @@ Main Web Testing Framework
 import sys
 sys.path.append('./Functions')
 
-import ayet_info 
+import ayet_info # type: ignore # Pylance(reportMissingImports)
 import pandas as pd
 import pytest
 import os
