@@ -145,10 +145,10 @@ def parse_offer_information(driver):
                 adgem_dict['offer_device'].append(device)
 
             except Exception as err:
-                print(f"'Waiting for hamburger button Error: {err}'")
+                print(f"'Parsing offer information error: {err}'")
                 sys.exit(0)
     except Exception as err:
-        print(f"'Waiting for hamburger button Error: {err}'")
+        print(f"'Finding page elements error: {err}'")
         sys.exit(0)
     return adgem_dict
 

@@ -87,7 +87,7 @@ def parse_offer_information(driver):
         #Explicit Wait
         time.sleep(1)
     except Exception as err:
-        print(f"'Error: {err}'")
+        print(f"'Setting Driver Error: {err}'")
         sys.exit(0)
 
     #Focus on offerwall information
