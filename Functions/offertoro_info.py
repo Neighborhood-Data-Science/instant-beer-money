@@ -65,136 +65,79 @@ def start_driver_and_open_offertoro(offerwall_version):
 def parse_offer_information(driver):
     """
     This function parses through the OfferToro available offerwall text and extracts:
-    1. Offer Titles
-    2. Offer Description
-    3. Offer Amount
-    4. Device type
+    1. Offer Title and Description
+    2. Offer Amount
+    3. Device type
 
-    Sets device type and
-    determines if offer has multiple rewards (multi-tiered)
+    Parameters
+    ----------
+        driver: `WebDriver`
+            WebDriver with URL of the offerwall
+
+    Returns
+    -------
+        toro_dict: `dict`
+            A Python dictionary containing the offer information
+
     """
     #Create dictionary to hold offer information
-    available_offer_dict = {'total_coins_earnable':[],'offer_title':[],\
-                  'offer_description':[],'offer_device':[]}
+    toro_dict = {'offer_title_desc':[],\
+                  'offer_amount':[],'offer_device':[]}
 
     try:
-        #Wait for hamburger button to appear
+        #Wait for offers to appear
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "fa fa-star")))
+            EC.presence_of_element_located((By.CLASS_NAME, "offert")))
         #Explicit Wait
         time.sleep(1)
     except Exception as err:
-        print(f"'Error: {err}'")
+        print(f"'Waiting for offers Error: {err}'")
+        sys.exit(0)
 
-    #Focus on offerwall information
-    #Wait for menu to be visible button to appear
-    available_offer_info = driver.find_elements(By.TAG_NAME,"TR")
+    try:
+        #Focus on offerwall information
+        offer_info = driver.find_elements(By.CLASS_NAME,"offert")
+
+        ############# LOGIC BLOCK ##############
+        for offers in offer_info:
+            try:
+                #Set variables equal to text values of the offers
+                offer_payout = offers.get_attribute('data-offer_payout')
+                offer_device = offers.get_attribute('data-offer_device')
+                #Split the offer text to gain information about the offer itself
+                offer_text = offers.get_attribute('innerText').split('\t')[1]
+
+                #Insert into dictionary
+                toro_dict['offer_title_desc'].append(offer_text)
+                toro_dict['offer_amount'].append(offer_payout)
+                toro_dict['offer_device'].append(offer_device)
+    
+            except IndexError:
+                ## Check if length of requested offer_text is 1. If so, skip that entry, otherwise fail
+                assert len(offers.get_attribute('innerText').split('\t')) == 1
+                pass
+                
+    except Exception as err:
+        print(f"'Parsing offer information Error: {err}'")
+        sys.exit(0)
     ############# LOGIC BLOCK ##############
-    for offers in available_offer_info:
-        #Set variables equal to text values of the offers
-        available_offer_payout = offers.get_attribute('data-offer_payout')
-        offer_device_type = offers.get_attribute('data-offer_device')
-        #Split the offer text to gain information about the offer itself
-        split_available_offer_info = offers.get_attribute('innerText').split('\t')
 
-        #Insert available offer text into dictionary based on size
-        #Sizes were pre-determined from trial and error.
+    return toro_dict
 
-        if len(split_available_offer_info) == 3:
-            offer_and_desc = split_available_offer_info[1].split('\n')
-            available_offer_dict['total_coins_earnable'].append(available_offer_payout)
-            available_offer_dict['offer_device'].append(offer_device_type)
-            available_offer_dict['offer_title'].append(offer_and_desc[1])
-            available_offer_dict['offer_description'].append(offer_and_desc[2])
-
-        elif len(split_available_offer_info) == (1):
-            continue
-        else:
-            raise Exception ('Unexpected offer split size')
-    ############# LOGIC BLOCK ##############
-    return available_offer_dict
-
-def create_available_offer_dataframe(available_offer_dict):
+def create_offer_dataframe(toro_dict):
     """
     This function returns the available offer dictionary as a pandas DataFrame.
+
+    Parameters
+    ----------
+        toro_dict: `dict`
+            A Python dictionary containing the offer information.
+
+    Returns
+    -------
+        offer_dataframe: `pandas.DataFrame`
+            A pandas DataFrame containing the offer information.
     """
-    available_offer_dataframe = pd.DataFrame.from_dict(available_offer_dict)
-    return available_offer_dataframe
+    offer_dataframe = pd.DataFrame.from_dict(toro_dict)
+    return offer_dataframe
 
-def parse_completed_offer_info(driver):
-    """
-    This function parses through the OfferToro offerwall text and extracts:
-    1. Completed Offer Titles
-    2. Completed Offer Date 
-    3. Completed Offer Amount
-    4. Offer Status (Complete, Review, Clicked)
-    ### Need Device ###
-    """
-    #Create dictionary to hold offer information
-    completed_offer_dict = {'offer_title':[],'coins_earned':[],'date_completed':[],'status':[]}
-
-    #Navigate to reward status page
-    try:
-        #Wait for Cash Icon button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//i[@class='far fa-money-bill-alt']")))
-        #Explicit Wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.XPATH,value="//i[@class='far fa-money-bill-alt']").click()
-        #Explicit wait
-        time.sleep(1)
-    except Exception as err:
-        print(f"'Error: {err}'")
-
-    #Attempt to scrape completed offer information from webpage
-    try:
-        #Wait for Cash Icon button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//i[@class='far fa-money-bill-alt']")))
-        #Explicit Wait
-        time.sleep(1)
-        #Extract raw completed offer info
-        completed_offer_info = driver.find_element(by=By.ID,value="earnings_table").get_attribute('innerText')
-        ############# LOGIC BLOCK ##############
-        #Split the text
-        split_completed_offer_info = completed_offer_info.split('\n')
-
-        for lines in split_completed_offer_info:
-            line_split = lines.split('\t')
-            #Chunk the text for insert into dictionary
-            chunked_completed_list = utils.chunked_iterable(line_split, 4)
-            print(chunked_completed_list)
-        #Insert values to dictionary
-            for chunks in chunked_completed_list:
-                if chunks[0] == 'Missing Credits?':
-                    pass
-                else:
-                    completed_offer_dict['date_completed'].append(chunks[0])
-                    completed_offer_dict['offer_title'].append(chunks[1])
-                    completed_offer_dict['coins_earned'].append(chunks[2])
-                    completed_offer_dict['status'].append(chunks[3])
-            ############# LOGIC BLOCK ##############
-        return completed_offer_dict
-    except Exception as err:
-        print(f"'Unhandled Error: %{err}'")
-
-
-def create_completed_offer_dataframe(completed_offer_dict):
-    """
-    This function returns the completed offer dict as a pandas DataFrame.
-    """
-    completed_offer_dataframe = pd.DataFrame.from_dict(completed_offer_dict).drop(index=0)
-    return completed_offer_dataframe
-
-# def parse_pending_offer_info(driver):
-#     """
-#     Offertoro does not have a "pending" section. However, it may be possible to discern
-#     this information given the 'Status' of the offer.
-#     """
-
-# def create_pending_offer_dataframe(pending_offer_dict):
-#     """
-#     Offertoro does not have a "pending" section. However, it may be possible to discern
-#     this information given the 'Status' of the offer.
-#     """

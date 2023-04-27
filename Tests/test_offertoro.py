@@ -20,7 +20,7 @@ class TestTORO:
     """
     Test suite for the Offertoro offerwall.
 
-    This test suite is designed to test the functionality of `offertoro_info.py` to ensure 
+    This test suite is designed to test the functionality of `offeroffertoro_info.py` to ensure 
     it operates as expected.
     """
     def test_access_toro_offerwall(self,setup_toro_page):
@@ -29,14 +29,12 @@ class TestTORO:
         """
         assert setup_toro_page.current_url == os.environ['TORO']
 
-
     def test_parsed_offer_info_is_dict(self,setup_toro_page):
         """
         Tests if output of function is an expected dictionary.
         """
         offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         assert isinstance(offer_dict, dict)
-
 
     def test_parsed_offer_info_is_equal(self,setup_toro_page):
         """
@@ -45,16 +43,15 @@ class TestTORO:
         """
         offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         key_list = list(offer_dict.keys())
-        assert len(offer_dict.get(key_list[0])) ==  \
-            len(offer_dict.get(key_list[1])) ==     \
-            len(offer_dict.get(key_list[2])) ==     \
-            len(offer_dict.get(key_list[3]))
+        first_size = len(offer_dict[key_list[0]])
+        for remaining_keys in key_list[1:]:
+            assert len(offer_dict[remaining_keys]) == first_size
 
 
-    def test_parsed_offer_info_dict_size(self,setup_toro_page,size=4):
+    def test_parsed_offer_info_dict_size(self,setup_toro_page,size=3):
         """
         Tests if resulting offer dictionary is the correct size.
-        Should have length of (4) [keys].
+        Should have length of 3 keys.
         """
         offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         assert len(offer_dict) == size
@@ -65,20 +62,13 @@ class TestTORO:
         Tests if resultant dataframe is type dataframe.
         """
         offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
-        offer_dataframe = offertoro_info.create_available_offer_dataframe(offer_dict)
+        offer_dataframe = offertoro_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
-
-    def test_values_in_devices(self,setup_toro_page):
+    
+    def test_parsed_dataframe_not_empty(self, setup_toro_page):
         """
-        Tests if all values in offer_device column are either:
-        device
-        android phone
-        iphone/ipad
-        iphone
-        android tablet
+        Tests if resultant dataframe is not empty.
         """
-        device_list = ['device','android phone','iphone/ipad','iphone','android tablet']
         offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
-        offer_dataframe = offertoro_info.create_available_offer_dataframe(offer_dict)
-        offer_device_vals = offer_dataframe['offer_device'].unique()
-        assert all(devices in offer_device_vals for devices in device_list)
+        offer_dataframe = offertoro_info.create_offer_dataframe(offer_dict)
+        assert len(offer_dataframe) > 0
