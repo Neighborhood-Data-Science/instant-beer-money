@@ -29,14 +29,14 @@ class TestTORO:
         """
         assert setup_toro_page.current_url == os.environ['TORO']
 
-    def test_parsed_offer_info_is_dict(self,setup_toro_page):
+    def test_parsed_offer_info_is_dict_toro(self,setup_toro_page):
         """
         Tests if output of function is an expected dictionary.
         """
         offer_dict = offertoro_info.parse_offer_information(setup_toro_page)
         assert isinstance(offer_dict, dict)
 
-    def test_parsed_offer_info_is_equal(self,setup_toro_page):
+    def test_parsed_offer_info_is_equal_toro(self,setup_toro_page):
         """
         Tests if length of key:value pairs in offer dict are
         the same size across all key:value lists.
@@ -48,7 +48,7 @@ class TestTORO:
             assert len(offer_dict[remaining_keys]) == first_size
 
 
-    def test_parsed_offer_info_dict_size(self,setup_toro_page,size=3):
+    def test_parsed_offer_info_dict_size_toro(self,setup_toro_page,size=3):
         """
         Tests if resulting offer dictionary is the correct size.
         Should have length of 3 keys.
@@ -57,7 +57,7 @@ class TestTORO:
         assert len(offer_dict) == size
 
 
-    def test_parsed_dataframe_is_dataframe(self,setup_toro_page):
+    def test_parsed_dataframe_is_dataframe_toro(self,setup_toro_page):
         """
         Tests if resultant dataframe is type dataframe.
         """
@@ -65,7 +65,7 @@ class TestTORO:
         offer_dataframe = offertoro_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
     
-    def test_parsed_dataframe_not_empty(self, setup_toro_page):
+    def test_parsed_dataframe_not_empty_toro(self, setup_toro_page):
         """
         Tests if resultant dataframe is not empty.
         """

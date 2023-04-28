@@ -30,7 +30,7 @@ class TestAYET:
         assert setup_ayet_page.current_url == os.environ['AYET']
 
 
-    def test_parsed_offer_info_is_dict(self,setup_ayet_page):
+    def test_parsed_offer_info_is_dict_ayet(self,setup_ayet_page):
         """
         Tests if output of function is an expected dictionary.
         """
@@ -38,7 +38,7 @@ class TestAYET:
         assert isinstance(offer_dict, dict)
 
 
-    def test_parsed_offer_info_is_equal(self,setup_ayet_page):
+    def test_parsed_offer_info_is_equal_ayet(self,setup_ayet_page):
         """
         Tests if length of key:value pairs in offer dict are
         the same size across all key:value lists.
@@ -50,7 +50,7 @@ class TestAYET:
             assert len(offer_dict[remaining_keys]) == first_size
 
 
-    def test_parsed_offer_info_dict_size(self,setup_ayet_page,size=7):
+    def test_parsed_offer_info_dict_size_ayet(self,setup_ayet_page,size=7):
         """
         Tests if resulting offer dictionary is the correct size.
         Should have length of 7 keys.
@@ -59,7 +59,7 @@ class TestAYET:
         assert len(offer_dict) == size
 
 
-    def test_parsed_dataframe_is_dataframe(self,setup_ayet_page):
+    def test_parsed_dataframe_is_dataframe_ayet(self,setup_ayet_page):
         """
         Tests if resultant dataframe is type dataframe.
         """
@@ -67,7 +67,7 @@ class TestAYET:
         offer_dataframe = ayet_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
     
-    def test_parsed_dataframe_not_empty(self, setup_ayet_page):
+    def test_parsed_dataframe_not_empty_ayet(self, setup_ayet_page):
         """
         Tests if resultant dataframe is not empty.
         """

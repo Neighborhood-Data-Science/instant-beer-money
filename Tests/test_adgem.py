@@ -30,7 +30,7 @@ class TestADGEM:
         """
         assert setup_adgem_page.current_url == os.environ['ADGEM']
 
-    def test_parsed_offer_info_is_dict(self,setup_adgem_page):
+    def test_parsed_offer_info_is_dict_adgem(self,setup_adgem_page):
         """
         Tests if output of function is an expected dictionary.
         """
@@ -38,7 +38,7 @@ class TestADGEM:
         assert isinstance(offer_dict, dict)
 
 
-    def test_parsed_offer_info_is_equal(self,setup_adgem_page):
+    def test_parsed_offer_info_is_equal_adgem(self,setup_adgem_page):
         """
         Tests if length of key:value pairs in offer dict are
         the same size across all key:value lists.
@@ -50,7 +50,7 @@ class TestADGEM:
             assert len(offer_dict[remaining_keys]) == first_size
 
 
-    def test_parsed_offer_info_dict_size(self,setup_adgem_page,size=4):
+    def test_parsed_offer_info_dict_size_adgem(self,setup_adgem_page,size=4):
         """
         Tests if resulting offer dictionary is the correct size.
         Should have length of 4 keys.
@@ -59,7 +59,7 @@ class TestADGEM:
         assert len(offer_dict) == size
 
 
-    def test_parsed_dataframe_is_dataframe(self, setup_adgem_page):
+    def test_parsed_dataframe_is_dataframe_adgem(self, setup_adgem_page):
         """
         Tests if resultant dataframe is type dataframe.
         """
@@ -67,7 +67,7 @@ class TestADGEM:
         offer_dataframe = adgem_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
 
-    def test_parsed_dataframe_not_empty(self, setup_adgem_page):
+    def test_parsed_dataframe_not_empty_adgem(self, setup_adgem_page):
         """
         Tests if resultant dataframe is not empty.
         """
