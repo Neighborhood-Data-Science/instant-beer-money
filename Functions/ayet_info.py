@@ -5,7 +5,6 @@ scrape data from freecash.com
 import os
 import time
 import pandas as pd
-import utils
 import sys
 
 from dotenv import load_dotenv
