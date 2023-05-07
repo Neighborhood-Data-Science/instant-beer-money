@@ -46,50 +46,36 @@ To my knowledge, there is no current table that contains the XP required to reac
 
 ### **Our advantage is that we can auto spin slots and automatically play bonus games if necessary.**
 
-In summary, our bot will play a slot game, participate in a bonus game (Nevada Snaps), and close necessary windows to continue playing the slot game.
+In summary, our bot will play a slot game, and its associated mini-game, and close necessary windows to continue playing the slot game.
 
 ### Here are our scenarios:
 
 ---
 
-#### 1. Start Nevada Snaps
-    If the bonus game is playable, start the game.
-
-#### 2. Play Nevada Snaps
-    If playing Nevada Snaps:
-        1. Click the 'snap' button.
-        2. Wait then click the 'collect' button.
-        3. Close the menu.
-
-#### 3. Spin and Stop
+#### 1. Spin and Stop
     If there is no bonus game playable, spin and manually stop the slot machine. 
     
-#### 4. Start Mini
+#### 2. Start Mini
     Click the 'Start' prompt to start playing the slot mini game.
 
-#### 5. Continue Game
+#### 3. Continue Game
     Continue playing the game by clicking 'Back to Game' , 'Claim Prize', or 'Collect' prompts.
     
-#### 6. Close Menu
+#### 4. Close Menu
     Close any extra menus that pop up while playing or collecting rewards.
     
 #### Flowchart:
 ```mermaid
 graph TD;
-    A{{Start Clicker}}-->|Watching Screen|B{Bonus Game?};
-    B-->|Yes|C[[Start Nevada Snaps]];
-    C-->D[[Play Nevada Snaps]];
-    B-->|No|E[[Spin and Stop]];
-    E-->F{Mini Game?};
-    F-->|No|I;
-    F-->|Yes|G[[Start Mini]];
-    G-->|Finish Mini|H[[Continue Game]];
-    H-->I{Random Menu?};
-    D-->I;
-    
-    I-->|No|B;
-    I-->|Yes|J[[Close Menu]];
-    J-->B;
+    A{{Start Clicker}}-->|Watching Screen|B[[Spin and Stop]];
+    B-->C{Mini Game?};
+    C-->|No|D{Random Menu?}
+    C-->|Yes|E[[Start Mini]];
+    E-->F[[Continue Game]];
+    D-->|No|B;
+    D-->|Yes|G[[Close Menu]];
+    F-->B;
+    G-->B;
     
     
 ```
