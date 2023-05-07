@@ -5,7 +5,6 @@ scrape data from freecash.com
 import os
 import time
 import pandas as pd
-import utils
 import sys
 
 from dotenv import load_dotenv
@@ -15,7 +14,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 #Set options to run Chrome in 'Headless' mode
@@ -31,14 +30,18 @@ load_dotenv()
 
 def start_driver_and_open_ayet(offerwall_version):
     """
-    Downloads the latest version of Google chromedriver and
-    Opens the Ayet offerwall within a webdriver
+    Downloads and installs the latest version of Google chromedriver and
+    opens the Ayet offerwall within a WebDriver
 
-    str: offerwall
+    Parameters
+    ----------
+        offerwall_version: `str`
+            The version of the offerwall to open. Set up in the .env file.
 
-    offerwall examples:
-    - 'BASELINE_AYET'
-    - 'USER_AYET'
+    Returns
+    -------
+        driver: `WebDriver`
+            WebDriver object that can be used to interact with the given `offerwall_version`.
     """
     #This installs the latest version of the official Google chromedriver
     #Accesses cached version if present.
@@ -58,226 +61,72 @@ def start_driver_and_open_ayet(offerwall_version):
     driver.get(ayet)
     return driver
 
-def parse_available_offer_information(driver):
+def parse_offer_information(driver):
     """
-    This function parses through the Ayet available offerwall text and extracts:
+    This function parses through the ayet offerwall text and extracts:
     1. Offer Titles
-    2. Offer Description
+    2. Offer Descriptions
     3. Offer Amount
+    4. Offer Device
 
-    Sets device type and
-    determines if offer has multiple rewards (multi-tiered)
+    Parameters
+    ----------
+        driver: `WebDriver`
+            WebDriver with URL of the offerwall
+
+    Returns
+    -------
+        ayet_dict: `dict`
+            A Python dictionary containing the offer information
     """
-    #Create dictionary to hold offer information
-    available_offer_dict = {'total_coins_earnable':[],'offer_title':[],\
-                  'offer_description':[],'multiple_rewards':[],
-                  'offer_device':[]}
-    #Create list of devices to search through (offerwalls)
-    offerwall_devices = ['desktop','android','ios']
-    #Navigate to available offers page
-    for offerwalls in offerwall_devices:
-        try:
-            #Wait for hamburger button to appear
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "hamburger-button")))
-            #Explicit Wait
-            time.sleep(1)
-            #Click button
-            driver.find_elements(By.XPATH, f"//li[@href='#tab_{offerwalls}']")[0].click()
-            time.sleep(1)
-        except Exception as err:
-            print(f"'Error: {err}'")
-
-        #Focus on offerwall information
-        #Wait for menu to be visible button to appear
+    # Create dictionary to hold offer information
+    ayet_dict = {'offerLow':[],'offerHigh':[],
+                 'Name':[],'Description':[],
+                 'Additional':[],'Difficulty':[],
+                 'Ignore3':[]}
+    # Wait for Hamburger button to appear
+    try:
+        # Wait for hamburger button to appear
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, f"//li[@href='#tab_{offerwalls}']")))
+            EC.presence_of_element_located((By.ID, "hamburger-button")))
+        # Explicit Wait
         time.sleep(1)
-        available_offer_info = driver.find_elements(By.XPATH,"//div[@class = 'tab-pane active']/div")
-        ############# LOGIC BLOCK ##############
-        for offers in available_offer_info:
-            #Set variables equal to text values of the offers
-            available_offer_text = offers.get_attribute('innerText')
-            #Split the offer text
-            split_available_offer_info = available_offer_text.split('\n')
-            #Insert available offer text into dictionary based on size
-            #Sizes were pre-determined from trial and error.
-            if len(split_available_offer_info) == 7:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[5])
-                available_offer_dict['multiple_rewards'].append(1)
+    except Exception as err:
+        print(f"'Waiting for hamburger button Error: {err}'")
+        sys.exit(0)
 
-            elif len(split_available_offer_info) == 6:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[4])
-                available_offer_dict['multiple_rewards'].append(0)
+    # Grab offer information
+    offer_info = driver.find_elements(By.XPATH,"//div[@class = 'row offer-row-basic offer-row-basic-cl ']")
 
-            elif len(split_available_offer_info) == 5:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[2])
-                available_offer_dict['offer_title'].append(split_available_offer_info[3])
-                available_offer_dict['offer_description'].append(split_available_offer_info[4])
-                available_offer_dict['multiple_rewards'].append(0)
-            
-            elif len(split_available_offer_info) ==3:
-                available_offer_dict['total_coins_earnable'].append(split_available_offer_info[0])
-                available_offer_dict['offer_title'].append(split_available_offer_info[1])
-                available_offer_dict['offer_description'].append(split_available_offer_info[2])
-                available_offer_dict['multiple_rewards'].append(0)
+    ############# LOGIC BLOCK ##############
+    for o in offer_info:
+        # Grab raw text. On Ayet offerwall, there are no seperate classes for the elements on the page.
+        # Therefore, we have to extract all text within an offerwall object.
+        offer_text = o.get_attribute('innerText')
+        list_offer_text = offer_text.split('\n')
+        #For each element of the offer text:
+            # Append the element to the ayet_dictionary IN ORDER OF KEYS (set by ayet_dict)
+            # An index error indicates that an element is not present for a particular key
+            # in the dictionary. If we receive this error, impute the value for that key as `None`
 
-
-            elif len(split_available_offer_info) == 226:
+        # Set iterator to 0
+        i = 0
+        for key in ayet_dict:
+            try:
+                ayet_dict[key].append(list_offer_text[i])
+                i += 1
                 continue
-            else:
-                raise Exception ('Unexpected offer split size')
-            #Add offer_device value to dictionary
-            available_offer_dict['offer_device'].append(offerwalls)
-        ############# LOGIC BLOCK ##############
-    return available_offer_dict
+            except IndexError:
+                ayet_dict[key].append(None)
+                i += 1
+                continue
+    ############# LOGIC BLOCK ##############
+    return ayet_dict
 
-def create_available_offer_dataframe(available_offer_dict):
+def create_offer_dataframe(ayet_dict):
     """
     This function returns the available offer dictionary as a pandas DataFrame.
     """
-    available_offer_dataframe = pd.DataFrame.from_dict(available_offer_dict)
-    return available_offer_dataframe
+    offer_dataframe = pd.DataFrame.from_dict(ayet_dict)
+    return offer_dataframe
 
-def parse_completed_offer_info(driver):
-    """
-    This function parses through the Ayet offerwall text and extracts:
-    1. Completed Offer Titles
-    2. Completed Offer Date
-    3. Completed Offer Amount
-    ### Need Device ###
-    """
-    #Create dictionary to hold offer information
-    completed_offer_dict = {'offer_title':[],'coins_earned':[],'date_completed':[]}
-
-    #Navigate to reward status page
-    try:
-        #Wait for hamburger button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "hamburger-button")))
-        #Explicit Wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.ID,value='hamburger-button').click()
-
-        #Wait for reward status button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "sidebar-status")))
-        #Explicit wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.ID,value='sidebar-status').click()
-    except Exception as err:
-        print(f"'Error: {err}'")
-
-    #Attempt to scrape - Fails if offers are not marked as 'Complete' yet
-    try:
-        #Wait for completed page to render
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "user-status")))
-        #Explicit wait
-        time.sleep(1)
-        #Extract completed offer info
-        completed_offer_info = driver.find_elements(By.XPATH, "//div[@id='user-status']")[0]
-
-        ############# LOGIC BLOCK ##############
-        #Get actual text from webpage
-        completed_offer_text = completed_offer_info.text
-        #Split the text
-        split_completed_offer_info = completed_offer_text.split('\n')
-        #Chunk the text for insert into dictionary
-        chunked_completed_list = utils.chunked_iterable(split_completed_offer_info, 4)
-        #Insert values to dictionary
-        for chunks in chunked_completed_list:
-            completed_offer_dict['offer_title'].append(chunks[1])
-            completed_offer_dict['coins_earned'].append(chunks[2])
-            completed_offer_dict['date_completed'].append(chunks[3])
-        ############# LOGIC BLOCK ##############
-
-        return completed_offer_dict
-    except Exception as err:
-        print(f"'Unhandled Error: %{err}'")
-
-def create_completed_offer_dataframe(completed_offer_dict):
-    """
-    This function returns the completed offer dict as a pandas DataFrame.
-    """
-    completed_offer_dataframe = pd.DataFrame.from_dict(completed_offer_dict)
-    return completed_offer_dataframe
-
-def parse_pending_offer_info(driver):
-    """
-    This function parses through the Ayet offerwall text and extracts:
-    1. Pending Offer Titles
-    2. Pending Offer Description
-    3. Pending Start Date/Time
-    """
-    #Create dictionary to hold offer information
-    pending_offer_dict = {'pending_offer_title':[],'offer_description':[],'date_completed':[]}
-
-    #Navigate to pending status page
-    try:
-        #Wait for hamburger button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "hamburger-button")))
-        #Explicit Wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.ID,value='hamburger-button').click()
-
-        #Wait for reward status button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "sidebar-status")))
-        #Explicit wait
-        time.sleep(1)
-        #Click button
-        driver.find_element(by=By.ID,value='sidebar-status').click()
-
-        #Wait for Pending button to appear
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "tabs-menu")))
-        #Explicit wait
-        time.sleep(1)
-        #Click button
-        driver.find_elements(By.XPATH, "//li[@href='#pending']")[0].click()
-    except Exception as err:
-        print(f"'Error: {err}'")
-
-    #Attempt to scrape pending offers
-    try:
-        #Wait for pending page to render
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "user-status")))
-        #Explicit wait
-        time.sleep(1)
-        #Extract pending offer info
-        pending_offer_info = driver.find_elements(By.XPATH, "//div[@id='user-status']")[0]
-
-        ############# LOGIC BLOCK ##############
-        #Get actual text from webpage
-        pending_offer_text = pending_offer_info.text
-        #Split the text
-        split_pending_offer_info = pending_offer_text.split('\n')
-        #Chunk the text for insert into dictionary
-        chunked_pending_list = utils.chunked_iterable(split_pending_offer_info, 4)
-        #Insert values to dictionary
-        for chunks in chunked_pending_list:
-            pending_offer_dict['pending_offer_title'].append(chunks[1])
-            pending_offer_dict['offer_description'].append(chunks[2])
-            pending_offer_dict['date_completed'].append(chunks[3])
-        ############# LOGIC BLOCK ##############
-
-        return pending_offer_dict
-    except Exception as err:
-        print(f"'Unhandled Error: %{err}'")
-
-def create_pending_offer_dataframe(pending_offer_dict):
-    """
-    This function returns the pending offer dict as a pandas DataFrame.
-    """
-    pending_offer_dataframe = pd.DataFrame.from_dict(pending_offer_dict)
-    return pending_offer_dataframe
