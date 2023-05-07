@@ -17,6 +17,7 @@ load_dotenv()
 #and/or server side as well.
 
 @pytest.mark.usefixtures("setup_adgem_page")
+@pytest.mark.xfail(reason='New headless not supported on CircleCI')
 class TestADGEM:
     """
     Test suite for the Adgem offerwall.
