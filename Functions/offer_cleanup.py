@@ -40,3 +40,63 @@ def clean_ayet(ayet_dataframe):
     ayet_dataframe = ayet_dataframe.dropna()
 
     return ayet_dataframe
+
+def clean_revu(revu_dataframe):
+    """
+    This function cleans and prepares
+    the informations retrieve from the
+    Revenue Universe offerwall.
+
+    Parameters
+    ----------
+        revu_dataframe: `pandas.DataFrame`
+            A pandas Dataframe containing offer information from the
+            Revenue Universe offerwall.
+
+    Returns
+    -------
+        clean_revu_dataframe: `pandas.DataFrame`
+            A pandas DataFrame containing the cleaned and processed
+            offer information from the Revenue Universe offerwall.
+    """
+    return
+
+def clean_adgem(adgem_dataframe):
+    """
+    This function cleans and prepares
+    the informations retrieve from the
+    Adgem offerwall.
+
+    Parameters
+    ----------
+        adgem_dataframe: `pandas.DataFrame`
+            A pandas Dataframe containing offer information from the
+            Adgem offerwall.
+
+    Returns
+    -------
+        clean_adgem_dataframe: `pandas.DataFrame`
+            A pandas DataFrame containing the cleaned and processed
+            offer information from the Adgem offerwall.
+    """
+    return
+
+def clean_toro(toro_dataframe):
+    """
+    This function cleans and prepares
+    the informations retrieve from the
+    Offertoro offerwall.
+
+    Parameters
+    ----------
+        toro_dataframe: `pandas.DataFrame`
+            A pandas Dataframe containing offer information from the
+            Offertoro offerwall.
+
+    Returns
+    -------
+        clean_toro_dataframe: `pandas.DataFrame`
+            A pandas DataFrame containing the cleaned and processed
+            offer information from the Offertoro offerwall.
+    """
+    return
