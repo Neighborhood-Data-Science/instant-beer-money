@@ -59,7 +59,9 @@ def clean_revu(revu_dataframe):
             A pandas DataFrame containing the cleaned and processed
             offer information from the Revenue Universe offerwall.
     """
-    return
+
+    ### There is currently no need to do anything here.
+    return revu_dataframe
 
 def clean_adgem(adgem_dataframe):
     """
@@ -79,6 +81,10 @@ def clean_adgem(adgem_dataframe):
             A pandas DataFrame containing the cleaned and processed
             offer information from the Adgem offerwall.
     """
+
+    #Drop duplicates from the dataframe
+    adgem_dataframe = adgem_dataframe.drop_duplicates()
+    
     return
 
 def clean_toro(toro_dataframe):
