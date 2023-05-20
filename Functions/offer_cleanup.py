@@ -5,6 +5,7 @@ offerwall data for ingestion by our database.
 
 import pandas as pd
 import numpy as np
+import re
 
 def clean_ayet(ayet_dataframe):
     """
@@ -84,8 +85,15 @@ def clean_adgem(adgem_dataframe):
 
     #Drop duplicates from the dataframe
     adgem_dataframe = adgem_dataframe.drop_duplicates()
-    
-    return
+
+    # Remove commas from values in offer_amount column
+    adgem_dataframe.loc[:,'offer_amount'] = adgem_dataframe['offer_amount'].str.replace(',','')
+
+    # Return the numerical values only of the offer_amount column
+    adgem_dataframe.loc[:,'offer_amount'] = adgem_dataframe['offer_amount'].apply(\
+        lambda x: ''.join(re.findall(r'\d+', str(x))))
+
+    return adgem_dataframe
 
 def clean_toro(toro_dataframe):
     """
@@ -105,4 +113,4 @@ def clean_toro(toro_dataframe):
             A pandas DataFrame containing the cleaned and processed
             offer information from the Offertoro offerwall.
     """
-    return
+    return toro_dataframe
