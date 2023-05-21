@@ -4,7 +4,6 @@ offerwall data for ingestion by our database.
 """
 
 import pandas as pd
-import numpy as np
 import re
 
 def clean_ayet(ayet_dataframe):
@@ -61,7 +60,9 @@ def clean_revu(revu_dataframe):
             offer information from the Revenue Universe offerwall.
     """
 
-    ### There is currently no need to do anything here.
+    # Remove commas from values in offer_amount column
+    revu_dataframe.loc[:,'offer_amount'] = revu_dataframe['offer_amount'].str.replace(',','')
+
     return revu_dataframe
 
 def clean_adgem(adgem_dataframe):
@@ -95,7 +96,7 @@ def clean_adgem(adgem_dataframe):
 
     return adgem_dataframe
 
-def clean_toro(toro_dataframe):
+def clean_offertoro(toro_dataframe):
     """
     This function cleans and prepares
     the informations retrieve from the
@@ -113,4 +114,11 @@ def clean_toro(toro_dataframe):
             A pandas DataFrame containing the cleaned and processed
             offer information from the Offertoro offerwall.
     """
+
+    # Define replacement dictionary
+    replace_dict = {'android phone':'Android','iphone/ipad':'iOS','device':'Desktop'}
+    
+    # Remove and replace the values ' phone' and 'device' from the offer_device column
+    toro_dataframe.loc[:,'offer_device'] = toro_dataframe['offer_device'].replace(replace_dict)
+
     return toro_dataframe
