@@ -55,34 +55,7 @@ In summary, if we see a prompt to watch an ad for a free depth upgrade, we will 
     If our bot attempts to close ad and it opens the web browser instead:
         1. Swipe left-to-right on screen to return to the ad 
         2. Wait a few seconds before trying to close the ad again.
-        
-#### Flowchart:
-```mermaid
-graph TD;
-    A[Start Clicker]-->|Watching Screen|B{Ad for Depth?};
-    B-->|Yes|C{{Watch Ad}};
-    B-->|No|D[[Continue Game]];
-    C-->|Wait until complete|E[[Close Ads]];
-    E-->F{Did Ad Close?};
-    F-->|No|G{Google prompt?};
-    F-->|Yes|B{Ad for Depth?};
-    H-->E[[Close Ads]];
-    G-->|No|J{In App Store?};
-    G-->|Yes|H[[Resume Video]];
-    J-->|No|P{In Browser?};
-    P-->|No|Q{{Update Scenario}};
-    P-->|Yes|R[[Exit Web]];
-    R-->E;
-    J-->|Yes|O[[Exit Store]];
-    O-->E;
-    D-->K{Game Over?};
-    K-->|Yes|L{Revive Prompt?};
-    K-->|No|D;
-    L-->|No|M;
-    L-->|Yes|N[[No Revive]];
-    N-->M[[Claim or No Thanks]];
-    M-->B;
-```
+
 Please add additional screenshots and scenarios as needed. For example, the 'Close Ads' scenario will need to be updated as new ads are introduced to the game.
 
 We did our best to capture various ad exit symbols but add more as you monitor the AutoClicker.
