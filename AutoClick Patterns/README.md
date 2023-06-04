@@ -14,8 +14,13 @@ This section will serve as storage for AutoClick Patterns created using the [Sma
 # Game Guides
 These game guides will explain the scenarios built into the click pattern and the general flow of the click pattern.
 
-### [Crypto Magnet](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Crypto%20Magnet)
+### [Idle Furry Fishing](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Idle%20Furry%20Fishing)
+
+### [Save the Pets](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Save%20the%20Pets)
 
 ### [The Eat Repeat](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Eat%20Repeat)
 
 ### [Caesars Slots](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Caesars%20Slots)
+
+### [Crypto Magnet](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Crypto%20Magnet)
+
