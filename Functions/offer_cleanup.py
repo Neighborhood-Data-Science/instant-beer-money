@@ -121,4 +121,19 @@ def clean_offertoro(toro_dataframe):
     # Remove and replace the values ' phone' and 'device' from the offer_device column
     toro_dataframe.loc[:,'offer_device'] = toro_dataframe['offer_device'].replace(replace_dict)
 
+    # Declare the refined title list
+    refined_title = []
+
+    for vals in toro_dataframe['offer_title']:
+        ## Returning first element of the split
+        splits_ = vals.strip().split('\n')[0]
+        # Check if there is a '-' and remove all text after the '-'
+        index = splits_.find('-')
+        title_split = splits_[:index]
+        ## Append the title split to the refined title list
+        refined_title.append(title_split)
+    
+    # Replace the offer_title column with the refined title list
+    toro_dataframe.loc[:,'offer_title'] = refined_title
+
     return toro_dataframe
