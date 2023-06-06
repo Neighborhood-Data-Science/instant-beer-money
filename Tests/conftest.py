@@ -73,6 +73,29 @@ def qa_ayet(request):
     'Ignore3': [None, None, 'Value']
     }
 
-    data_frame = pd.DataFrame(data)
+    ayet_frame = pd.DataFrame(data)
     
-    return data_frame
+    return ayet_frame
+
+@pytest.fixture(scope="class",autouse=False)
+def qa_adgem(request):
+    """
+    Set mock Adgem dataframe page as fixture. 
+    """
+    data = {
+    'offer_title': ['Hidden Objects', 'Video Poker Classic', 'Smash Party', 'Ball Sort', 'Gold & Goblins',
+                        'Race Car 3D', 'Toy Cubes Blast', 'MyGym', 'Alphabetris', 'Sling Plane'],
+    'offer_description': ['Complete Level 31 to Earn!', 'Complete Multiple Goals to Earn!',
+                        'Complete Multiple Goals to Earn!', 'Complete Level 31 in Sort Mode to Earn!',
+                        'Complete Mine 21 to Earn!', 'Complete Level 26 to Earn!',
+                        'Complete Level 151 to Earn!', 'Complete Task to Earn!', 'Complete Level 31 to Earn!',
+                        'Complete Task to Earn!'],
+        'offer_amount': ['683', 'Up To\n11,250', 'Up To\n13,247', '563', '9,000', '3,188', '2,625', '18,750', '188',
+                        '750'],
+        'offer_device': ['Apple', 'Android', 'Android', 'Android', 'Android', 'Android', 'Android', 'Apple',
+                        'Apple', 'Apple']
+    }
+
+    adgem_frame = pd.DataFrame(data)
+    
+    return adgem_frame
