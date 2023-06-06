@@ -61,7 +61,7 @@ def setup_revu_page(request):
 @pytest.fixture(scope="class",autouse=False)
 def qa_ayet(request):
     """
-    Set Ayet page as fixture. 
+    Set mock Ayet dataframe page as fixture. 
     """
     data = {
     'offerLow': ['10', '20', '30'],
@@ -74,5 +74,5 @@ def qa_ayet(request):
     }
 
     data_frame = pd.DataFrame(data)
-    cleaned_frame = offer_cleanup.clean_ayet(data_frame)
-    return cleaned_frame
+    
+    return data_frame
