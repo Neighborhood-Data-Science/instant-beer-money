@@ -127,9 +127,11 @@ def clean_offertoro(toro_dataframe):
     for vals in toro_dataframe['offer_title']:
         ## Returning first element of the split
         splits_ = vals.strip().split('\n')[0]
-        # Check if there is a '-' and remove all text after the '-'
+        # Check if there is a '-' and keep all text up to the '-' marker
         index = splits_.find('-')
         title_split = splits_[:index]
+        #Additional strip of text to remove whitespaces
+        title_split = title_split.strip()
         ## Append the title split to the refined title list
         refined_title.append(title_split)
     
