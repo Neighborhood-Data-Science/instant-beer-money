@@ -57,7 +57,7 @@ class Test_QA_ADGEM:
     Test suite for the Ayet offerwall.
 
     This test suite is designed to test the expected data structure
-    resulting from the `ayet_info.py` file.
+    resulting from the `adgem_info.py` file.
     """
 
     def test_dropped_duplicates(self, qa_adgem):
@@ -80,3 +80,49 @@ class Test_QA_ADGEM:
         """
         clean_adgem = offer_cleanup.clean_adgem(qa_adgem)
         assert clean_adgem['offer_amount'].str.isnumeric().all()
+
+@pytest.mark.usefixtures("qa_revu")
+class Test_QA_REVU:
+    """
+    Test suite for the Revenue Universe offerwall.
+
+    This test suite is designed to test the expected data structure
+    resulting from the `revu_info.py` file.
+    """
+
+    def test_commas_removed(self, qa_revu):
+        """
+        Tests that unneeded commas were removed from the `offer_amount` column.
+        """
+        clean_revu = offer_cleanup.clean_revu(qa_revu)
+        assert not clean_revu['offer_amount'].str.contains(',').any()
+
+    def test_only_numeric_values(self, qa_revu):
+        """
+        Tests that only numeric values are in the `offer_amount` column.
+        """
+        clean_revu = offer_cleanup.clean_revu(qa_revu)
+        assert clean_revu['offer_amount'].str.isnumeric().all()
+
+@pytest.mark.usefixtures("qa_toro")
+class Test_QA_TORO:
+    """
+    Test suite for the Offertoro offerwall.
+
+    This test suite is designed to test the expected data structure
+    resulting from the `offertoro_info.py` file.
+    """
+
+    def test_dictionary_replacements(self, qa_toro):
+        """
+        Tests that the values inside the dictionary used for replacement were replaced correctly.
+        """
+        clean_toro = offer_cleanup.clean_offertoro(qa_toro)
+        assert clean_toro['offer_device'].tolist() == ['Android', 'iOS']
+
+    def test_refined_title(self, qa_toro):
+        """
+        Tests that titles in `offer_title` are refined correctly.
+        """
+        clean_toro = offer_cleanup.clean_offertoro(qa_toro)
+        assert clean_toro['offer_title'].tolist() == ['Title 1', 'Title 2']

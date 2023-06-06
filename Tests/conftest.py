@@ -61,7 +61,7 @@ def setup_revu_page(request):
 @pytest.fixture(scope="class",autouse=False)
 def qa_ayet(request):
     """
-    Set mock Ayet dataframe page as fixture. 
+    Set mock Ayet data as fixture. 
     """
     data = {
     'offerLow': ['10', '20', '30'],
@@ -74,28 +74,46 @@ def qa_ayet(request):
     }
 
     ayet_frame = pd.DataFrame(data)
-    
     return ayet_frame
 
 @pytest.fixture(scope="class",autouse=False)
 def qa_adgem(request):
     """
-    Set mock Adgem dataframe page as fixture. 
+    Set mock Adgem data as fixture. 
     """
     data = {
-    'offer_title': ['Hidden Objects', 'Video Poker Classic', 'Smash Party', 'Ball Sort', 'Gold & Goblins',
-                        'Race Car 3D', 'Toy Cubes Blast', 'MyGym', 'Alphabetris', 'Sling Plane'],
+    'offer_title': ['Hidden Objects', 'Video Poker Classic', 'Smash Party'],
     'offer_description': ['Complete Level 31 to Earn!', 'Complete Multiple Goals to Earn!',
-                        'Complete Multiple Goals to Earn!', 'Complete Level 31 in Sort Mode to Earn!',
-                        'Complete Mine 21 to Earn!', 'Complete Level 26 to Earn!',
-                        'Complete Level 151 to Earn!', 'Complete Task to Earn!', 'Complete Level 31 to Earn!',
-                        'Complete Task to Earn!'],
-        'offer_amount': ['683', 'Up To\n11,250', 'Up To\n13,247', '563', '9,000', '3,188', '2,625', '18,750', '188',
-                        '750'],
-        'offer_device': ['Apple', 'Android', 'Android', 'Android', 'Android', 'Android', 'Android', 'Apple',
-                        'Apple', 'Apple']
+                        'Complete Multiple Goals to Earn!'],
+    'offer_amount': ['683', 'Up To\n11,250', 'Up To\n13,247'],
+    'offer_device': ['Apple', 'Android', 'Android']
     }
 
     adgem_frame = pd.DataFrame(data)
-    
     return adgem_frame
+
+@pytest.fixture(scope="class",autouse=False)
+def qa_revu(request):
+    """
+    Set mock Revenue Universe data as fixture. 
+    """
+    data = {
+    'offer_title': ['Title 1', 'Title 2', 'Title 3'],
+    'offer_amount': ['255', '8,250', '165']
+    }
+
+    revu_frame = pd.DataFrame(data)
+    return revu_frame
+
+@pytest.fixture(scope="class",autouse=False)
+def qa_toro(request):
+    """
+    Set mock Offertoro data as fixture. 
+    """
+    data = {
+    'offer_title': ['Title 1 - Description', 'Title 2 - Description'],
+    'offer_device': ['android phone', 'iphone/ipad']
+    }
+
+    toro_frame = pd.DataFrame(data)
+    return toro_frame
