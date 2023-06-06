@@ -58,7 +58,7 @@ def setup_revu_page(request):
     yield revu_main_page
     revu_main_page.close()
 
-@pytest.fixture(scope="class",autouse=False)
+@pytest.fixture(scope="function",autouse=False)
 def qa_ayet(request):
     """
     Set mock Ayet data as fixture. 
@@ -76,7 +76,7 @@ def qa_ayet(request):
     ayet_frame = pd.DataFrame(data)
     return ayet_frame
 
-@pytest.fixture(scope="class",autouse=False)
+@pytest.fixture(scope="function",autouse=False)
 def qa_adgem(request):
     """
     Set mock Adgem data as fixture. 
@@ -92,7 +92,7 @@ def qa_adgem(request):
     adgem_frame = pd.DataFrame(data)
     return adgem_frame
 
-@pytest.fixture(scope="class",autouse=False)
+@pytest.fixture(scope="function",autouse=False)
 def qa_revu(request):
     """
     Set mock Revenue Universe data as fixture. 
@@ -105,13 +105,13 @@ def qa_revu(request):
     revu_frame = pd.DataFrame(data)
     return revu_frame
 
-@pytest.fixture(scope="class",autouse=False)
+@pytest.fixture(scope="function",autouse=False)
 def qa_toro(request):
     """
     Set mock Offertoro data as fixture. 
     """
     data = {
-    'offer_title': ['Title 1 - Description', 'Title 2 - Description'],
+    'offer_title': ['\nTitle 1 - Source\nDescription 1', '\nTitle 2 - Source\nDescription 2'],
     'offer_device': ['android phone', 'iphone/ipad']
     }
 

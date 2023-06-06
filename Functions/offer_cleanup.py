@@ -131,7 +131,7 @@ def clean_offertoro(toro_dataframe):
         index = splits_.find('-')
         title_split = splits_[:index]
         #Additional strip of text to remove whitespaces
-        title_split = title_split.strip()
+        title_split = title_split.rstrip()
         ## Append the title split to the refined title list
         refined_title.append(title_split)
     
