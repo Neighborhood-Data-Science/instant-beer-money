@@ -80,8 +80,8 @@ def parse_offer_information(driver):
             A Python dictionary containing the offer information
     """
     # Create dictionary to hold offer information
-    ayet_dict = {'offerLow':[],'offerHigh':[],
-                 'Name':[],'Description':[],
+    ayet_dict = {'offerLow':[],'offer_amount':[],
+                 'offer_title':[],'offer_desc':[],
                  'Additional':[],'Difficulty':[],
                  'Ignore3':[]}
     # Wait for Hamburger button to appear

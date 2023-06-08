@@ -29,8 +29,8 @@ def clean_ayet(ayet_dataframe):
     # Add proper description from the 'Additonal' column instead of
     # a generic 'Mulitple rewards' description.
     for index,row in ayet_dataframe.iterrows():
-        if row['Description'] in keyword_list:
-            row['Description'] = row['Additional']
+        if row['offer_desc'] in keyword_list:
+            row['offer_desc'] = row['Additional']
 
     # Drop unneeded columns from the dataframe.
     ayet_dataframe = ayet_dataframe.drop(['offerLow','Additional','Difficulty','Ignore3'], axis=1)
