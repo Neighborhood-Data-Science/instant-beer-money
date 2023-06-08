@@ -23,3 +23,4 @@ class TestDB:
                                             user=os.environ['DB_USER'],
                                             password=os.environ['DB_PASSWORD'])
         assert connection.is_connected()
+        connection.close()
