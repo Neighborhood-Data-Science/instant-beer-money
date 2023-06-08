@@ -34,7 +34,7 @@ class Test_QA_AYET:
         is 'Multiple rewards'
         """
         clean_ayet = offer_cleanup.clean_ayet(qa_ayet)
-        assert clean_ayet.loc[2, 'Description'] == 'Additional 2'
+        assert clean_ayet.loc[2, 'offer_description'] == 'Additional 2'
 
     def test_columns_dropped(self, qa_ayet):
         """

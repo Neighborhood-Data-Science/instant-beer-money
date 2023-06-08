@@ -81,7 +81,7 @@ def parse_offer_information(driver):
     """
     # Create dictionary to hold offer information
     ayet_dict = {'offerLow':[],'offer_amount':[],
-                 'offer_title':[],'offer_desc':[],
+                 'offer_title':[],'offer_description':[],
                  'Additional':[],'Difficulty':[],
                  'Ignore3':[]}
     # Wait for Hamburger button to appear

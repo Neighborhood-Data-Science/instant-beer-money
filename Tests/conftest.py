@@ -66,8 +66,8 @@ def qa_ayet(request):
     data = {
     'offerLow': ['10', '20', '30'],
     'offerHigh': [None, '50', '60'],
-    'Name': ['Offer 1', 'Offer 2', 'Offer 3'],
-    'Description': ['Multiple rewards', 'Description 2', 'Multiple rewards'],
+    'offer_name': ['Offer 1', 'Offer 2', 'Offer 3'],
+    'offer_description': ['Multiple rewards', 'Description 2', 'Multiple rewards'],
     'Additional': ['Additional 1', None, 'Additional 2'],
     'Difficulty': ['Easy', None, 'Medium'],
     'Ignore3': [None, None, 'Value']
