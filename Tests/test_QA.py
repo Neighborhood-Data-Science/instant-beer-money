@@ -51,6 +51,14 @@ class Test_QA_AYET:
         clean_ayet = offer_cleanup.clean_ayet(qa_ayet)
         assert not clean_ayet.isnull().values.any()
 
+    def test_offerwall_name_present(self, qa_ayet):
+        """
+        Tests that the offerwall name is present in the dataframe.
+        """
+        clean_ayet = offer_cleanup.clean_ayet(qa_ayet)
+        assert 'Ayet' in clean_ayet['offerwall_name'].values.tolist()
+
+
 @pytest.mark.usefixtures("qa_adgem")
 class Test_QA_ADGEM:
     """
@@ -81,6 +89,13 @@ class Test_QA_ADGEM:
         clean_adgem = offer_cleanup.clean_adgem(qa_adgem)
         assert clean_adgem['offer_amount'].str.isnumeric().all()
 
+    def test_offerwall_name_present(self, qa_adgem):
+        """
+        Tests that the offerwall name is present in the dataframe.
+        """
+        clean_adgem = offer_cleanup.clean_adgem(qa_adgem)
+        assert 'Adgem' in clean_adgem['offerwall_name'].values.tolist()
+
 @pytest.mark.usefixtures("qa_revu")
 class Test_QA_REVU:
     """
@@ -104,6 +119,13 @@ class Test_QA_REVU:
         clean_revu = offer_cleanup.clean_revu(qa_revu)
         assert clean_revu['offer_amount'].str.isnumeric().all()
 
+    def test_offerwall_name_present(self, qa_revu):
+        """
+        Tests that the offerwall name is present in the dataframe.
+        """
+        clean_revu = offer_cleanup.clean_revu(qa_revu)
+        assert 'RevU' in clean_revu['offerwall_name'].values.tolist()
+
 @pytest.mark.usefixtures("qa_toro")
 class Test_QA_TORO:
     """
@@ -126,3 +148,10 @@ class Test_QA_TORO:
         """
         clean_toro = offer_cleanup.clean_offertoro(qa_toro)
         assert clean_toro['offer_title'].tolist() == ['Title 1', 'Title 2']
+
+    def test_offerwall_name_present(self, qa_toro):
+        """
+        Tests that the offerwall name is present in the dataframe.
+        """
+        clean_toro = offer_cleanup.clean_offertoro(qa_toro)
+        assert 'Offertoro' in clean_toro['offerwall_name'].values.tolist()

@@ -39,6 +39,9 @@ def clean_ayet(ayet_dataframe):
     # duplicate data.
     ayet_dataframe = ayet_dataframe.dropna()
 
+    ## Add a new column to the dataframe containing the name of the offerwall.
+    ayet_dataframe['offerwall_name'] = 'Ayet'
+
     return ayet_dataframe
 
 def clean_revu(revu_dataframe):
@@ -62,6 +65,9 @@ def clean_revu(revu_dataframe):
 
     # Remove commas from values in offer_amount column
     revu_dataframe.loc[:,'offer_amount'] = revu_dataframe['offer_amount'].str.replace(',','')
+
+    ## Add a new column to the dataframe containing the name of the offerwall.
+    revu_dataframe['offerwall_name'] = 'RevU'
 
     return revu_dataframe
 
@@ -93,6 +99,9 @@ def clean_adgem(adgem_dataframe):
     # Return the numerical values only of the offer_amount column
     adgem_dataframe.loc[:,'offer_amount'] = adgem_dataframe['offer_amount'].apply(\
         lambda x: ''.join(re.findall(r'\d+', str(x))))
+
+    ## Add a new column to the dataframe containing the name of the offerwall.
+    adgem_dataframe.loc[:,'offerwall_name'] = 'Adgem'
 
     return adgem_dataframe
 
@@ -137,5 +146,8 @@ def clean_offertoro(toro_dataframe):
     
     # Replace the offer_title column with the refined title list
     toro_dataframe.loc[:,'offer_title'] = refined_title
+
+    # Add a new column to the dataframe containing the name of the offerwall.
+    toro_dataframe['offerwall_name'] = 'Offertoro'
 
     return toro_dataframe
