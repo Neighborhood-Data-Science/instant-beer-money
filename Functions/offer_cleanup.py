@@ -101,7 +101,7 @@ def clean_adgem(adgem_dataframe):
         lambda x: ''.join(re.findall(r'\d+', str(x))))
 
     ## Add a new column to the dataframe containing the name of the offerwall.
-    adgem_dataframe.loc[:,'offerwall_name'] = 'Adgem'
+    adgem_dataframe = adgem_dataframe.assign(offerwall_name='Adgem')
 
     return adgem_dataframe
 
