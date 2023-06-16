@@ -2,17 +2,9 @@
 Main Testing Framework to confirm Data Quality
 """
 
-import pandas as pd
 import pytest
-import os
 from dotenv import load_dotenv
-import sys
-sys.path.append('./Functions')
-import adgem_info
-import ayet_info
-import offertoro_info
-import revu_info
-import offer_cleanup
+from Functions import offer_cleanup
 
 #Load environment variables
 load_dotenv()
