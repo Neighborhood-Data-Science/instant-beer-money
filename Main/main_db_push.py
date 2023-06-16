@@ -5,7 +5,11 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 from mysql.connector import Error
-from Functions import revu_info, offertoro_info, ayet_info, adgem_info, offer_cleanup
+import revu_info
+import offertoro_info
+import ayet_info
+import adgem_info
+import offer_cleanup
 
 
 # Load environment variables
