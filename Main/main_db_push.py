@@ -1,29 +1,23 @@
 """
 Main Framework for pulling data from Freecash offerwalls and pushing it to the database
 """
-
-import pandas as pd
-import pytest
 import os
 import mysql.connector
 from dotenv import load_dotenv
 from mysql.connector import Error
-import sys
-sys.path.append('./Functions')
-import adgem_info
-import ayet_info
-import offertoro_info
-import revu_info
-import offer_cleanup
+from Functions import revu_info, offertoro_info, ayet_info, adgem_info, offer_cleanup
 
-#Load environment variables
+
+# Load environment variables
 load_dotenv()
-#The environment variables should be present in your CI/CD pipeline 
-#and/or server side as well.
+# The environment variables should be present in your CI/CD pipeline
+# and/or server side as well.
 
-### This needs to take the userID as input --
-### This will be executed when the user submits their FSID
-def get_offerwall_data(): 
+# This needs to take the userID as input --
+# This will be executed when the user submits their FSID
+
+
+def get_offerwall_data():
     """
     Function to pull data from the offerwalls
 
@@ -44,8 +38,8 @@ def get_offerwall_data():
         offer_info = ayet_info.parse_offer_information(driver)
         ayet_dataframe = ayet_info.create_offer_dataframe(offer_info)
         clean_ayet_dataframe = offer_cleanup.clean_ayet(ayet_dataframe)
-    except Error as e:
-        print(e)
+    except Error as process_error:
+        print(process_error)
 
     try:
         # Read and parse the data from Adgem offerwall
@@ -53,17 +47,18 @@ def get_offerwall_data():
         offer_info = adgem_info.parse_offer_information(driver)
         adgem_dataframe = adgem_info.create_offer_dataframe(offer_info)
         clean_adgem_dataframe = offer_cleanup.clean_adgem(adgem_dataframe)
-    except Error as e:
-        print(e)
+    except Error as process_error:
+        print(process_error)
 
     try:
         # Read and parse the data from Offertoro offerwall
         driver = offertoro_info.start_driver_and_open_offertoro('TORO')
         offer_info = offertoro_info.parse_offer_information(driver)
         offertoro_dataframe = offertoro_info.create_offer_dataframe(offer_info)
-        clean_offertoro_dataframe = offer_cleanup.clean_offertoro(offertoro_dataframe)
-    except Error as e:
-        print(e)
+        clean_offertoro_dataframe = offer_cleanup.clean_offertoro(
+            offertoro_dataframe)
+    except Error as process_error:
+        print(process_error)
 
     try:
         # Read and parse the data from Revu offerwall
@@ -71,8 +66,8 @@ def get_offerwall_data():
         offer_info = revu_info.parse_offer_information(driver)
         revu_dataframe = revu_info.create_offer_dataframe(offer_info)
         clean_revu_dataframe = offer_cleanup.clean_revu(revu_dataframe)
-    except Error as e:
-        print(e)
+    except Error as process_error:
+        print(process_error)
 
     # Check which dataframes were created and return those dataframes
     dataframe_list = []
@@ -80,12 +75,13 @@ def get_offerwall_data():
         dataframe_list.append(clean_ayet_dataframe)
     if 'clean_adgem_dataframe' in locals():
         dataframe_list.append(clean_adgem_dataframe)
-    if 'clean_offertoro_dataframe' in locals(): 
+    if 'clean_offertoro_dataframe' in locals():
         dataframe_list.append(clean_offertoro_dataframe)
     if 'clean_revu_dataframe' in locals():
         dataframe_list.append(clean_revu_dataframe)
 
     return dataframe_list
+
 
 def establish_connection():
     """
@@ -97,22 +93,23 @@ def establish_connection():
 
     Returns
     -------
-        mydb: `mysql.connector.connection_cext.CMySQLConnection` 
+        database_conn: `mysql.connector.connection_cext.CMySQLConnection` 
             A connection to the database.
     """
 
     try:
-        mydb = mysql.connector.connect(
+        database_conn = mysql.connector.connect(
             host=os.environ['DB_HOST'],
             user=os.environ['DB_USER'],
             password=os.environ['DB_PASSWORD'],
             database=os.environ['DB_NAME']
         )
-        return mydb
-    except Error as e:
-        print(e)
+        return database_conn
+    except Error as process_error:
+        print(process_error)
 
-def insert_offer_data(dataframe_list, mydb):
+
+def insert_offer_data(dataframe_list, database):
     """
     Function to insert data into the database.
 
@@ -120,8 +117,8 @@ def insert_offer_data(dataframe_list, mydb):
     ----------
         dataframe_list: `list`  
             A list containing each offerwall dataframe that was successfully scraped and parsed.
-        mydb: `mysql.connector.connection_cext.CMySQLConnection` 
-            A connection to the database.
+        database: `mysql.connector.connection_cext.CMySQLConnection` 
+            A successfully connected database.
 
     Returns
     -------
@@ -129,31 +126,34 @@ def insert_offer_data(dataframe_list, mydb):
     """
 
     # Create a cursor object to execute SQL queries
-    cursor = mydb.cursor()
+    cursor = database.cursor()
 
     # Loop through each dataframe in the list and add it to the database
     for dataframe in dataframe_list:
-        # Convert the DataFrame into a list of tuples
+        # Collect the column names from the dataframe.
         query_cols = ', '.join(dataframe.columns)
+        # Calculate the proper number of %s placeholders for each column in the dataframe.
         value_len = ', '.join(['%s'] * len(dataframe.columns))
+        # Query to insert the data into the database
         insert_query = f"INSERT INTO {os.environ['DB_MAIN_TABLE']} ({query_cols}) VALUES ({value_len})"
         # Get the values from the DataFrame as a list of tuples
         values = [tuple(row) for row in dataframe.values]
         # Execute the INSERT statement with multiple rows
         cursor.executemany(insert_query, values)
         # Commit the changes to the database
-        mydb.commit()
+        database.commit()
 
     # Close the cursor and the connection
     cursor.close()
-    mydb.close()
+    database.close()
 
-    return 'Table inserted successfully'
+    return print('SUCCESS')
+
 
 if __name__ == '__main__':
     # Retrieve the offerwall data from each offerwall
     offer_data = get_offerwall_data()
     # Establish a connection to the database
-    mydb = establish_connection()
+    my_database_conn = establish_connection()
     # Insert the offerwall data into the database
-    insert_offer_data(offer_data, mydb)
+    insert_offer_data(offer_data, my_database_conn)
