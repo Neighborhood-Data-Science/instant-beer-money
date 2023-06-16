@@ -4,7 +4,7 @@ Main Testing Framework to confirm Data Quality
 
 import pytest
 from dotenv import load_dotenv
-from Functions import offer_cleanup
+import offer_cleanup
 
 #Load environment variables
 load_dotenv()
