@@ -4,6 +4,8 @@ Main Testing Framework to confirm database connectivity and operation.
 
 import os
 import pytest
+import sys
+sys.path.append('./Functions')
 import main_db_push
 
 
