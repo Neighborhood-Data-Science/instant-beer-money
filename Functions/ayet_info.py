@@ -80,8 +80,8 @@ def parse_offer_information(driver):
             A Python dictionary containing the offer information
     """
     # Create dictionary to hold offer information
-    ayet_dict = {'offerLow':[],'offerHigh':[],
-                 'Name':[],'Description':[],
+    ayet_dict = {'offerLow':[],'offer_amount':[],
+                 'offer_title':[],'offer_description':[],
                  'Additional':[],'Difficulty':[],
                  'Ignore3':[]}
     # Wait for Hamburger button to appear
@@ -126,6 +126,16 @@ def parse_offer_information(driver):
 def create_offer_dataframe(ayet_dict):
     """
     This function returns the available offer dictionary as a pandas DataFrame.
+
+    Parameters
+    ----------
+        ayet_dict: `dict`
+            A Python dictionary containing the offer information
+
+    Returns
+    -------
+        offer_dataframe: `pandas.DataFrame`
+            A pandas DataFrame containing the offer information.
     """
     offer_dataframe = pd.DataFrame.from_dict(ayet_dict)
     return offer_dataframe

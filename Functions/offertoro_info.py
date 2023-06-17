@@ -80,7 +80,7 @@ def parse_offer_information(driver):
 
     """
     #Create dictionary to hold offer information
-    toro_dict = {'offer_title_desc':[],\
+    toro_dict = {'offer_title':[],\
                   'offer_amount':[],'offer_device':[]}
 
     try:
@@ -107,7 +107,7 @@ def parse_offer_information(driver):
                 offer_text = offers.get_attribute('innerText').split('\t')[1]
 
                 #Insert into dictionary
-                toro_dict['offer_title_desc'].append(offer_text)
+                toro_dict['offer_title'].append(offer_text)
                 toro_dict['offer_amount'].append(offer_payout)
                 toro_dict['offer_device'].append(offer_device)
     

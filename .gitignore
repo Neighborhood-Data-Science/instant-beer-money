@@ -5,3 +5,4 @@
 .pylintrc
 settings.json
 **mdCOPY.md
+**.sql
