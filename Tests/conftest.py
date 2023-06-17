@@ -8,7 +8,7 @@ import os
 import pytest
 import pandas as pd
 import sys
-sys.path.appened('./Functions')
+sys.path.append('./Functions')
 import ayet_info
 import adgem_info
 import offertoro_info
