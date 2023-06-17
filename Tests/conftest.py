@@ -7,6 +7,8 @@ any test across the application.
 import os
 import pytest
 import pandas as pd
+import sys
+sys.path.appened('./Functions')
 import ayet_info
 import adgem_info
 import offertoro_info
