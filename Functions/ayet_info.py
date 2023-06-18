@@ -4,8 +4,8 @@ scrape data from freecash.com
 """
 import os
 import time
-import pandas as pd
 import sys
+import pandas as pd
 
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -17,16 +17,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-#Set options to run Chrome in 'Headless' mode
+# Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920x1080")
 
-#Load environment variables
+# Load environment variables
 load_dotenv()
-#The environment variables should be present in your CI/CD pipeline
-#and/or server side as well.
+# The environment variables should be present in your CI/CD pipeline
+# and/or server side as well.
+
 
 def start_driver_and_open_ayet(offerwall_version):
     """
@@ -43,23 +44,24 @@ def start_driver_and_open_ayet(offerwall_version):
         driver: `WebDriver`
             WebDriver object that can be used to interact with the given `offerwall_version`.
     """
-    #This installs the latest version of the official Google chromedriver
-    #Accesses cached version if present.
+    # This installs the latest version of the official Google chromedriver
+    # Accesses cached version if present.
 
-    #Initialize variable
+    # Initialize variable
     driver = None
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),\
-                options=chrome_options)
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),
+                                  options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
         sys.exit(0)
 
-    #Set Ayet URL
+    # Set Ayet URL
     ayet = os.environ[offerwall_version]
-    #Open webpage
+    # Open webpage
     driver.get(ayet)
     return driver
+
 
 def parse_offer_information(driver):
     """
@@ -80,10 +82,10 @@ def parse_offer_information(driver):
             A Python dictionary containing the offer information
     """
     # Create dictionary to hold offer information
-    ayet_dict = {'offerLow':[],'offer_amount':[],
-                 'offer_title':[],'offer_description':[],
-                 'Additional':[],'Difficulty':[],
-                 'Ignore3':[]}
+    ayet_dict = {'offerLow': [], 'offer_amount': [],
+                 'offer_title': [], 'offer_description': [],
+                 'Additional': [], 'Difficulty': [],
+                 'Ignore3': []}
     # Wait for Hamburger button to appear
     try:
         # Wait for hamburger button to appear
@@ -96,32 +98,34 @@ def parse_offer_information(driver):
         sys.exit(0)
 
     # Grab offer information
-    offer_info = driver.find_elements(By.XPATH,"//div[@class = 'row offer-row-basic offer-row-basic-cl ']")
+    offer_info = driver.find_elements(
+        By.XPATH, "//div[@class = 'row offer-row-basic offer-row-basic-cl ']")
 
     ############# LOGIC BLOCK ##############
-    for o in offer_info:
+    for offers in offer_info:
         # Grab raw text. On Ayet offerwall, there are no seperate classes for the elements on the page.
         # Therefore, we have to extract all text within an offerwall object.
-        offer_text = o.get_attribute('innerText')
+        offer_text = offers.get_attribute('innerText')
         list_offer_text = offer_text.split('\n')
-        #For each element of the offer text:
-            # Append the element to the ayet_dictionary IN ORDER OF KEYS (set by ayet_dict)
-            # An index error indicates that an element is not present for a particular key
-            # in the dictionary. If we receive this error, impute the value for that key as `None`
+        # For each element of the offer text:
+        # Append the element to the ayet_dictionary IN ORDER OF KEYS (set by ayet_dict)
+        # An index error indicates that an element is not present for a particular key
+        # in the dictionary. If we receive this error, impute the value for that key as `None`
 
         # Set iterator to 0
         i = 0
-        for key in ayet_dict:
+        for key,vals in ayet_dict.items():
             try:
-                ayet_dict[key].append(list_offer_text[i])
+                vals.append(list_offer_text[i])
                 i += 1
                 continue
             except IndexError:
-                ayet_dict[key].append(None)
+                vals.append(None)
                 i += 1
                 continue
     ############# LOGIC BLOCK ##############
     return ayet_dict
+
 
 def create_offer_dataframe(ayet_dict):
     """
@@ -139,4 +143,3 @@ def create_offer_dataframe(ayet_dict):
     """
     offer_dataframe = pd.DataFrame.from_dict(ayet_dict)
     return offer_dataframe
-
