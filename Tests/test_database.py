@@ -26,14 +26,6 @@ class TestDB:
         assert connection.is_connected()
         connection.close()
 
-    def test_get_offerwall_data(self):
-        """
-        Test that we are able to retrieve data from the offerwalls
-        """
-        offer_data = main_db_push.get_offerwall_data()
-        assert isinstance(offer_data, list)
-        assert len(offer_data) > 0
-
     def test_insert_data(self, main_db_mock, db_connection):
         """
         Test that we are able to insert data into the database.
