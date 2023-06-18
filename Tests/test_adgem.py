@@ -3,10 +3,10 @@ Main Web Testing Framework for AdGem offerwall through freecash.com
 """
 
 import os
-import adgem_info
 import pandas as pd
 import pytest
 from dotenv import load_dotenv
+import adgem_info
 
 # Load environment variables
 load_dotenv()
