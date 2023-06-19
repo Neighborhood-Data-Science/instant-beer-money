@@ -7,13 +7,12 @@ any test across the application.
 import os
 import pytest
 import pandas as pd
-import sys
-sys.path.append('./Functions')
+import mysql.connector
 import ayet_info
 import adgem_info
 import offertoro_info
 import revu_info
-import mysql.connector
+
 
 @pytest.fixture(scope="class", autouse=False)
 def setup_ayet_page(request):

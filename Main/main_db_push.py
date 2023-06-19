@@ -11,7 +11,6 @@ import ayet_info
 import adgem_info
 import offer_cleanup
 
-
 # Load environment variables
 load_dotenv()
 # The environment variables should be present in your CI/CD pipeline

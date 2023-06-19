@@ -43,7 +43,7 @@ jobs:
           command: 
             mkdir -p test-results
 
-            pytest --junitxml=test-results/unit_tests.xml
+            python -m pytest --junitxml=test-results/unit_tests.xml
             
       - store_test_results:
           path: test-results
