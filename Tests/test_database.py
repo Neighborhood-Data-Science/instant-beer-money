@@ -4,9 +4,7 @@ Main Testing Framework to confirm database connectivity and operation.
 
 import os
 import pytest
-import sys
-sys.path.append('./Main')
-import main_db_push
+from Main import main_db_push
 
 
 @pytest.mark.usefixtures("main_db_mock", "db_connection", "db_table")

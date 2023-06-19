@@ -4,8 +4,8 @@ Main Web Testing Framework
 import os
 import pytest
 import pandas as pd
-import revu_info
 from dotenv import load_dotenv
+import revu_info
 
 # Load environment variables
 load_dotenv()

@@ -2,10 +2,10 @@
 Main Web Testing Framework
 """
 import os
-import offertoro_info
 import pandas as pd
 import pytest
 from dotenv import load_dotenv
+import offertoro_info
 
 # Load environment variables
 load_dotenv()
