@@ -8,8 +8,6 @@ import os
 import pytest
 import pandas as pd
 import mysql.connector
-import sys
-sys.path.append('./src')
 import ayet_info
 import adgem_info
 import offertoro_info
