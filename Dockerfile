@@ -1,5 +1,5 @@
 # set the Base Image from which your image will be built on
-FROM python:3.11.1
+FROM nikolaik/python-nodejs:latest
 # create a directory called beermoney in root. 
 # This directory will contain the code which currently resides in
 RUN mkdir /beermoney
@@ -14,16 +14,6 @@ RUN pip install -r requirements.txt
 
 # copy the current directory in you local machine to /beermoney in your image
 ADD . /beermoney
-
-RUN wget https://nodejs.org/dist/v20.1.0/node-v20.1.0.tar.gz && \
-    tar -xzvf node-v20.1.0.tar.gz && \
-    rm node-v20.1.0.tar.gz && \
-    cd node-v20.1.0 && \
-    ./configure && \
-    make -j4 && \
-    make install && \
-    cd .. && \
-    rm -r node-v20.1.0
 
 RUN cd beermoney-app
 
