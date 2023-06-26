@@ -1,3 +1,13 @@
+image_config: &image_config
+
+  # make sure to set your Docker Hub username & password in CircleCI,
+  # either as project-specific environment variables
+  # or as resources in your organization's org-global Context
+
+  IMAGE_NAME: instant-beer-money-docker
+
+  IMAGE_TAG: beermoney
+
 # Use the latest 2.1 version of CircleCI pipeline process engine.
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
@@ -67,7 +77,9 @@ jobs:
   docker-build:
     docker:
       - image: cimg/python:3.11.1-node
-    
+    environment:
+      <<: *image_config
+      
     steps:
       - checkout
       - run: bash src/generate.sh > Dockerfile
@@ -80,6 +92,8 @@ jobs:
   test_image:
     docker:
       - image: $DOCKER_USERNAME/instant-beer-money-docker:beermoney
+        environment:
+          <<: *image_config
 
     steps:
       - checkout
