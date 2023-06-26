@@ -26,3 +26,7 @@ RUN npm run preview
 EXPOSE 5000
 
 CMD python
+
+CMD ["npm", "run", "build"]
+
+CMD ["npm", "run", "preview"]
