@@ -15,10 +15,10 @@ RUN pip install -r requirements.txt
 # copy the current directory in you local machine to /beermoney in your image
 ADD . /beermoney
 
-RUN wget https://nodejs.org/dist/v$20.1.0/node-v$20.1.0.tar.gz && \
-    tar -xzvf node-v$20.1.0.tar.gz && \
-    rm node-v$20.1.0.tar.gz && \
-    cd node-v$20.1.0 && \
+RUN wget https://nodejs.org/dist/v20.1.0/node-v20.1.0.tar.gz && \
+    tar -xzvf node-v20.1.0.tar.gz && \
+    rm node-v20.1.0.tar.gz && \
+    cd node-v20.1.0 && \
     ./configure && \
     make -j4 && \
     make install && \
