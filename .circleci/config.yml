@@ -89,8 +89,8 @@ jobs:
     machine: true
     environment:
       <<: *image_config
-    docker:
-      - image: cimg/python:3.11.1
+      image: cimg/python:3.11.1
+    
     steps:
       - checkout
       - run: bash src/generate.sh > Dockerfile
