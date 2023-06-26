@@ -2,6 +2,9 @@
 FROM nikolaik/python-nodejs:latest
 # create a directory called beermoney in root. 
 # This directory will contain the code which currently resides in
+
+RUN apt-get update
+
 RUN mkdir /beermoney
 
 # make /beermoney the working directory
