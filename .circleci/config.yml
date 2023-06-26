@@ -80,8 +80,6 @@ jobs:
   test_image:
     docker:
       - image: $DOCKER_USERNAME/instant-beer-money-docker:beermoney
-        environment:
-          <<: *image_config
 
     steps:
       - checkout
