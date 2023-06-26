@@ -15,6 +15,14 @@ RUN pip install -r requirements.txt
 # copy the current directory in you local machine to /beermoney in your image
 ADD . /beermoney
 
+RUN cd beermoney-app
+
+RUN npm install
+
+RUN npm run build
+
+RUN npm run preview
+
 EXPOSE 5000
 
 CMD python
