@@ -13,11 +13,11 @@ COPY Tests/requirements.txt /beermoney
 RUN pip install -r requirements.txt
 
 # copy the current directory in you local machine to /beermoney in your image
-ADD . /beermoney
+COPY . .
 
 RUN cd beermoney-app
 
-RUN npm install
+RUN npm i
 
 RUN npm run build
 
