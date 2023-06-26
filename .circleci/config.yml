@@ -68,7 +68,7 @@ jobs:
 
   docker-build:
     docker:
-      - image: cimg/python:3.11.1-node
+      - image: cimg/node:20.1.0
       
     steps:
       - setup_remote_docker
