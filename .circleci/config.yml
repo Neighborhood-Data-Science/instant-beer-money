@@ -93,7 +93,3 @@ workflows:
       - docker-build:
           context:
             - INSTANTBEERMONEY
-      - test_image:
-          context: INSTANTBEERMONEY
-          requires:
-            - docker-build
