@@ -89,7 +89,7 @@ jobs:
     machine: true
     environment:
       <<: *image_config
-
+    - image: cimg/python:3.11.1
     steps:
       - checkout
       - run: bash src/generate.sh > Dockerfile
