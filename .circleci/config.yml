@@ -92,15 +92,10 @@ jobs:
 
     steps:
       - checkout
-
       - run: bash scripts/generate.sh > Dockerfile
-
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
       - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
-
       - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG && sleep 10
-
       - store_artifacts:
           path: Dockerfile
 
@@ -112,11 +107,10 @@ jobs:
 
     steps:
       - checkout
-
       - run:
           name: start Xvfb for phantomjs test
-          # command: Xvfb :99
-          # background: true
+          command: Xvfb :99
+          background: true
 
       - run:
           name: bats tests
