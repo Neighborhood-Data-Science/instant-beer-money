@@ -20,10 +20,10 @@ COPY beermoney-app/package*.json ./
 
 RUN npm ci --omit=dev
 
-RUN npm run build
+COPY . .
 
 EXPOSE 8080
 
 CMD python
 
-CMD ["npm", "run", "preview"]
+CMD ["npm", "run", "dev"]
