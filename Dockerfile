@@ -17,15 +17,15 @@ COPY Tests/requirements.txt /beermoney
 
 RUN pip install -r requirements.txt
 
-# Install vite
-RUN npm install -g vite
-
-RUN npm install -g typescript
-
 # copy the current directory in you local machine to /beermoney in your image
 COPY beermoney-app/package*.json ./
 
 RUN npm ci --omit=dev
+
+# Install vite
+RUN npm install -g vite
+
+RUN npm install -g typescript
 
 COPY . .
 
