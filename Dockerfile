@@ -18,8 +18,12 @@ RUN pip install -r requirements.txt
 # copy the current directory in you local machine to /beermoney in your image
 COPY beermoney-app/package*.json ./
 
-RUN npm ci --omit=dev 
+RUN npm ci --omit=dev
+
+RUN npm build
 
 EXPOSE 8080
 
 CMD python
+
+CMD ["npm", "run", "preview"]
