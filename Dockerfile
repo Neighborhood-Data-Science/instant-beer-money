@@ -34,6 +34,6 @@ FROM nginx:stable-alpine
 # Copy the built output from the builder stage to the Nginx default public folder
 COPY --from=initialBuild /beermoney/beermoney-app/dist /usr/share/nginx/html
 
-EXPOSE 5173
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
