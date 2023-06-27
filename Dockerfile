@@ -20,19 +20,19 @@ RUN pip install -r requirements.txt
 # Install vite
 RUN npm install -g vite
 
-RUN npm install -g typescript
+RUN npm install typescript@latest -g
 
 # copy the current directory in you local machine to /beermoney in your image
 COPY beermoney-app/package*.json ./
 
-RUN npm ci --omit=dev
+RUN npm ci
 
-COPY . .
+COPY . ./
 
 RUN npm run build
 
 # Stage 2: Production Stage
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
 # Copy the built output from the builder stage to the Nginx default public folder
 COPY --from=initialBuild /beermoney/dist /usr/share/nginx/html
