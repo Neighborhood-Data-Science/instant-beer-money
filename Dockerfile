@@ -12,11 +12,6 @@ RUN mkdir /beermoney
 # make /beermoney the working directory
 WORKDIR /beermoney
 
-# copy your requirements file to the directory you just created
-COPY Tests/requirements.txt /beermoney 
-
-RUN pip install -r requirements.txt
-
 # Install vite
 RUN npm install -g vite
 
@@ -29,13 +24,15 @@ RUN npm ci
 
 COPY . ./
 
+WORKDIR /beermoney/beermoney-app
+
 RUN npm run build
 
-# Stage 2: Production Stage
+# # Stage 2: Production Stage
 FROM nginx:stable-alpine
 
 # Copy the built output from the builder stage to the Nginx default public folder
-COPY --from=initialBuild /beermoney/dist /usr/share/nginx/html
+COPY --from=initialBuild /beermoney/beermoney-app/dist /usr/share/nginx/html
 
 EXPOSE 5173
 
