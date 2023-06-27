@@ -15,6 +15,8 @@ COPY Tests/requirements.txt /beermoney
 
 RUN pip install -r requirements.txt
 
+RUN npm install -g vite
+
 # copy the current directory in you local machine to /beermoney in your image
 COPY beermoney-app/package*.json ./
 
