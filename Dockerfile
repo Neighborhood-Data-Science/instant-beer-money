@@ -22,8 +22,6 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-EXPOSE 8080
-
-CMD python
+EXPOSE 5173
 
 CMD ["npm", "run", "dev"]
