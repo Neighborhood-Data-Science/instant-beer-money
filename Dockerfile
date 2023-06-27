@@ -13,12 +13,6 @@ RUN mkdir /beermoney
 # make /beermoney the working directory
 WORKDIR /beermoney
 
-# Install vite
-RUN npm install vite@latest -g
-
-# Install typescript
-RUN npm install typescript@latest -g
-
 # copy the current directory in you local machine to /beermoney in your image
 COPY beermoney-app/package*.json ./
 

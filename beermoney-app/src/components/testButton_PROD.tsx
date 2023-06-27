@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const ApiButton: React.FC = () => {
     const [apiResponse, setApiResponse] = useState<any>('');
   const handleClick = () => {
-    fetch('https://us-south.functions.appdomain.cloud/api/v1/web/a50fddb3-8a2d-40f0-83b3-862d10500265/src/simple_test', {
+    fetch('${source}src/simple_test', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
