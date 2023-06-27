@@ -20,7 +20,7 @@ COPY beermoney-app/package*.json ./
 
 RUN npm ci --omit=dev
 
-RUN npm build
+RUN npm run build
 
 EXPOSE 8080
 
