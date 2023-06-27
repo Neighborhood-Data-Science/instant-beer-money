@@ -24,6 +24,8 @@ RUN npm ci --omit=dev
 
 COPY . .
 
+WORKDIR /beermoney/beermoney-app
+
 EXPOSE 5173
 
 CMD ["node","index.js"]
