@@ -29,6 +29,8 @@ RUN npm install -g typescript
 
 COPY . .
 
+WORKDIR /beermoney/beermoney-app
+
 RUN npm run build
 
 # Stage 2: Production Stage
