@@ -2,12 +2,10 @@
 This module will contain code necessary to connect to and
 scrape data from freecash.com
 """
-import os
 import time
 import sys
 import pandas as pd
 
-from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -19,17 +17,15 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # Set options to run Chrome in 'Headless' mode
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+# Uncomment line below to run Chrome in 'headless' mode - ADGEM does not support headless mode.
+chrome_options.add_argument("--headless=new")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920x1080")
 
-# Load environment variables
-load_dotenv()
 # The environment variables should be present in your CI/CD pipeline
 # and/or server side as well.
 
-
-def start_driver_and_open_ayet(offerwall_version):
+def start_driver_and_open_ayet(url):
     """
     Downloads and installs the latest version of Google chromedriver and
     opens the Ayet offerwall within a WebDriver
@@ -41,7 +37,7 @@ def start_driver_and_open_ayet(offerwall_version):
 
     Returns
     -------
-        driver: `WebDriver`
+        url: `WebDriver`
             WebDriver object that can be used to interact with the given `offerwall_version`.
     """
     # This installs the latest version of the official Google chromedriver
@@ -50,18 +46,14 @@ def start_driver_and_open_ayet(offerwall_version):
     # Initialize variable
     driver = None
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),
-                                  options=chrome_options)
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
         sys.exit(0)
 
-    # Set Ayet URL
-    ayet = os.environ[offerwall_version]
     # Open webpage
-    driver.get(ayet)
+    driver.get(url)
     return driver
-
 
 def parse_offer_information(driver):
     """
@@ -127,19 +119,29 @@ def parse_offer_information(driver):
     return ayet_dict
 
 
-def create_offer_dataframe(ayet_dict):
-    """
-    This function returns the available offer dictionary as a pandas DataFrame.
+def main(args):
+    driver = start_driver_and_open_ayet(args.get('AYET'))
+    ayet_dict = parse_offer_information(driver)
+    return {
+        'body': ayet_dict,
+        'statusCode': 200,
+        'isBase64Encoded': 'true',
+        'headers': {'Content-Type': 'image/png'}
+    }
 
-    Parameters
-    ----------
-        ayet_dict: `dict`
-            A Python dictionary containing the offer information
+# def create_offer_dataframe(ayet_dict):
+#     """
+#     This function returns the available offer dictionary as a pandas DataFrame.
 
-    Returns
-    -------
-        offer_dataframe: `pandas.DataFrame`
-            A pandas DataFrame containing the offer information.
-    """
-    offer_dataframe = pd.DataFrame.from_dict(ayet_dict)
-    return offer_dataframe
+#     Parameters
+#     ----------
+#         ayet_dict: `dict`
+#             A Python dictionary containing the offer information
+
+#     Returns
+#     -------
+#         offer_dataframe: `pandas.DataFrame`
+#             A pandas DataFrame containing the offer information.
+#     """
+#     offer_dataframe = pd.DataFrame.from_dict(ayet_dict)
+#     return offer_dataframe
