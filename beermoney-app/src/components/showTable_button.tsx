@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-const baseURL = 'https://jxpokkhf6xnfks3qnbsqmaagim0wunnh.lambda-url.us-east-2.on.aws/'
+const baseURL = 'https://c752tdu4nsjocjzhjzz4hxorze0cdyuv.lambda-url.us-east-2.on.aws/'
 
-const ApiButton: React.FC = () => {
+const ShowButton: React.FC = () => {
     const [apiResponse, setApiResponse] = useState<any>('');
     const [isLoading, setIsLoading] = useState(false);
   const handleClick = () => {
     // Set state to true before making API call
     setIsLoading(true);
     fetch(baseURL, {
-      method: 'POST',
+      method: 'GET',
       headers: {},
       // Add any necessary request body or parameters
     //   body: JSON.stringify({"name":""}),
@@ -32,11 +32,11 @@ const ApiButton: React.FC = () => {
   return (
     <div>
         <button onClick={handleClick} disabled={isLoading}>
-          {isLoading ? 'Scraping...Please Wait.' : 'Execute Initial Scrape'}
+          {isLoading ? 'Loading table' : 'Load Table from DB'}
           </button>
         <div>{apiResponse}</div>
     </div>
   );
 };
 
-export default ApiButton;
+export default ShowButton;
