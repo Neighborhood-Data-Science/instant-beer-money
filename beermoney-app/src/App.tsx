@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import ApiButton from './components/testButton_PROD.tsx'
+import ScrapeButton from './components/initalScrape_button.tsx'
 import ShowButton from './components/showTable_button'
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
-        <ApiButton />
+        <ScrapeButton />
         <ShowButton />
       </div>
       <p className="read-the-docs">
