@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const baseURL = 'https://jxpokkhf6xnfks3qnbsqmaagim0wunnh.lambda-url.us-east-2.on.aws/'
 
-const ApiButton: React.FC = () => {
+const ScrapeButton: React.FC = () => {
     const [apiResponse, setApiResponse] = useState<any>('');
     const [isLoading, setIsLoading] = useState(false);
   const handleClick = () => {
@@ -39,4 +39,4 @@ const ApiButton: React.FC = () => {
   );
 };
 
-export default ApiButton;
+export default ScrapeButton;
