@@ -11,11 +11,19 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.complete-button {
+  background-color: green;
+  color: white; /* Set text color to white */
+  /* Add any other styles as needed */
 }
 
 @keyframes logo-spin {
@@ -39,4 +47,57 @@
 
 .read-the-docs {
   color: #888;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  cursor: pointer;
+  padding: 1em;
+  background-color: #333;
+  color: #fff;
+  border-bottom: 2px solid #ddd;
+  transition: background-color 0.3s;
+  position: relative;
+}
+
+th::before,
+th::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px;
+  transition: border-color 0.3s;
+  opacity: 0; /* Initially hide the arrows */
+}
+
+th::before {
+  border-color: transparent transparent #fff; /* Update to white */
+  right: 8px;
+}
+
+th::after {
+  border-color: #fff transparent transparent; /* Update to white */
+  right: 16px;
+}
+
+th.asc::before {
+  border-color: transparent transparent #fff; /* Update to white */
+  opacity: 1; /* Show the up arrow for ascending order */
+}
+
+th.desc::after {
+  border-color: #fff transparent transparent; /* Update to white */
+  opacity: 1; /* Show the down arrow for descending order */
+}
+
+th:hover {
+  background-color: #555;
 }
