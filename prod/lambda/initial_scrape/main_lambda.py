@@ -6,8 +6,6 @@ import mysql.connector
 from mysql.connector import Error
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -492,11 +490,7 @@ def lambda_handler(event=None, context=None):
     """
     The main execution step of the AWS Lambda function.
     """
-    # dataframe_list = get_offerwall_data()
-    # database_conn = establish_connection()
-    # table_submission = insert_offer_data(dataframe_list, database_conn)
-    time.sleep(5)
-    text = 'This is a test message.'
-    return {
-        "body": text
-    }
+    dataframe_list = get_offerwall_data()
+    database_conn = establish_connection()
+    table_submission = insert_offer_data(dataframe_list, database_conn)
+    return table_submission
