@@ -28,7 +28,7 @@ def establish_connection():
         print(process_error)
 
 
-def update_table(database):
+def update_table(rowId, database):
     """
     Function to update the 'hidden' value for a particular row in the database.
 
@@ -50,13 +50,15 @@ def update_table(database):
     # This is to be changed in future versions
     sql = f"""
     UPDATE {os.environ['DB_MAIN_TABLE']}
-    SET hidden = 1 /
-    WHERE id = rowId;
+    SET hidden = 1
+    WHERE ID = {rowId};
     """
 
     # Execute the SQL query
     cursor.execute(sql)
     
+    # Save changes to the database
+    database.commit()
     # Close the cursor and the connection
     cursor.close()
     database.close()
@@ -64,10 +66,12 @@ def update_table(database):
     return 'SUCCESS'
 
 
-def lambda_handler(event=None, context=None):
+def lambda_handler(event, context):
     """
     The main execution step of the AWS Lambda function.
     """
+    # Access the rowId from the query parameters
+    rowId = event['rowId']
     database_conn = establish_connection()
-    table_action = update_table(database_conn)
+    table_action = update_table(rowId, database_conn)
     return table_action
