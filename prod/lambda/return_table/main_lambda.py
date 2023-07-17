@@ -58,7 +58,11 @@ def return_table(database):
 
     # Retrieve all information from the database
     # This is to be changed in future versions
-    sql = f"SELECT * FROM {os.environ['DB_MAIN_TABLE']};"
+    sql = f"""
+    SELECT * 
+    FROM {os.environ['DB_MAIN_TABLE']}
+    WHERE hidden <> 1;
+    """
 
     # Execute the SQL query
     cursor.execute(sql)
