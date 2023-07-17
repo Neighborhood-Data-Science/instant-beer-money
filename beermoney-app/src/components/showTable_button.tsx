@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import HideButton from './hideRow_button';
 
 const baseURL = 'https://c752tdu4nsjocjzhjzz4hxorze0cdyuv.lambda-url.us-east-2.on.aws/';
+const hideURL = 'https://mzwxxmam5v55wv43xejyfohdvq0zmvtg.lambda-url.us-east-2.on.aws/';
 
 const ShowButton: React.FC = () => {
   const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
   const handleClick = () => {
     setIsLoading(true);
@@ -36,23 +38,53 @@ const ShowButton: React.FC = () => {
     setSortConfig({ key: columnKey, direction });
   };
 
-  const handleHide = (rowId: number) => {
-    // Update the "hidden" value of the corresponding row in the tableData state
-    const updatedTableData = tableData.map(row => {
-      if (row[0] === rowId) {
-        return { ...row, hidden: 1 };
+  const handleHide = async (rowId: number) => {
+    try {
+      // Make an API call to update the "hidden" value in the database
+      const response = await fetch(hideURL, {
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({ rowId }), // Include rowId in the request body
+      });
+      const data = await response.text();
+      // Handle the API response to ensure the update was successful
+      if (data === 'SUCCESS') {
+        console.log(`Row ${rowId} successfully hidden.`);
+      } else {
+        console.log(`Failed to hide row ${rowId}.`);
       }
-      return row;
-    });
-    setTableData(updatedTableData);
+    } catch (error) {
+      console.error(`Error hiding row ${rowId}.`, error);
+    }
+  };
 
-    // Make an API call to update the "hidden" value in the database
-    // You can pass the rowId as a parameter in the API call
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, rowId: number) => {
+    const { checked } = event.target;
+    if (checked) {
+      setSelectedRows(prevSelectedRows => [...prevSelectedRows, rowId]);
+    } else {
+      setSelectedRows(prevSelectedRows => prevSelectedRows.filter(id => id !== rowId));
+    }
+  };
 
-    // Handle the API response to ensure the update was successful
+  const handleHideSelected = async () => {
+    // Make an array of promises for each selected row's hide API call
+    const hidePromises = selectedRows.map(rowId => handleHide(rowId));
 
-    // Update the tableData state with the updated row data after a successful response
-    // setTableData(updatedDataFromResponse);
+    try {
+      // Wait for all the hide API calls to finish
+      await Promise.all(hidePromises);
+      console.log('All selected rows successfully hidden.');
+
+      // Remove the selected rows from the tableData state
+      const updatedTableData = tableData.filter(row => !selectedRows.includes(row[0]));
+      setTableData(updatedTableData);
+
+      // Clear the selectedRows state
+      setSelectedRows([]);
+    } catch (error) {
+      console.error('Error hiding selected rows.', error);
+    }
   };
 
   const sortedTableData = React.useMemo(() => {
@@ -76,13 +108,17 @@ const ShowButton: React.FC = () => {
       <button onClick={handleClick} disabled={isLoading}>
         {isLoading ? 'Loading table...' : 'Load Table from DB'}
       </button>
+      {selectedRows.length > 0 && (
+        <button onClick={handleHideSelected}>Hide Selected</button>
+      )}
       {tableData.length > 0 && (
         <table>
           <thead>
             <tr>
-            <th
+              <th>Select</th>
+              <th
                 onClick={() => handleSort('0')}
-                className={sortConfig && sortConfig.key === '5' ? sortConfig.direction : ''}
+                className={sortConfig && sortConfig.key === '0' ? sortConfig.direction : ''}
               >
                 ID
               </th>
@@ -114,35 +150,29 @@ const ShowButton: React.FC = () => {
                 onClick={() => handleSort('6')}
                 className={sortConfig && sortConfig.key === '6' ? sortConfig.direction : ''}
               >
-                Hidden
-              </th>
-              <th
-                onClick={() => handleSort('8')}
-                className={sortConfig && sortConfig.key === '8' ? sortConfig.direction : ''}
-              >
                 Offerwall
               </th>
-              <th>Action</th> {/* Add a new column for the action button */}
-              {/* Add more column headers as needed */}
             </tr>
           </thead>
           <tbody>
             {sortedTableData.map(row => (
-              <tr key={row[0]}>
-                <td>{row[0]}</td>
-                <td>{row[2]}</td>
-                <td>{row[3]}</td>
-                <td>{row[4]}</td>
-                <td>{row[5]}</td>
-                <td>{row[6]}</td>
-                <td>{row[8]}</td>
-                <td>
-                {row.hidden !== 1 && (
-                    <HideButton rowId={row[0]} onHide={handleHide} />
-                  )}
-                </td>
-                {/* Map the remaining columns to <td> elements */}
-              </tr>
+              (row.hidden !== 1) && (
+                <tr key={row[0]}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(row[0])}
+                      onChange={event => handleCheckboxChange(event, row[0])}
+                    />
+                  </td>
+                  <td>{row[0]}</td>
+                  <td>{row[2]}</td>
+                  <td>{row[3]}</td>
+                  <td>{row[4]}</td>
+                  <td>{row[5]}</td>
+                  <td>{row[8]}</td>
+                </tr>
+              )
             ))}
           </tbody>
         </table>
