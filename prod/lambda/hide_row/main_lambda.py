@@ -1,6 +1,8 @@
 import os
+import json
 import mysql.connector
 from mysql.connector import Error
+
 
 def establish_connection():
     """
@@ -56,7 +58,7 @@ def update_table(rowId, database):
 
     # Execute the SQL query
     cursor.execute(sql)
-    
+
     # Save changes to the database
     database.commit()
     # Close the cursor and the connection
@@ -70,8 +72,17 @@ def lambda_handler(event, context):
     """
     The main execution step of the AWS Lambda function.
     """
-    # Access the rowId from the query parameters
-    rowId = event['rowId']
+    # Access the rowId from the event object
+    if 'body' in event:
+        body = event['body']
+        if isinstance(body, str):
+            body = json.loads(body)
+        rowId = body.get('rowId')
+    else:
+        rowId = None  # Set a default value or handle the case when rowId is not present
+
+    # Rest of your code
     database_conn = establish_connection()
     table_action = update_table(rowId, database_conn)
     return table_action
+
