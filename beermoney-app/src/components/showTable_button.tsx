@@ -9,6 +9,7 @@ const ShowButton: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleClick = () => {
     setIsLoading(true);
@@ -87,8 +88,23 @@ const ShowButton: React.FC = () => {
     }
   };
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSearchTerm(value);
+  };
+
+  const filteredTableData = React.useMemo(() => {
+    if (searchTerm) {
+      return tableData.filter(row => {
+        return Object.values(row)
+          .some(value => String(value).toLowerCase().includes(searchTerm.toLowerCase()));
+      });
+    }
+    return tableData;
+  }, [tableData, searchTerm]);
+
   const sortedTableData = React.useMemo(() => {
-    const sortedData = [...tableData];
+    const sortedData = [...filteredTableData];
     if (sortConfig !== null) {
       sortedData.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -101,7 +117,7 @@ const ShowButton: React.FC = () => {
       });
     }
     return sortedData;
-  }, [tableData, sortConfig]);
+  }, [filteredTableData, sortConfig]);
 
   return (
     <div>
@@ -111,6 +127,10 @@ const ShowButton: React.FC = () => {
       {selectedRows.length > 0 && (
         <button onClick={handleHideSelected}>Hide Selected</button>
       )}
+      <div>
+        <label htmlFor="search">Search:</label>
+        <input type="text" id="search" value={searchTerm} onChange={handleSearch} />
+      </div>
       {tableData.length > 0 && (
         <table>
           <thead>
