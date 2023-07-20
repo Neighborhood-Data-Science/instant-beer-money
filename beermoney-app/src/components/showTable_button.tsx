@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import HideButton from './hideRow_button';
 
 const baseURL = 'https://c752tdu4nsjocjzhjzz4hxorze0cdyuv.lambda-url.us-east-2.on.aws/';
 const hideURL = 'https://mzwxxmam5v55wv43xejyfohdvq0zmvtg.lambda-url.us-east-2.on.aws/';
