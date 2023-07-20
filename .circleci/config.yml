@@ -10,7 +10,7 @@ orbs:
   # so you dont have to copy and paste it everywhere.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@2.1.1
-  browser-tools: circleci/browser-tools@1.4.1
+  browser-tools: circleci/browser-tools@1.4.3
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -30,9 +30,7 @@ jobs:
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     steps:
-      - run: sudo apt-get update
-      - browser-tools/install-chrome:
-          chrome-version: "114.0.5735.90"
+      - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - checkout
       - python/install-packages:
@@ -57,9 +55,7 @@ jobs:
     docker:
       - image: cimg/node:17.4-browsers
     steps:
-      - run: sudo apt-get update
-      - browser-tools/install-chrome:
-          chrome-version: "114.0.5735.90"
+      - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
           name: Check install
