@@ -1,7 +1,7 @@
 # Stage 1: Initial build of the application
 
 # set the Base Image from which your image will be built on
-FROM nikolaik/python-nodejs:latest AS initialBuild
+FROM nikolaik/python-nodejs:python3.11-nodejs20-slim AS initialBuild
 
 # Retrieve any updates
 RUN apt-get update
