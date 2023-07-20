@@ -16,6 +16,8 @@ WORKDIR /beermoney
 # copy the current directory in you local machine to /beermoney in your image
 COPY beermoney-app/package*.json ./
 
+RUN npm install -g npm@9.8.1
+
 # Install all dependencies
 RUN npm ci
 
