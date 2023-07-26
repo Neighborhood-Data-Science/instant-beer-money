@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const baseURL = 'https://jxpokkhf6xnfks3qnbsqmaagim0wunnh.lambda-url.us-east-2.on.aws/';
 
 const ScrapeButton: React.FC = () => {
-  const [setApiResponse] = useState<any>('');
+  const [apiResponse, setApiResponse] = useState<any>(''); // Fix the destructured state setter here
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 
@@ -37,7 +37,7 @@ const ScrapeButton: React.FC = () => {
         disabled={isLoading || isComplete}
         className={isComplete ? 'complete-button' : ''}
       >
-        {isLoading ? 'Scraping...Please Wait.' : isComplete ? 'Complete' : 'Execute Initial Scrape'}
+        {isLoading ? 'Scraping...Please Wait.' : isComplete ? 'Complete' : 'Execute Scrape'}
       </button>
     </div>
   );
