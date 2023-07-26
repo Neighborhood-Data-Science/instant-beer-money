@@ -446,6 +446,49 @@ def establish_connection():
     except Error as process_error:
         print(process_error)
 
+def check_and_drop_duplicates(database):
+    """
+    Function to drop duplicate data from the database after a scrape.
+    
+    Parameters
+    ----------
+        database: `mysql.connector.connection_cext.CMySQLConnection` 
+            A successfully connected database.
+
+    Returns
+    -------
+        None 
+    """
+
+    # SQL Query to check for duplicate data.
+    ## We utilize 'START TRANSACTION' to ensure that all queries are executed before the transaction is committed.
+    ## This ensures that the temporary table is created and exists long enough to perform the queries.
+    sql = f"""
+    START TRANSACTION;
+
+    CREATE TEMPORARY TABLE DupeCheck AS
+        SELECT MAX(id) AS id
+        FROM {os.environ['DB_NAME']}.{os.environ['DB_MAIN_TABLE']}
+        GROUP BY user_id, offer_title, offer_description, offer_amount, offer_device, offerwall_name
+        HAVING COUNT(*) > 1;
+
+    DELETE FROM {os.environ['DB_NAME']}.{os.environ['DB_MAIN_TABLE']}
+    WHERE id IN (SELECT id FROM DupeCheck);
+
+    COMMIT;
+    """
+    # Create a cursor object to execute SQL queries
+    cursor = database.cursor()
+
+    # Execute query
+    cursor.execute(sql)
+
+    # Close the cursor
+    cursor.close()
+
+    return 'SUCCESS'
+
+
 def insert_offer_data(dataframe_list, database):
     """
     Function to insert data into the database.
@@ -480,9 +523,8 @@ def insert_offer_data(dataframe_list, database):
         # Commit the changes to the database
         database.commit()
 
-    # Close the cursor and the connection
+    # Close the cursor
     cursor.close()
-    database.close()
 
     return 'SUCCESS'
 
@@ -493,4 +535,6 @@ def lambda_handler(event=None, context=None):
     dataframe_list = get_offerwall_data()
     database_conn = establish_connection()
     table_submission = insert_offer_data(dataframe_list, database_conn)
-    return table_submission
+    table_dupe_check = check_and_drop_duplicates(database_conn)
+    database_conn.close()
+    return table_dupe_check
