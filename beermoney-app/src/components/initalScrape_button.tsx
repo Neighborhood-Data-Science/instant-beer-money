@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const baseURL = 'https://jxpokkhf6xnfks3qnbsqmaagim0wunnh.lambda-url.us-east-2.on.aws/';
 
 const ScrapeButton: React.FC = () => {
-  const [setApiResponse] = useState<any>(''); // Fix the destructured state setter here
+  const [apiResponse, setApiResponse] = useState<any>(''); // Fix the destructured state setter here
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 
@@ -16,6 +16,7 @@ const ScrapeButton: React.FC = () => {
       .then(response => response.text())
       .then(data => {
         setApiResponse(data);
+        console.log('API Reponse: ', apiResponse);
         if (data === 'SUCCESS') {
           setIsComplete(true);
           setIsLoading(false);
