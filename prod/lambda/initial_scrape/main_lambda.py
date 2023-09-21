@@ -1,3 +1,32 @@
+"""
+Offerwall Data Scraping and Database Insertion
+
+This script is designed to scrape data from multiple offerwall websites, including Ayet, Offertoro, and Revenue Universe.
+The scraped data includes details of various offers, such as offer titles, descriptions, amounts, and device compatibility.
+
+The script utilizes Selenium to open web pages, extract offer information, and parse it into structured data.
+It then inserts this data into a MySQL database after establishing a connection.
+
+Functions:
+    - `start_driver_and_open_url(offerwall_version)`: Opens a specified offerwall version within a WebDriver.
+    - `parse_ayet(driver)`: Parses Ayet offerwall data.
+    - `parse_toro(driver)`: Parses Offertoro offerwall data.
+    - `parse_revu(driver)`: Parses Revenue Universe offerwall data.
+    - `create_offer_dataframe(offerwall_dict)`: Converts offerwall data into a Pandas DataFrame.
+    - `clean_ayet(ayet_dataframe)`: Cleans and processes Ayet offerwall data.
+    - `clean_offertoro(toro_dataframe)`: Cleans and processes Offertoro offerwall data.
+    - `clean_revu(revu_dataframe)`: Cleans and processes Revenue Universe offerwall data.
+    - `get_offerwall_data()`: Scrapes and parses data from multiple offerwalls.
+    - `establish_connection()`: Establishes a connection to a MySQL database.
+    - `check_and_drop_duplicates(database)`: Drops duplicate records from the database.
+    - `insert_offer_data(dataframe_list, database)`: Inserts offer data into the database.
+    - `lambda_handler(event=None, context=None)`: Main execution step of the AWS Lambda function.
+
+Note:
+    This script is intended to be run as an AWS Lambda function and relies on environment variables for configuration,
+    including database connection details and offerwall URLs.
+"""
+
 import time
 import sys
 import os
@@ -28,17 +57,16 @@ def start_driver_and_open_url(offerwall_version):
     # Initialize variable
     driver = None
 
-    options = webdriver.ChromeOptions()
-    options.binary_location = '/opt/chrome/chrome'
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1920x1080")
-    options.add_argument("--single-process")
-    options.add_argument("--no-zygote")
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = '/opt/chrome/chrome'
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--window-size=1920x1080")
+    chrome_options.add_argument("--single-process")
+    chrome_options.add_argument("--no-zygote")
     try:
-        driver = webdriver.Chrome("/opt/chromedriver",
-                              options=options)
+        driver = webdriver.Chrome("/opt/chromedriver",options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
         sys.exit(0)
@@ -446,6 +474,8 @@ def establish_connection():
     except Error as process_error:
         print(process_error)
 
+    return None
+
 def check_and_drop_duplicates(database):
     """
     Function to drop duplicate data from the database after a scrape.
@@ -487,7 +517,6 @@ def check_and_drop_duplicates(database):
     cursor.close()
 
     return 'SUCCESS'
-
 
 def insert_offer_data(dataframe_list, database):
     """
