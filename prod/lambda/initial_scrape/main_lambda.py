@@ -586,10 +586,10 @@ def lambda_handler(event=None, context=None):
         fsid = None  # Set a default value or handle the case when fsid is not present
 
     # Rest of your code
-    url_list = build_urls(fsid)
-    dataframe_list = get_offerwall_data()
+    url_dict = build_urls(fsid)
+    dataframe_list = get_offerwall_data(url_dict)
     database_conn = establish_connection()
-    table_submission = insert_offer_data(dataframe_list, database_conn)
+    insert_offer_data(dataframe_list, database_conn)
     table_dupe_check = check_and_drop_duplicates(database_conn)
     database_conn.close()
     return table_dupe_check
