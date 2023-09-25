@@ -8,6 +8,7 @@ The script utilizes Selenium to open web pages, extract offer information, and p
 It then inserts this data into a MySQL database after establishing a connection.
 
 Functions:
+    - `build_urls(fsid)`: Builds a list of URLs for the given FSID.
     - `start_driver_and_open_url(offerwall_version)`: Opens a specified offerwall version within a WebDriver.
     - `parse_ayet(driver)`: Parses Ayet offerwall data.
     - `parse_toro(driver)`: Parses Offertoro offerwall data.
@@ -32,12 +33,37 @@ import sys
 import os
 import pandas as pd
 import mysql.connector
+import json
 from mysql.connector import Error
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+def build_urls(fsid):
+    """
+    Builds a dictionary of URLs for the given FSID.
+
+    Parameters
+    ----------
+        fsid: `str`
+            The FSID to build URLs for. Provided by the user. 
+
+    Returns
+    -------
+        urls: `list`
+            List of URLs for the given FSID.
+    """
+
+    # Build URLs
+    url_dict = {
+        'AYET':f'https://www.ayetstudios.com/offers/web_offerwall/2693?external_identifier=fsid-{fsid}-607783a635',
+        'TORO':f'https://www.offertoro.com/ifr/show/23580/fsid-{fsid}-607783a635/9746/0/0/137855987',
+        'REVU':f'https://publishers.revenueuniverse.com/wall/343/offers?uid=fsid-{fsid}-607783a635&sid3=~~137857294'
+    }
+
+    return url_dict
 
 def start_driver_and_open_url(offerwall_version):
     """
@@ -384,14 +410,14 @@ def clean_revu(revu_dataframe):
 
     return revu_dataframe
 
-def get_offerwall_data():
+def get_offerwall_data(url_dict):
     """
     Function to pull data from the offerwalls
 
     Parameters
     ----------
-        user_id: `str`
-            The users FSID - Used to generate correct offers for a particular user.
+        url_dict: `dict`
+            Dictionary containing the pre-built URLs to scrape the data from.
 
     Returns
     -------
@@ -401,25 +427,16 @@ def get_offerwall_data():
 
     try:
         # Read and parse the data from Ayet offerwall
-        driver = start_driver_and_open_url(os.environ.get('AYET'))
+        driver = start_driver_and_open_url(url_dict.get('AYET'))
         offer_info = parse_ayet(driver)
         ayet_dataframe = create_offer_dataframe(offer_info)
         clean_ayet_dataframe = clean_ayet(ayet_dataframe)
     except Error as process_error:
         print(process_error)
 
-    # try:
-    #     # Read and parse the data from Adgem offerwall
-    #     driver = start_driver_and_open_adgem('ADGEM')
-    #     offer_info = parse_ayet(driver)
-    #     adgem_dataframe = create_offer_dataframe(offer_info)
-    #     clean_adgem_dataframe = clean_adgem(adgem_dataframe)
-    # except Error as process_error:
-    #     print(process_error)
-
     try:
         # Read and parse the data from Offertoro offerwall
-        driver = start_driver_and_open_url(os.environ.get('TORO'))
+        driver = start_driver_and_open_url(url_dict.get('TORO'))
         offer_info = parse_toro(driver)
         offertoro_dataframe = create_offer_dataframe(offer_info)
         clean_offertoro_dataframe = clean_offertoro(
@@ -429,7 +446,7 @@ def get_offerwall_data():
 
     try:
         # Read and parse the data from Revu offerwall
-        driver = start_driver_and_open_url(os.environ.get('REVU'))
+        driver = start_driver_and_open_url(url_dict.get('REVU'))
         offer_info = parse_revu(driver)
         revu_dataframe = create_offer_dataframe(offer_info)
         clean_revu_dataframe = clean_revu(revu_dataframe)
@@ -440,8 +457,6 @@ def get_offerwall_data():
     dataframe_list = []
     if 'clean_ayet_dataframe' in locals():
         dataframe_list.append(clean_ayet_dataframe)
-    if 'clean_adgem_dataframe' in locals():
-        dataframe_list.append(clean_adgem_dataframe)
     if 'clean_offertoro_dataframe' in locals():
         dataframe_list.append(clean_offertoro_dataframe)
     if 'clean_revu_dataframe' in locals():
@@ -561,6 +576,17 @@ def lambda_handler(event=None, context=None):
     """
     The main execution step of the AWS Lambda function.
     """
+    # Access the FSID from the event object
+    if 'body' in event:
+        body = event['body']
+        if isinstance(body, str):
+            body = json.loads(body)
+        fsid = body.get('FSID')
+    else:
+        fsid = None  # Set a default value or handle the case when fsid is not present
+
+    # Rest of your code
+    url_list = build_urls(fsid)
     dataframe_list = get_offerwall_data()
     database_conn = establish_connection()
     table_submission = insert_offer_data(dataframe_list, database_conn)
