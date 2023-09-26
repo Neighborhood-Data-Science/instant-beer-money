@@ -31,15 +31,16 @@ Note:
 import time
 import sys
 import os
+import json
 import pandas as pd
 import mysql.connector
-import json
 from mysql.connector import Error
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 
 def build_urls(fsid):
     """
@@ -82,6 +83,7 @@ def start_driver_and_open_url(offerwall_version):
 
     # Initialize variable
     driver = None
+    service = Service(executable_path='/opt/chromedriver')
 
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = '/opt/chrome/chrome'
@@ -92,7 +94,7 @@ def start_driver_and_open_url(offerwall_version):
     chrome_options.add_argument("--single-process")
     chrome_options.add_argument("--no-zygote")
     try:
-        driver = webdriver.Chrome("/opt/chromedriver",options=chrome_options)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
     except Exception as err:
         print(f"'Setting Driver Error: {err}'")
         sys.exit(0)
@@ -572,7 +574,7 @@ def insert_offer_data(dataframe_list, database):
 
     return 'SUCCESS'
 
-def lambda_handler(event=None, context=None):
+def lambda_handler(event, context):
     """
     The main execution step of the AWS Lambda function.
     """
