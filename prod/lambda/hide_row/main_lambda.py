@@ -1,3 +1,14 @@
+"""
+AWS Lambda Function for Updating Database Records
+
+This AWS Lambda function updates a database record by setting the 'hidden' value to 1 for a specified row.
+
+The function establishes a connection to the database using environment variables for database credentials,
+executes an SQL update query to modify the record, and returns 'SUCCESS' upon successful completion.
+
+The Lambda function expects the 'rowId' to be provided in the event object.
+"""
+
 import os
 import json
 import mysql.connector
@@ -71,6 +82,13 @@ def update_table(rowId, database):
 def lambda_handler(event, context):
     """
     The main execution step of the AWS Lambda function.
+
+    Parameters:
+        event (dict): The event data passed to the Lambda function.
+        context: (object): The runtime context object.
+
+    Returns:
+        str: 'SUCCESS' if the table update was successful.
     """
     # Access the rowId from the event object
     if 'body' in event:
