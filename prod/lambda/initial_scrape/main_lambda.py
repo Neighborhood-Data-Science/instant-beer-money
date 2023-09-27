@@ -535,14 +535,18 @@ def check_and_drop_duplicates(database):
 
     return 'SUCCESS'
 
-def insert_offer_data(dataframe_list, database):
+def insert_offer_data(fsid, dataframe_list, database):
     """
     Function to insert data into the database.
 
     Parameters
     ----------
+        fsid: `str`
+            The FSID to access the appropriate rows. Provided by the user.
+
         dataframe_list: `list`  
             A list containing each offerwall dataframe that was successfully scraped and parsed.
+
         database: `mysql.connector.connection_cext.CMySQLConnection` 
             A successfully connected database.
 
@@ -556,6 +560,8 @@ def insert_offer_data(dataframe_list, database):
 
     # Loop through each dataframe in the list and add it to the database
     for dataframe in dataframe_list:
+        # Add the `user_id` column to the dataframe and fill it with the FSID
+        dataframe['user_id'] = fsid
         # Collect the column names from the dataframe.
         query_cols = ', '.join(dataframe.columns)
         # Calculate the proper number of %s placeholders for each column in the dataframe.
@@ -577,7 +583,15 @@ def insert_offer_data(dataframe_list, database):
 def lambda_handler(event, context):
     """
     The main execution step of the AWS Lambda function.
+
+    Parameters:
+        event (dict): The event data passed to the Lambda function.
+        context: (object): The runtime context object.
+
+    Returns:
+        str: 'SUCCESS' if the table update was successful.
     """
+
     # Access the FSID from the event object
     if 'body' in event:
         body = event['body']
@@ -591,7 +605,7 @@ def lambda_handler(event, context):
     url_dict = build_urls(fsid)
     dataframe_list = get_offerwall_data(url_dict)
     database_conn = establish_connection()
-    insert_offer_data(dataframe_list, database_conn)
+    insert_offer_data(fsid, dataframe_list, database_conn)
     table_dupe_check = check_and_drop_duplicates(database_conn)
     database_conn.close()
     return table_dupe_check
