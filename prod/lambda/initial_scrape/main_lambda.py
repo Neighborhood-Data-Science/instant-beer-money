@@ -597,7 +597,7 @@ def lambda_handler(event, context):
         body = event['body']
         if isinstance(body, str):
             body = json.loads(body)
-        fsid = body.get('FSID')
+        fsid = body.get('fsid')
     else:
         fsid = None  # Set a default value or handle the case when fsid is not present
 
