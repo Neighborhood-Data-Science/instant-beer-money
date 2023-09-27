@@ -9,14 +9,18 @@ const ScrapeButton: React.FC = () => {
   const [isComplete, setIsComplete] = useState<boolean>(false);
 
   const handleFsidChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFsid(e.target.value);
+    const newValue = e.target.value;
+    // Check if the new value is numeric (contains only digits)
+    if (/^\d*$/.test(newValue)) {
+      setFsid(newValue);
+    }
   };
 
   const handleClick = () => {
-    // Check if the FSID is empty before making the API request
-    if (fsid.trim() === '') {
-      alert('Please enter an FSID.'); // You can display an error message to the user
-      return; // Prevent the API request if FSID is empty
+    // Check if the FSID is empty or not numeric before making the API request
+    if (fsid.trim() === '' || !/^\d*$/.test(fsid)) {
+      alert('Please enter a valid numeric FSID.');
+      return;
     }
 
     setIsLoading(true);
@@ -44,8 +48,8 @@ const ScrapeButton: React.FC = () => {
       });
   };
 
-  // Check if fsid is empty to disable the button
-  const isButtonDisabled = fsid.trim() === '' || isLoading || isComplete;
+  // Check if fsid is empty or not numeric to disable the button
+  const isButtonDisabled = fsid.trim() === '' || !/^\d*$/.test(fsid) || isLoading || isComplete;
 
   return (
     <div>
