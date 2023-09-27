@@ -38,7 +38,7 @@ def establish_connection():
         print(process_error)
 
 
-def return_table(database):
+def return_table(fsid, database):
     """
     Function to insert data into the database.
 
@@ -49,7 +49,7 @@ def return_table(database):
 
     Returns
     -------
-        table_dump: `JSON object` 
+        json_rows: `JSON object` 
             A json object containing the data from the database.
     """
 
@@ -61,7 +61,8 @@ def return_table(database):
     sql = f"""
     SELECT * 
     FROM {os.environ['DB_MAIN_TABLE']}
-    WHERE hidden <> 1;
+    WHERE hidden <> 1
+        AND user_id = {fsid};
     """
 
     # Execute the SQL query
@@ -83,9 +84,27 @@ def return_table(database):
 def lambda_handler(event=None, context=None):
     """
     The main execution step of the AWS Lambda function.
+
+    Parameters:
+        event (dict): The event data passed to the Lambda function.
+        context: (object): The runtime context object.
+
+    Returns:
+        dict: Dictionary containing the table from our database.
     """
+
+    # Access the FSID from the event object
+    if 'body' in event:
+        body = event['body']
+        if isinstance(body, str):
+            body = json.loads(body)
+        fsid = body.get('FSID')
+    else:
+        fsid = None  # Set a default value or handle the case when fsid is not present
+
+    # Connect to the database
     database_conn = establish_connection()
-    table_dump = return_table(database_conn)
+    table_dump = return_table(fsid, database_conn)
     return {
         "body": table_dump
     }
