@@ -2,8 +2,13 @@ import React, { useState, ChangeEvent } from 'react';
 
 const baseURL = 'https://jxpokkhf6xnfks3qnbsqmaagim0wunnh.lambda-url.us-east-2.on.aws/';
 
-const ScrapeButton: React.FC = () => {
-  const [fsid, setFsid] = useState<string>('');
+interface ScrapeButtonProps {
+  fsid: string;
+  setFsid: (fsid: string) => void;
+}
+
+const ScrapeButton: React.FC<ScrapeButtonProps> = ({ fsid, setFsid }) => {
+  console.log('fsid in ScrapeButton:', fsid);
   const [apiResponse, setApiResponse] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isComplete, setIsComplete] = useState<boolean>(false);

@@ -1,10 +1,13 @@
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react';
 import ScrapeButton from './components/initalScrape_button.tsx'
 import ShowButton from './components/showTable_button'
 
 function App() {
+  const [fsid, setFsid] = useState<string>(''); // Lift state to App
+  console.log('fsid in App:', fsid);
   return (
     <>
       <div>
@@ -19,8 +22,8 @@ function App() {
       <div className="card">
         <p>
         </p>
-        <ScrapeButton />
-        <ShowButton />
+        <ScrapeButton fsid={fsid} setFsid={setFsid} />
+        <ShowButton fsid={fsid} />
       </div>
     </>
   )

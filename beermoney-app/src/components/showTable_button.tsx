@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 const baseURL = 'https://c752tdu4nsjocjzhjzz4hxorze0cdyuv.lambda-url.us-east-2.on.aws/';
 const hideURL = 'https://mzwxxmam5v55wv43xejyfohdvq0zmvtg.lambda-url.us-east-2.on.aws/';
 
-const ShowButton: React.FC = () => {
+interface ShowButtonProps {
+  fsid: string;
+}
+
+const ShowButton: React.FC<ShowButtonProps> = ({ fsid }) => {
+  console.log('fsid in ShowButton:', fsid);
   const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
@@ -13,7 +18,7 @@ const ShowButton: React.FC = () => {
   const handleClick = () => {
     setIsLoading(true);
 
-    fetch(baseURL, {
+    fetch(`${baseURL}?fsid=${fsid}`, {
       method: 'GET',
       headers: {},
     })
