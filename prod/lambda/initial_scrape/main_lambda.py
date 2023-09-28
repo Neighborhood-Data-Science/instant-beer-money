@@ -561,7 +561,7 @@ def insert_offer_data(fsid, dataframe_list, database):
     # Loop through each dataframe in the list and add it to the database
     for dataframe in dataframe_list:
         # Add the `user_id` column to the dataframe and fill it with the FSID
-        dataframe['user_id'] = fsid
+        dataframe.loc[:,'user_id'] = fsid
         # Collect the column names from the dataframe.
         query_cols = ', '.join(dataframe.columns)
         # Calculate the proper number of %s placeholders for each column in the dataframe.
@@ -599,7 +599,7 @@ def lambda_handler(event, context):
             body = json.loads(body)
         fsid = body.get('fsid')
     else:
-        fsid = None  # Set a default value or handle the case when fsid is not present
+        sys.exit()  # End the process if no fsid is provided.
 
     # Rest of your code
     url_dict = build_urls(fsid)

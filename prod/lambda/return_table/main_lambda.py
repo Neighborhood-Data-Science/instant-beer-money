@@ -2,14 +2,15 @@ import json
 import os
 import datetime
 import mysql.connector
+import sys
 from mysql.connector import Error
 
 # To handle datetime objects we need a Custom JSON encoder that handles datetime objects
 class DateTimeEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, datetime.datetime):
-            return obj.isoformat()
-        return super().default(obj)
+    def default(self, o):
+        if isinstance(o, datetime.datetime):
+            return o.isoformat()
+        return super().default(o)
 
 
 def establish_connection():
@@ -62,7 +63,7 @@ def return_table(fsid, database):
     SELECT * 
     FROM {os.environ['DB_MAIN_TABLE']}
     WHERE hidden <> 1
-        AND user_id = {fsid};
+    AND user_id = {fsid};
     """
 
     # Execute the SQL query
@@ -98,9 +99,9 @@ def lambda_handler(event=None, context=None):
         body = event['body']
         if isinstance(body, str):
             body = json.loads(body)
-        fsid = body.get('FSID')
+        fsid = body.get('fsid')
     else:
-        fsid = None  # Set a default value or handle the case when fsid is not present
+        sys.exit()  # End the process if no fsid is provided.
 
     # Connect to the database
     database_conn = establish_connection()
