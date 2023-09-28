@@ -8,7 +8,6 @@ interface ScrapeButtonProps {
 }
 
 const ScrapeButton: React.FC<ScrapeButtonProps> = ({ fsid, setFsid }) => {
-  console.log('fsid in ScrapeButton:', fsid);
   const [apiResponse, setApiResponse] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isComplete, setIsComplete] = useState<boolean>(false);
@@ -31,10 +30,11 @@ const ScrapeButton: React.FC<ScrapeButtonProps> = ({ fsid, setFsid }) => {
     setIsLoading(true);
 
     // Include the FSID as a query parameter in the Lambda URL
-    fetch(`${baseURL}?fsid=${fsid}`, {
+    fetch(baseURL, {
       method: 'POST',
       headers: {},
-    })
+      body: JSON.stringify({ fsid }), // Include rowId in the request body
+      })
       .then((response) => response.text())
       .then((data) => {
         setApiResponse(data);
