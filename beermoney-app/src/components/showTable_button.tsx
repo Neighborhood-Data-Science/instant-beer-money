@@ -8,7 +8,6 @@ interface ShowButtonProps {
 }
 
 const ShowButton: React.FC<ShowButtonProps> = ({ fsid }) => {
-  console.log('fsid in ShowButton:', fsid);
   const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
@@ -18,9 +17,10 @@ const ShowButton: React.FC<ShowButtonProps> = ({ fsid }) => {
   const handleClick = () => {
     setIsLoading(true);
 
-    fetch(`${baseURL}?fsid=${fsid}`, {
-      method: 'GET',
+    fetch(baseURL, {
+      method: 'POST',
       headers: {},
+      body: JSON.stringify({ fsid }), // Include rowId in the request body
     })
       .then(response => response.json())
       .then(data => {
