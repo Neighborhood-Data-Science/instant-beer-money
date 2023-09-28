@@ -7,7 +7,6 @@ import ShowButton from './components/showTable_button'
 
 function App() {
   const [fsid, setFsid] = useState<string>(''); // Lift state to App
-  console.log('fsid in App:', fsid);
   return (
     <>
       <div>
