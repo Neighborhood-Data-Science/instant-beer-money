@@ -11,6 +11,8 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@2.1.1
   browser-tools: circleci/browser-tools@1.4.1
+  docker: circleci/docker@2.2.0
+
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -68,13 +70,30 @@ jobs:
             google-chrome --version
             chromedriver --version
 
+  docker-build:
+    docker:
+      - image: cimg/node:20.4.0
+      
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
+      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG && sleep 10
+      - store_artifacts:
+          path: Dockerfile
+
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  build: # This is the name of the workflow, feel free to change it to better match your workflow.
+  full_build: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test:
           context: 
             - INSTANTBEERMONEY
       - chrome-test
+      - docker-build:
+          context:
+            - INSTANTBEERMONEY
