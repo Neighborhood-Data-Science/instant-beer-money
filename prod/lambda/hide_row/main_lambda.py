@@ -103,4 +103,3 @@ def lambda_handler(event, context):
     database_conn = establish_connection()
     table_action = update_table(rowId, database_conn)
     return table_action
-
