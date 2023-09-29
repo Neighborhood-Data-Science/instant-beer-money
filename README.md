@@ -15,6 +15,6 @@ The goal is to provide an easy to digest dashboard that tracks your offers, mone
 # Recommended Tools
 
 ## Android Users:
-I recommend using the [Smart Auto-Clicker by Nain](https://github.com/Nain57/Smart-AutoClicker). **Please use version 2.3.1!**
+I recommend using the [Smart Auto-Clicker by Nain](https://github.com/Nain57/Smart-AutoClicker). (We currently support [version 2.3.1](https://github.com/Nain57/Smart-AutoClicker/releases/tag/2.3.1)).
 
 You can find various base patterns and more information in the [AutoClick Patterns Folder](https://github.com/Neighborhood-Data-Science/instant-beer-money/blob/main/AutoClick%20Patterns/README.md).
