@@ -20,7 +20,7 @@ Our goal in Caesars Slots is to reach a specific player level. The only way to r
 
 As such, it is recommended that you bet between 0.5% and 1.5% of your account size at all times:<br>
 
-### $AccountSize \times0.5\\% \le BetSize \le AccountSize \times1.5\\%$<br>
+$AccountSize \times0.5\\% \le BetSize \le AccountSize \times1.5\\%$
 
 You should also take advantage of the x2, x3, or x4 XP offers available to purchase. This will allow you to reach the next levels faster while still conserving the approriate risk levels.<br><br>
 

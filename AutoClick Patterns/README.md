@@ -24,3 +24,5 @@ These game guides will explain the scenarios built into the click pattern and th
 
 ### [Crypto Magnet](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Crypto%20Magnet)
 
+### [Yahtzee with Buddies](https://github.com/Neighborhood-Data-Science/instant-beer-money/tree/main/AutoClick%20Patterns/Games/Yahtzee%20with%20Buddies)
+
