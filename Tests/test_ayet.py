@@ -62,6 +62,7 @@ class TestAYET:
         offer_dataframe = ayet_info.create_offer_dataframe(offer_dict)
         assert isinstance(offer_dataframe, pd.DataFrame)
 
+    @pytest.mark.xfail(reason='Ayet not allowing to see offers. Possibly banned on this userID')
     def test_parsed_dataframe_not_empty_ayet(self, setup_ayet_page):
         """
         Tests if resultant dataframe is not empty.
