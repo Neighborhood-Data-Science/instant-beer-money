@@ -77,7 +77,7 @@ traitlets==5.9.0
 trio==0.22.0
 trio-websocket==0.10.2
 tzdata==2023.3
-urllib3==1.26.17
+urllib3==1.26.18
 wcwidth==0.2.6
 webdriver-manager==3.8.5
 wsproto==1.2.0
