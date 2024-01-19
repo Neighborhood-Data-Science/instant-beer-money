@@ -1,14 +1,16 @@
-# Welcome to the Neigborhood!
+## THIS PROJECT HAS BEEN DISCONTINUED AS OF JANUARY 19, 2024.
 
-Hello and welcome to another neighborhood repo!
+## PLEASE MAKE USE OF THE AVAILABLE ASSETS FOR YOUR OWN PURPOSE.
+
+## THIS PROJECT WILL NOT BE MAINTAINED ANY LONGER.
+---
+
 
 This repo will focus on providing guidance to earning money online by completing offers on 'Get-Paid-To' websites.
 
 The goal is to provide an easy to digest dashboard that tracks your offers, money earned, money pending, and other various aspects of earning money across various GPT sites. 
 
 ### Sign up using the referral links below and start completing the offers found in the [Guide](Guides/README.md)
-
-[FreeCash Referral Link](https://freecash.com/r/therealinkyb) - Referral code: `therealinkyb`
 
 [Swagbucks Referral Link](https://www.swagbucks.com/profile/brandonsavone) - Referral code: `brandonsavone`
 
